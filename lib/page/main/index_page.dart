@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wan_android/page/home_page.dart';
+import 'file:///D:/Soft/AndroidWork/wan_android/lib/page/main/home_page.dart';
+import 'package:wan_android/page/main/question_page.dart';
 
 class IndexPage extends StatefulWidget {
-  int _pageIndex = 0;
+
   final _tabs = [
     BottomNavigationBarItem(
       label: "首页",
@@ -29,9 +30,7 @@ class IndexPage extends StatefulWidget {
 
   final List<Widget> _pages = [
     HomePage(),
-    Center(
-      child: Text("22"),
-    ),
+    QuestionPage(),
     Center(
       child: Text("33"),
     ),
@@ -49,10 +48,9 @@ class IndexPage extends StatefulWidget {
 
 class IndexPageState extends State<IndexPage> {
   PageController _pageController;
-
+  int _pageIndex = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController();
   }
@@ -74,12 +72,12 @@ class IndexPageState extends State<IndexPage> {
   Widget createBottomUI() {
     return BottomNavigationBar(
       items: widget._tabs,
-      currentIndex: widget._pageIndex,
+      currentIndex: _pageIndex,
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
         setState(() {
-          widget._pageIndex = index;
-          _pageController.jumpToPage(widget._pageIndex);
+          _pageIndex = index;
+          _pageController.jumpToPage(_pageIndex);
         });
       },
     );

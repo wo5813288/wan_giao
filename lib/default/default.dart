@@ -1,8 +1,10 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wan_android/page/index_page.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'file:///D:/Soft/AndroidWork/wan_android/lib/page/main/index_page.dart';
 
 class MyApp extends StatelessWidget{
   final routers = {
@@ -10,11 +12,26 @@ class MyApp extends StatelessWidget{
   };
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: routers,
+    SystemUiOverlayStyle _style = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(_style);
+    return RefreshConfiguration(
+      hideFooterWhenNotFull:false,
+      child:  MaterialApp(
+        localizationsDelegates: [
+          // 这行是关键
+          RefreshLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate
+        ],
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: routers,
+        supportedLocales: [
+          const Locale('zh')
+        ],
+      ),
     );
+
   }
 
 }

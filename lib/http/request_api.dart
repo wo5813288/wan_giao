@@ -1,4 +1,5 @@
 class RequestApi {
-  static String _host = 'https://www.wanandroid.com/';
-  static String homeBadder = "${_host}banner/json";
+  static String host = 'https://www.wanandroid.com/';
+  static String homeBanner = "${host}banner/json";
+  static String homeTop = "${host}article/top/json";
 }
