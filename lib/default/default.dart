@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'file:///D:/Soft/AndroidWork/wan_android/lib/page/main/index_page.dart';
+import 'package:wan_android/page/main/index_page.dart';
 
 class MyApp extends StatelessWidget {
   final routers = {

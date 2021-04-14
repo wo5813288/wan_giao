@@ -13,14 +13,15 @@ class HomePage extends StatefulWidget {
   HomePageState createState() => HomePageState();
 }
 
-class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin
+,TickerProviderStateMixin{
   List<BannerItem> _banners = [];
   List<ArticleItem> _articles = [];
   List<ArticleItem> _topArticles = [];
   int _curPageNo = 0;
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
+  TabController _tabController;
   ///重写此方法 保存页面数据状态，防止切换页面后数据重新加载，另外需要配合PageView使用
   @override
   bool get wantKeepAlive => true;
@@ -28,6 +29,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 3, vsync: this);
     _refresh();
   }
 
@@ -82,7 +84,42 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
+    return DefaultTabController(
+      length: 3,
+      initialIndex: 1,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: _buildTopBarUI(context),
+        body: SmartRefresher(
+          enablePullDown: true,
+          enablePullUp: true,
+          header: GifHeader1(),
+          controller: _refreshController,
+          //刷新数据事件
+          onRefresh: () async {
+            _curPageNo = 0;
+            _refresh();
+          },
+          //加载更多数据事件
+          onLoading: () async {
+            //页面加1
+            _curPageNo++;
+            loadArticles();
+          },
+          child: CustomScrollView(
+            slivers: [
+              //轮播图
+              _buildBannerUI(),
+              //置顶文章列表
+              _buildTopArticleListUI(),
+              //列表数据
+              _buildArticleListUI(),
+            ],
+          ),
+        ),
+      ),
+    );
+   /* return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildTopBarUI(),
       body: SmartRefresher(
@@ -112,30 +149,68 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           ],
         ),
       ),
-    );
+    );*/
   }
 
   ///头部搜索框
-  Widget _buildTopBarUI() {
-    return AppBar(
-      title: Container(
-        padding: EdgeInsets.only(left: 10, right: 30),
-        height: 35,
-        child: TextField(
-          enabled: false,
-          textAlignVertical: TextAlignVertical.bottom,
-          decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              //输入文字后面的小图标
-              fillColor: Color(0xFFF5F5F5),
-              filled: true,
-              hintText: "搜索关键词",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-              )),
+  Widget _buildTopBarUI(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size(double.infinity,100),
+      child: Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        color: Theme.of(context).primaryColor,
+        child: Column(
+          children: [_buildTabItemUI(), _buildSearchViewUI()],
         ),
       ),
-      backgroundColor: Colors.white,
+    );
+  }
+
+  ///创建顶部的tab
+  Widget _buildTabItemUI() {
+    return Container(
+      child: TabBar(
+        isScrollable: true,
+        controller: _tabController,
+        labelStyle: TextStyle(
+            fontSize: 20,
+            height: 2
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 15,
+        ),
+        tabs: [
+          Tab(
+            child: Text("广场"),
+          ),
+          Tab(
+            child: Text("推荐"),
+          ),
+          Tab(
+            child: Text("问答"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchViewUI() {
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      height: 35,
+      child: TextField(
+        enabled: false,
+        textAlignVertical: TextAlignVertical.bottom,
+        decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            //输入文字后面的小图标
+            fillColor: Color(0xFFF5F5F5),
+            filled: true,
+            hintText: "搜索关键词",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            )),
+      ),
     );
   }
 

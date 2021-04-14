@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/Soft/AndroidWork/wan_android/lib/page/main/home_page.dart';
 import 'package:wan_android/page/main/question_page.dart';
+
+import 'home_page.dart';
 
 class IndexPage extends StatefulWidget {
 
@@ -59,7 +60,6 @@ class IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: createBottomUI(),
-
         ///使用PageView结合AutomaticKeepAliveClientMixin页面切换时
         ///保存页面数据状态
         body: PageView(
