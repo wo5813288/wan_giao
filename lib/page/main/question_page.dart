@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/question_data.dart';
 import 'package:wan_android/model/question_model.dart';
 
@@ -11,17 +12,39 @@ class QuestionPage extends StatefulWidget {
   QuestionPageState createState() => QuestionPageState();
 }
 
-class QuestionPageState extends State<QuestionPage> {
+class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClientMixin {
   int _curPageNo = 1;
   List<QuestionItem> questionItems = [];
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
+    loadData();
+  }
+
+  void loadData() {
     QuestionModel.getQuestion(_curPageNo).then((value) {
       setState(() {
+        if (_curPageNo == 0) {
+          //加载第一页数据,清空之前的数据
+          questionItems.clear();
+        }
+        //加载更多数据成功
         questionItems.addAll(value.datas);
+        _refreshController.refreshCompleted();
+        _refreshController.loadComplete();
       });
+    }).onError((error, stackTrace) {
+      //数据刷新失败
+      _refreshController.refreshFailed();
+      //数据加载更多失败
+      _refreshController.loadFailed();
+      //加载失败，页码需要回退1
+      if (_curPageNo > 0) {
+        _curPageNo--;
+      }
     });
   }
 
@@ -37,7 +60,20 @@ class QuestionPageState extends State<QuestionPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: buildListUI(),
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        onRefresh: () async {
+          _curPageNo = 0;
+          loadData();
+        },
+        onLoading: () async {
+          _curPageNo++;
+          loadData();
+        },
+        controller: _refreshController,
+        child: buildListUI(),
+      ),
     );
   }
 
@@ -46,7 +82,7 @@ class QuestionPageState extends State<QuestionPage> {
       itemCount: questionItems.length,
       itemBuilder: (context, index) {
         return Card(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: InkWell(
             child: questionItems.length > 0
                 ? buildListItem(questionItems[index])
@@ -91,7 +127,7 @@ class QuestionPageState extends State<QuestionPage> {
           ),
         ),
         //问题的内容描述
-       /* Container(
+        /* Container(
           height: 150,
             child: Html(
           data: questionItem.desc,
@@ -136,4 +172,7 @@ class QuestionPageState extends State<QuestionPage> {
       decoration: BoxDecoration(border: Border.all(color: Colors.green)),
     );
   }
+
+  @override
+  bool get wantKeepAlive =>true;
 }
