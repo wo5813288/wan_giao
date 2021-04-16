@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wan_android/page/main/question_page.dart';
+import 'package:wan_android/page/we_chat/we_chat_page.dart';
 
-import 'home_page.dart';
+import 'home/home_page.dart';
 
 class IndexPage extends StatefulWidget {
 
@@ -12,8 +12,8 @@ class IndexPage extends StatefulWidget {
       icon: Icon(Icons.home),
     ),
     BottomNavigationBarItem(
-      label: "问答",
-      icon: Icon(Icons.question_answer),
+      label: "公众号",
+      icon: Icon(IconData(0xe7e5,fontFamily: "IconFont")),
     ),
     BottomNavigationBarItem(
       label: "体系",
@@ -31,7 +31,8 @@ class IndexPage extends StatefulWidget {
 
   final List<Widget> _pages = [
     HomePage(),
-    QuestionPage(),
+    //WeChatPage(),
+    Center(),
     Center(
       child: Text("33"),
     ),

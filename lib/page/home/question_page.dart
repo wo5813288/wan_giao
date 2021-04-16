@@ -13,7 +13,7 @@ class QuestionPage extends StatefulWidget {
 }
 
 class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClientMixin {
-  int _curPageNo = 1;
+  int _curPageNo = 0;
   List<QuestionItem> questionItems = [];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -51,15 +51,6 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "问答",
-          style: TextStyle(color: Colors.black, fontSize: 16),
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-      ),
       body: SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
@@ -127,19 +118,13 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
           ),
         ),
         //问题的内容描述
-        /* Container(
-          height: 150,
-            child: Html(
-          data: questionItem.desc,
-          shrinkWrap: true,
-        )),*/
         Container(
           padding: EdgeInsets.only(left: 5, bottom: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "官方/",
+                "${questionItem.chapterName}/",
                 style:
                     TextStyle(height: 1.1, fontSize: 12, color: Colors.orange),
               ),
@@ -150,7 +135,7 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
               ),
               Padding(padding: EdgeInsets.only(left: 10)),
               Text(
-                "2021-03-18 23:20",
+                questionItem.niceShareDate,
                 style:
                     TextStyle(height: 1.1, fontSize: 12, color: Colors.orange),
               ),

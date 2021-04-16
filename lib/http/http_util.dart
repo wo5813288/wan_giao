@@ -1,11 +1,17 @@
 
 import 'package:dio/dio.dart';
+import 'package:wan_android/http/request_api.dart';
 
-class XDio{
+class HttpUtil{
   static Dio _dio;
   static Dio getInstance(){
     if(_dio==null){
-      _dio = Dio();
+      _dio = Dio(new BaseOptions(
+        baseUrl: RequestApi.host,
+        connectTimeout: 30000,
+        receiveTimeout: 30000,
+        sendTimeout: 30000,
+      ));
     }
     return _dio;
   }
@@ -23,5 +29,6 @@ class ResultException extends DioError{
   final int code;
   final String message;
   ResultException(this.code, this.message);
-
 }
+
+
