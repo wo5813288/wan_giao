@@ -27,4 +27,6 @@ class HomeModel {
     print("置顶文章==>${response}");
     return TopArticleData.fromJson(response).data;
   }
+
+
 }

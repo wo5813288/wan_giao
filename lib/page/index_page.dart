@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wan_android/page/system/system_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_page.dart';
 
 import 'home/home_page.dart';
@@ -32,9 +33,7 @@ class IndexPage extends StatefulWidget {
   final List<Widget> _pages = [
     HomePage(),
     WeChatPage(),
-    Center(
-      child: Text("33"),
-    ),
+    SystemPage(),
     Center(
       child: Text("44"),
     ),

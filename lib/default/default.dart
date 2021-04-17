@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primaryColor: Colors.blue,
             splashColor: Colors.white12,
-            highlightColor: Colors.grey[200].withOpacity(0.7)),
+            highlightColor: Colors.grey[200].withOpacity(0.7),
+            accentColor: Colors.white),
         localizationsDelegates: [
           // 这行是关键
           RefreshLocalizations.delegate,

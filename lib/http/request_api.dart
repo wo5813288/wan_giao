@@ -3,4 +3,6 @@ class RequestApi {
   static String homeBanner = "banner/json";
   static String homeTop = "article/top/json";
   static String weChat="wxarticle/chapters/json";
+  static String systemApi="tree/json";
+
 }
