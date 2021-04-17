@@ -31,8 +31,7 @@ class IndexPage extends StatefulWidget {
 
   final List<Widget> _pages = [
     HomePage(),
-    //WeChatPage(),
-    Center(),
+    WeChatPage(),
     Center(
       child: Text("33"),
     ),
