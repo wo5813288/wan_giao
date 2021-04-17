@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/page/home/question_page.dart';
+import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
 
