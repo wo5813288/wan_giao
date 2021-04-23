@@ -10,7 +10,6 @@ class HomeModel {
   ///获取Banner数据
   static Future<List<BannerItem>> getHomeBanner() async {
     var response = await HttpManager.instance.get(RequestApi.homeBanner);
-    print(response);
     return BannerData.fromJson(response).data;
   }
 
@@ -24,7 +23,6 @@ class HomeModel {
   ///获取首页置顶文章
   static Future<List<ArticleItem>> getHomeTopArticle() async {
     var response = await HttpManager.instance.get(RequestApi.homeTop);
-    print("置顶文章==>${response}");
     return TopArticleData.fromJson(response).data;
   }
 

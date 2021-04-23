@@ -1,50 +1,65 @@
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:wan_android/http/request_api.dart';
 
-class HttpManager{
+class HttpManager {
   Dio _dio;
-  factory HttpManager()=>_getInstance();
+
+  factory HttpManager() => _getInstance();
   static HttpManager _instance;
-  static HttpManager get instance=>_getInstance();
+
+  static HttpManager get instance => _getInstance();
 
   static const int TIME_OUT = 30000;
+
   //构造方法私有化
-  HttpManager._(){
+  HttpManager._() {
     BaseOptions options = BaseOptions(
-      baseUrl: RequestApi.host,
-      sendTimeout: TIME_OUT,
-      receiveTimeout: TIME_OUT,
-      connectTimeout: TIME_OUT
-    );
+        baseUrl: RequestApi.host,
+        sendTimeout: TIME_OUT,
+        receiveTimeout: TIME_OUT,
+        connectTimeout: TIME_OUT);
     _dio = Dio(options);
+    if (kDebugMode) {
+      _dio.interceptors
+          .add(LogInterceptor(request: true, responseBody: true, error: true));
+    }
   }
 
-  static HttpManager _getInstance(){
-    return _instance??=HttpManager._();
+  static HttpManager _getInstance() {
+    return _instance ??= HttpManager._();
   }
 
-  Future get(String url,{Map params}) async{
-    try{
+  Future get(String url, {Map params}) async {
+    try {
       Response response;
-      if(params==null){
-        response =await _dio.get(url);
-      }else{
-        response = await _dio.get(url,queryParameters: params);
+      if (params == null) {
+        response = await _dio.get(url);
+      } else {
+        response = await _dio.get(url, queryParameters: params);
       }
       return response.data;
-    }on DioError catch(e){
+    } on DioError catch (e) {
+      throw HttpDioError.handleError(e);
+    }
+  }
+
+  Future post(String url, Map<String, dynamic> params) async {
+    try {
+      Response response;
+      response = await _dio.post(url, data: params);
+      return response.data;
+    } on DioError catch (e) {
       throw HttpDioError.handleError(e);
     }
   }
 }
 
-class HttpDioError{
-
-  static ResultException handleError(DioError dioError){
-    int code=9999;
-    String message="未知错误";
-    switch(dioError.type){
+class HttpDioError {
+  static ResultException handleError(DioError dioError) {
+    int code = 9999;
+    String message = "未知错误";
+    switch (dioError.type) {
       case DioErrorType.CONNECT_TIMEOUT:
         code = 9000;
         message = "网络连接超时，请检查网络设置";
@@ -54,7 +69,7 @@ class HttpDioError{
         message = "服务器异常，请稍后重试！";
         break;
       case DioErrorType.SEND_TIMEOUT:
-        code =90002;
+        code = 90002;
         message = "网络连接超时，请检查网络设置";
         break;
       case DioErrorType.RESPONSE:
@@ -70,12 +85,13 @@ class HttpDioError{
         message = "网络异常，请稍后重试！";
         break;
     }
-    return ResultException(code,message);
+    return ResultException(code, message);
   }
 }
 
-class ResultException{
+class ResultException {
   final int code;
   final String message;
+
   ResultException(this.code, this.message);
 }
