@@ -32,6 +32,11 @@ dependencies:
   flutter_gifimage: ^1.0.0
   #转移html标签
   flutter_html: ^1.3.0
+  provider: ^5.0.0
+  #dart常用工具库
+  flustars: ^2.0.1
+  sp_util: ^2.0.3
+
   flutter_localizations:
     sdk: flutter
 
