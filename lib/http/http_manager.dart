@@ -30,7 +30,7 @@ class HttpManager {
     return _instance ??= HttpManager._();
   }
 
-  Future get(String url, {Map params}) async {
+  Future get(String url, {Map<String,dynamic> params}) async {
     try {
       Response response;
       if (params == null) {

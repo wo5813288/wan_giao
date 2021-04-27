@@ -61,11 +61,14 @@ class GifHeader1State extends RefreshIndicatorState<GifHeader1>
   @override
   Widget buildContent(BuildContext context, RefreshStatus mode) {
     // TODO: implement buildContent
-    return GifImage(
-      image: AssetImage("images/gifindicator1.gif"),
-      controller: _gifController,
-      height: 80.0,
-      width: 537.0,
+    return Container(
+      color: Colors.white,
+      child: GifImage(
+        image: AssetImage("images/gifindicator1.gif"),
+        controller: _gifController,
+        height: 80.0,
+        width: 537.0,
+      ),
     );
   }
 

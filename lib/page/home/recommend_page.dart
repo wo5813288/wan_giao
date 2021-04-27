@@ -7,7 +7,7 @@ import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
-import 'package:wan_android/model/home_model.dart';
+import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/viewmodel/home_view_model.dart';
 
 class RecommendPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _RecommendPageState extends State<RecommendPage>
             controller: model.refreshController,
             //刷新数据事件
             onRefresh: () async {
-              model.refresh(false);
+              model.refreshRecommendArticle(false);
             },
             //加载更多数据事件
             onLoading: () async {
@@ -51,7 +51,7 @@ class _RecommendPageState extends State<RecommendPage>
           );
         },
         onReadyMore: (model) {
-          model.refresh(true);
+          model.refreshRecommendArticle(true);
         },
       ),
     );
@@ -117,6 +117,23 @@ class _RecommendPageState extends State<RecommendPage>
 
   ///创建ListView列表
   Widget _buildArticleListUI(HomeViewModel model) {
+    if (model.loadState == LoadState.LOADING) {
+      return SliverFillRemaining(
+        child: LoadingPage(),
+      );
+    } else if (model.loadState == LoadState.EMPTY) {
+      return SliverFillRemaining(
+        child: EmptyPage(onPressed: (){
+          model.refreshRecommendArticle(true);
+        }),
+      );
+    } else if (model.loadState == LoadState.FAILURE) {
+      return SliverFillRemaining(
+        child:  NetWorkErrorPage(onPressed: (){
+          model.refreshRecommendArticle(true);
+        }),
+      );
+    }
     return SliverList(
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         ArticleItem articleItem = model.articleItems[index];

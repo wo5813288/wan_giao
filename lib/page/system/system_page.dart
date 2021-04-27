@@ -15,7 +15,6 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
   var _tipItems =[];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemModel.getWehChatData()
     .then((value){
@@ -31,6 +30,7 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: Text("体系"),
         elevation: 0.0,
       ),

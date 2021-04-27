@@ -9,46 +9,31 @@ import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/page/state_page.dart';
 
-class HomeViewModel extends BaseViewModel {
-  List<BannerItem> _bannerItems = [];
+class QuestionViewModel extends BaseViewModel {
+  List<QuestionItem> _questionItems = [];
 
-  List<BannerItem> get bannerItems => _bannerItems;
-
-  List<ArticleItem> _articleItems = [];
-
-  List<ArticleItem> get articleItems => _articleItems;
-  List<ArticleItem> _topArticleItems = [];
-
-  List<ArticleItem> get topArticleItems => _topArticleItems;
+  List<QuestionItem> get questionItems => _questionItems;
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   RefreshController get refreshController => _refreshController;
   int pageIndex = 0;
 
-  ///获取Banner数据
-  void getHomeBanner() {
-    handleRequest(HttpManager.instance.get(RequestApi.homeBanner),false, (value) {
-      var items = BannerData.fromJson(value).data;
-      _bannerItems = items;
-    });
-  }
-
-  ///获取首页列表数据
-  void getHomeArticle(bool showLoading) async {
-    handleRequest(HttpManager.instance.get('article/list/$pageIndex/json'),showLoading,
+  ///获取问答列表数据
+  void getQuestion(bool isShowLoading) {
+    handleRequest(HttpManager.instance.get('wenda/list/$pageIndex/json'),isShowLoading,
         (value) {
-      var result = ArticleData.fromJson(value).data;
+      var result = QuestionData.fromJson(value).data;
       //当前页码
       int curPage = result.curPage;
       //总页数
       int pageCount = result.pageCount;
 
       if (pageIndex == 0) {
-        _articleItems.clear();
+        _questionItems.clear();
       }
       //文章列表数据
-      _articleItems.addAll(result.datas);
+      _questionItems.addAll(result.datas);
       if (curPage == 0 && result.datas.length == 0) {
         setLoadState(LoadState.EMPTY);
       } else if (curPage == pageCount) {
@@ -60,31 +45,14 @@ class HomeViewModel extends BaseViewModel {
         _refreshController.refreshCompleted(resetFooterState: true);
         pageIndex++;
       }
-    }, failure: (errorMessage) {
+    }, failure: (error) {
       _refreshController.loadFailed();
       _refreshController.refreshFailed();
     });
   }
 
-  ///获取首页置顶文章
-  void getHomeTopArticle() async {
-    handleRequest(HttpManager.instance.get(RequestApi.homeTop),false, (value) {
-      _topArticleItems = TopArticleData.fromJson(value).data;
-    });
-  }
-
-  ///刷新数据
-  void refreshRecommendArticle(bool showLoading) async {
+  void refresh(){
     pageIndex = 0;
-    getHomeBanner();
-    getHomeTopArticle();
-    getHomeArticle(showLoading);
-  }
-
-
-  @override
-  void dispose() {
-    super.dispose();
-    _refreshController.dispose();
+    getQuestion(false);
   }
 }

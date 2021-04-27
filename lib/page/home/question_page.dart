@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/question_data.dart';
-import 'package:wan_android/model/question_model.dart';
+import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/viewmodel/question_view_model.dart';
 
 ///问答页面
 
@@ -12,71 +13,45 @@ class QuestionPage extends StatefulWidget {
   QuestionPageState createState() => QuestionPageState();
 }
 
-class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClientMixin {
-  int _curPageNo = 0;
-  List<QuestionItem> questionItems = [];
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  void loadData() {
-    QuestionModel.getQuestion(_curPageNo).then((value) {
-      setState(() {
-        if (_curPageNo == 0) {
-          //加载第一页数据,清空之前的数据
-          questionItems.clear();
-        }
-        //加载更多数据成功
-        questionItems.addAll(value.datas);
-        _refreshController.refreshCompleted();
-        _refreshController.loadComplete();
-      });
-    }).onError((error, stackTrace) {
-      //数据刷新失败
-      _refreshController.refreshFailed();
-      //数据加载更多失败
-      _refreshController.loadFailed();
-      //加载失败，页码需要回退1
-      if (_curPageNo > 0) {
-        _curPageNo--;
-      }
-    });
-  }
-
+class QuestionPageState extends State<QuestionPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        onRefresh: () async {
-          _curPageNo = 0;
-          loadData();
+      body: ProviderWidget<QuestionViewModel>(
+        model: QuestionViewModel(),
+        onReadyMore: (model) {
+          model.getQuestion(true);
         },
-        onLoading: () async {
-          _curPageNo++;
-          loadData();
+        builder: (context, model, child) {
+          return StatePageWithViewModel(
+            model: model,
+            onPressed: (){
+              model.getQuestion(true);
+            },
+            controller: model.refreshController,
+            onRefresh: () async{
+              model.refresh();
+            },
+            onLoading: () async{
+              model.getQuestion(false);
+            },
+            child: _buildListUI(model)
+          );
         },
-        controller: _refreshController,
-        child: buildListUI(),
       ),
     );
   }
 
-  Widget buildListUI() {
+  Widget _buildListUI(QuestionViewModel model) {
     return ListView.builder(
-      itemCount: questionItems.length,
+      itemCount: model.questionItems.length,
       itemBuilder: (context, index) {
         return Card(
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: InkWell(
-            child: questionItems.length > 0
-                ? buildListItem(questionItems[index])
+            child: model.questionItems.length > 0
+                ? _buildListItem(model.questionItems[index])
                 : Container(),
             onTap: () {
               Scaffold.of(context).showBodyScrim(true, 10);
@@ -87,7 +62,7 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
     );
   }
 
-  Widget buildListItem(QuestionItem questionItem) {
+  Widget _buildListItem(QuestionItem questionItem) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,9 +71,9 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
           padding: EdgeInsets.all(5),
           child: Row(
             children: [
-              borderWithGreen(questionItem.tags[0].name),
+              _borderWithGreen(questionItem.tags[0].name),
               Padding(padding: EdgeInsets.only(left: 5)),
-              borderWithGreen(questionItem.tags[1].name),
+              _borderWithGreen(questionItem.tags[1].name),
               Expanded(
                 child: Text(
                   questionItem.author,
@@ -146,7 +121,7 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
     );
   }
 
-  Widget borderWithGreen(String label) {
+  Widget _borderWithGreen(String label) {
     return Container(
       padding: EdgeInsets.all(1),
       child: Text(
@@ -159,5 +134,5 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
   }
 
   @override
-  bool get wantKeepAlive =>true;
+  bool get wantKeepAlive => true;
 }

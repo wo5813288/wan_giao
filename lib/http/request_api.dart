@@ -4,5 +4,6 @@ class RequestApi {
   static String homeTop = "article/top/json";
   static String weChat="wxarticle/chapters/json";
   static String systemApi="tree/json";
+  static String projectTags = "project/tree/json";
 
 }

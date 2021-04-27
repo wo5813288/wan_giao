@@ -63,9 +63,11 @@ class HomePageState extends State<HomePage>
   ///创建顶部的tab
   Widget _buildTabItemUI() {
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       child: TabBar(
         isScrollable: true,
         controller: _tabController,
+        indicator: const BoxDecoration(),
         labelStyle: TextStyle(fontSize: 20, height: 2),
         unselectedLabelStyle: TextStyle(
           fontSize: 15,

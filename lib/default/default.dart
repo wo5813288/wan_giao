@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/page/index_page.dart';
+import 'package:wan_android/route/routes_page.dart';
 
 class MyApp extends StatelessWidget {
-  final routers = {
-    '/': (context) => IndexPage(),
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(_style);
     return RefreshConfiguration(
       hideFooterWhenNotFull: false,
-      child: MaterialApp(
+      child: GetMaterialApp(
         theme: ThemeData(
             primaryColor: Colors.blue,
             splashColor: Colors.white12,
@@ -29,8 +28,8 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate
         ],
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: routers,
+        initialRoute: RoutesConfig.SPLASH,
+        getPages: RoutesConfig.getPages,
         supportedLocales: [const Locale('zh')],
       ),
     );

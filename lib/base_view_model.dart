@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/page/state_page.dart';
@@ -16,22 +17,18 @@ class BaseViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void handleRequest(Future<dynamic> future,Success success,{Failure failure,Done done}){
-    setLoadState(LoadState.LOADING);
+  void handleRequest(Future<dynamic> future,bool isLoading,Success success,{Failure failure,Done done}){
+    if(isLoading) {
+      setLoadState(LoadState.LOADING);
+      notifyListeners();
+    }
     future.then((value){
       success(value);
-      setLoadState(LoadState.SUCCESS);
       notifyListeners();
     }).onError<ResultException>((error, stackTrace){
       setLoadState(LoadState.FAILURE);
       if(failure!=null){
         failure(error.message);
-      }
-      notifyListeners();
-    }).whenComplete((){
-      setLoadState(LoadState.DONE);
-      if(done!=null){
-        done();
       }
       notifyListeners();
     });

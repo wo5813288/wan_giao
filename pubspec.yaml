@@ -36,6 +36,8 @@ dependencies:
   #dart常用工具库
   flustars: ^2.0.1
   sp_util: ^2.0.3
+  #GetX框架
+  get: ^4.1.2
 
   flutter_localizations:
     sdk: flutter
