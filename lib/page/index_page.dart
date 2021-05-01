@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/person/person_page.dart';
 import 'package:wan_android/page/project/project_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
@@ -37,7 +38,7 @@ class IndexPage extends StatefulWidget {
     WeChatPage(),
     SystemPage(),
     ProjectPage(),
-    PersonPage()
+    LoginPage()
   ];
 
   @override

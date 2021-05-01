@@ -30,7 +30,7 @@ class HttpManager {
     return _instance ??= HttpManager._();
   }
 
-  Future get(String url, {Map<String,dynamic> params}) async {
+  Future get(String url, {Map<String, dynamic> params}) async {
     try {
       Response response;
       if (params == null) {
@@ -38,16 +38,38 @@ class HttpManager {
       } else {
         response = await _dio.get(url, queryParameters: params);
       }
+      if (response.data['errorCode'] != 0) {
+        throw ResultException(
+            response.data['errorCode'], response.data['errorMsg']);
+      }
       return response.data;
     } on DioError catch (e) {
       throw HttpDioError.handleError(e);
     }
   }
 
-  Future post(String url, Map<String, dynamic> params) async {
+  Future post(String url, dynamic params) async {
     try {
       Response response;
       response = await _dio.post(url, data: params);
+      if (response.data['errorCode'] != 0) {
+        throw ResultException(
+            response.data['errorCode'], response.data['errorMsg']);
+      }
+      return response.data;
+    } on DioError catch (e) {
+      throw HttpDioError.handleError(e);
+    }
+  }
+
+  Future postFormData(String url, Map<String, dynamic> params) async {
+    try {
+      Response response;
+      response = await _dio.post(url, data: FormData.fromMap(params));
+      if (response.data['errorCode'] != 0) {
+        throw ResultException(
+            response.data['errorCode'], response.data['errorMsg']);
+      }
       return response.data;
     } on DioError catch (e) {
       throw HttpDioError.handleError(e);
