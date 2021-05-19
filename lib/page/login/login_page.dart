@@ -1,6 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/viewmodel/person_view_model.dart';
 
@@ -22,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
           icon: Icon(Icons.close),
           onPressed: () {
             //TODO:关闭当前页面
+            Get.back();
           },
         ),
       ),

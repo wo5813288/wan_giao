@@ -129,6 +129,9 @@ class ArticleItem {
 
   int get zan => _zan;
 
+  void setCollection(bool collection){
+    _collect = collection;
+  }
   ArticleItem(
       {String apkLink,
       int audit,

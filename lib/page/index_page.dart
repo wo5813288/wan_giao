@@ -38,7 +38,7 @@ class IndexPage extends StatefulWidget {
     WeChatPage(),
     SystemPage(),
     ProjectPage(),
-    LoginPage()
+    PersonPage()
   ];
 
   @override

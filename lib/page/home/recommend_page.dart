@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/util/event_bus_util.dart';
 import 'package:wan_android/viewmodel/home_view_model.dart';
+import 'package:wan_android/viewmodel/person_view_model.dart';
 
 class RecommendPage extends StatefulWidget {
   @override
@@ -52,6 +58,9 @@ class _RecommendPageState extends State<RecommendPage>
         },
         onReadyMore: (model) {
           model.refreshRecommendArticle(true);
+          EventBusUtil.listenEvent<UserEvent>((event) {
+            model.refreshRecommendArticle(true);
+          });
         },
       ),
     );
@@ -105,10 +114,8 @@ class _RecommendPageState extends State<RecommendPage>
           articleItem: articleItem,
           isTop: true,
           onTap: () {
-            Fluttertoast.showToast(
-                msg: articleItem.title,
-                textColor: Colors.white,
-                backgroundColor: Colors.blue);
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: {ConstantInfo.ARTICLE_TITLE:articleItem.title,
+            ConstantInfo.ARTICLE_URL:articleItem.link});
           },
         );
       }, childCount: model.topArticleItems.length),
@@ -140,10 +147,8 @@ class _RecommendPageState extends State<RecommendPage>
         return HomeListItemUI(
           articleItem: articleItem,
           onTap: () {
-            Fluttertoast.showToast(
-                msg: articleItem.title,
-                textColor: Colors.white,
-                backgroundColor: Colors.blue);
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: {ConstantInfo.ARTICLE_TITLE:articleItem.title,
+              ConstantInfo.ARTICLE_URL:articleItem.link});
           },
         );
       }, childCount: model.articleItems.length),

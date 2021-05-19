@@ -1,3 +1,4 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/base_view_model.dart';
@@ -51,8 +52,9 @@ class LoadingPage extends StatelessWidget {
 
 class NetWorkErrorPage extends StatelessWidget {
   VoidCallback onPressed;
+  final String errorMeg;
 
-  NetWorkErrorPage({this.onPressed});
+  NetWorkErrorPage({this.errorMeg, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -61,13 +63,11 @@ class NetWorkErrorPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              "images/no_network.png",
-              width: 50,
-              height: 50,
-            ),
+            Icon(Icons.wifi_off,
+                size: ScreenUtil.getInstance().getAdapterSize(50),
+                color: Theme.of(context).primaryColor),
             Padding(padding: EdgeInsets.only(top: 10)),
-            Text("当前网络不可用"),
+            Text(errorMeg ?? "当前网络不可用"),
             Padding(padding: EdgeInsets.only(top: 10)),
             OutlinedButton(
               child: Text("点击重试",
