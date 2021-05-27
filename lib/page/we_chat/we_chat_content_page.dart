@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/viewmodel/we_chat_view_model.dart';
 
 class WeChatContentPage extends StatefulWidget {
@@ -37,7 +40,9 @@ class _WeChatContentPageState extends State<WeChatContentPage> with AutomaticKee
           },
           child:ListView.builder(
             itemBuilder: (context, index) {
-              return HomeListItemUI(articleItem: model.articleItems[index]);
+              return HomeListItemUI(
+                  articleItem: model.articleItems[index],
+              );
             },
             itemCount:  model.articleItems.length,
           ),

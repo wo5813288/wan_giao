@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
@@ -9,7 +11,7 @@ import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/page/state_page.dart';
 
-class HomeViewModel extends BaseViewModel {
+class HomeViewModel extends BaseViewModelWithRefresh {
   List<BannerItem> _bannerItems = [];
 
   List<BannerItem> get bannerItems => _bannerItems;
@@ -20,23 +22,20 @@ class HomeViewModel extends BaseViewModel {
   List<ArticleItem> _topArticleItems = [];
 
   List<ArticleItem> get topArticleItems => _topArticleItems;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
-  RefreshController get refreshController => _refreshController;
   int pageIndex = 0;
 
   ///获取Banner数据
-  void getHomeBanner() {
-    handleRequest(HttpManager.instance.get(RequestApi.homeBanner),false, (value) {
+  void getHomeBanner({bool refresh =false}) {
+    handleRequest(HttpManager.instance.get(RequestApi.homeBanner,refresh:refresh ),false, (value) {
       var items = BannerData.fromJson(value).data;
       _bannerItems = items;
     });
   }
 
   ///获取首页列表数据
-  void getHomeArticle(bool showLoading) async {
-    handleRequest(HttpManager.instance.get('article/list/$pageIndex/json'),showLoading,
+  void getHomeArticle(bool showLoading,{bool refresh  = false}) async {
+    handleRequest(HttpManager.instance.get('article/list/$pageIndex/json',refresh: refresh,list: true),showLoading,
         (value) {
       var result = ArticleData.fromJson(value).data;
       //当前页码
@@ -53,38 +52,42 @@ class HomeViewModel extends BaseViewModel {
         setLoadState(LoadState.EMPTY);
       } else if (curPage == pageCount) {
         setLoadState(LoadState.NO_MORE);
-        _refreshController.loadNoData();
+        refreshController.loadNoData();
       } else {
         setLoadState(LoadState.SUCCESS);
-        _refreshController.loadComplete();
-        _refreshController.refreshCompleted(resetFooterState: true);
+        refreshController.loadComplete();
+        refreshController.refreshCompleted(resetFooterState: true);
         pageIndex++;
       }
     }, failure: (errorMessage) {
-      _refreshController.loadFailed();
-      _refreshController.refreshFailed();
+      refreshController.loadFailed();
+      refreshController.refreshFailed();
+      if(!showLoading&&pageIndex==0){
+        Fluttertoast.showToast(msg: errorMessage,backgroundColor: Colors.red);
+      }
     });
   }
 
   ///获取首页置顶文章
-  void getHomeTopArticle() async {
-    handleRequest(HttpManager.instance.get(RequestApi.homeTop),false, (value) {
+  void getHomeTopArticle({bool refresh=false}) async {
+    handleRequest(HttpManager.instance.get(RequestApi.homeTop,refresh: refresh),false, (value) {
       _topArticleItems = TopArticleData.fromJson(value).data;
     });
   }
 
-  ///刷新数据
-  void refreshRecommendArticle(bool showLoading) async {
+  @override
+  void initData(bool isShowLoading) {
     pageIndex = 0;
     getHomeBanner();
     getHomeTopArticle();
-    getHomeArticle(showLoading);
+    getHomeArticle(isShowLoading);
   }
 
-
   @override
-  void dispose() {
-    super.dispose();
-    _refreshController.dispose();
+  void refresh() {
+    pageIndex = 0;
+    getHomeBanner(refresh: true);
+    getHomeTopArticle(refresh: true);
+    getHomeArticle(false,refresh: true);
   }
 }

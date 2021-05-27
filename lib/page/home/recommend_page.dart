@@ -30,21 +30,20 @@ class _RecommendPageState extends State<RecommendPage>
       body: ProviderWidget<HomeViewModel>(
         model: HomeViewModel(),
         builder: (context, model, child) {
-          return SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
+          return StatePageWithViewModel<HomeViewModel>(
+            model: model,
             header: GifHeader1(),
             controller: model.refreshController,
             //刷新数据事件
             onRefresh: () async {
-              model.refreshRecommendArticle(false);
+              model.refresh();
             },
             //加载更多数据事件
             onLoading: () async {
               //页面加1
               model.getHomeArticle(false);
             },
-            child: CustomScrollView(
+            child:CustomScrollView(
               slivers: [
                 //轮播图
                 _buildBannerUI(model),
@@ -57,9 +56,9 @@ class _RecommendPageState extends State<RecommendPage>
           );
         },
         onReadyMore: (model) {
-          model.refreshRecommendArticle(true);
+          model.initData(true);
           EventBusUtil.listenEvent<UserEvent>((event) {
-            model.refreshRecommendArticle(true);
+            model.initData(true);
           });
         },
       ),
@@ -113,10 +112,7 @@ class _RecommendPageState extends State<RecommendPage>
         return HomeListItemUI(
           articleItem: articleItem,
           isTop: true,
-          onTap: () {
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: {ConstantInfo.ARTICLE_TITLE:articleItem.title,
-            ConstantInfo.ARTICLE_URL:articleItem.link});
-          },
+
         );
       }, childCount: model.topArticleItems.length),
     );
@@ -131,13 +127,13 @@ class _RecommendPageState extends State<RecommendPage>
     } else if (model.loadState == LoadState.EMPTY) {
       return SliverFillRemaining(
         child: EmptyPage(onPressed: (){
-          model.refreshRecommendArticle(true);
+          model.initData(true);
         }),
       );
     } else if (model.loadState == LoadState.FAILURE) {
       return SliverFillRemaining(
         child:  NetWorkErrorPage(onPressed: (){
-          model.refreshRecommendArticle(true);
+          model.initData(true);
         }),
       );
     }
@@ -146,10 +142,6 @@ class _RecommendPageState extends State<RecommendPage>
         ArticleItem articleItem = model.articleItems[index];
         return HomeListItemUI(
           articleItem: articleItem,
-          onTap: () {
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: {ConstantInfo.ARTICLE_TITLE:articleItem.title,
-              ConstantInfo.ARTICLE_URL:articleItem.link});
-          },
         );
       }, childCount: model.articleItems.length),
     );

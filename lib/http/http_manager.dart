@@ -5,8 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:wan_android/http/net_cache.dart';
 import 'package:wan_android/http/request_api.dart';
 import '';
+import 'cache.dart';
 
 class HttpManager {
   Dio _dio;
@@ -29,6 +31,8 @@ class HttpManager {
     _dio = Dio(options);
     //管理cookie
     _dio.interceptors.add(CookieManager(_cookieJar));
+    //加入缓存机制
+    _dio.interceptors.add(NetCache());
     if (kDebugMode) {
       _dio.interceptors
           .add(LogInterceptor(request: true, responseBody: true, error: true));
@@ -50,18 +54,28 @@ class HttpManager {
     await _cookieJar.loadForRequest(Uri.parse(RequestApi.host));
   }
 
-  static void clearCookie() async{
+  static void clearCookie() async {
     await _cookieJar.deleteAll();
   }
 
-  Future get(String url, {Map<String, dynamic> params}) async {
+  Future get(String url,
+      {Map<String, dynamic> params,
+      bool refresh = false,
+      bool list = false,
+      bool cacheDisk = true,
+      bool noCache = !CACHE_ENABLED
+      }) async {
+    Options options = Options(
+      extra: {
+        "list":list,
+        "noCache":noCache,
+        "cacheDisk":cacheDisk,
+        "refresh":refresh
+      }
+    );
     try {
       Response response;
-      if (params == null) {
-        response = await _dio.get(url);
-      } else {
-        response = await _dio.get(url, queryParameters: params);
-      }
+      response = await _dio.get(url, queryParameters: params,options: options);
       if (response.data['errorCode'] != 0) {
         throw ResultException(
             response.data['errorCode'], response.data['errorMsg']);
@@ -75,9 +89,9 @@ class HttpManager {
   Future post(String url, {dynamic params}) async {
     try {
       Response response;
-      if(params==null){
+      if (params == null) {
         response = await _dio.post(url);
-      }else {
+      } else {
         response = await _dio.post(url, data: params);
       }
       if (response.data['errorCode'] != 0) {
@@ -106,6 +120,8 @@ class HttpManager {
 }
 
 class HttpDioError {
+  static const int LOGIN_CODE = -1001;
+
   static ResultException handleError(DioError dioError) {
     int code = 9999;
     String message = "未知错误";

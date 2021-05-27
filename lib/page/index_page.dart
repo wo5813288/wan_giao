@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wan_android/compents/icon_font.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/person/person_page.dart';
 import 'package:wan_android/page/project/project_page.dart';
@@ -8,7 +9,7 @@ import 'package:wan_android/page/we_chat/we_chat_page.dart';
 
 import 'home/home_page.dart';
 
-class IndexPage extends StatefulWidget {
+class   IndexPage extends StatefulWidget {
 
   final _tabs = [
     BottomNavigationBarItem(
@@ -17,7 +18,7 @@ class IndexPage extends StatefulWidget {
     ),
     BottomNavigationBarItem(
       label: "公众号",
-      icon: Icon(IconData(0xe7e5,fontFamily: "IconFont")),
+      icon: Icon(IconFont.we_chat),
     ),
     BottomNavigationBarItem(
       label: "体系",

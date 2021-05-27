@@ -35,17 +35,22 @@ dependencies:
   pull_to_refresh: ^1.6.3
   flutter_gifimage: ^1.0.0
   #转移html标签
-  #flutter_html: ^1.3.0
+  #flutter_html: ^2.0.0
   provider: ^5.0.0
   #dart常用工具库
-  flustars: ^2.0.1
+  flutter_screenutil: ^5.0.0
   sp_util: ^2.0.3
   #GetX框架
   get: ^4.1.2
   webview_flutter: ^2.0.6
+  #制作图标都插件
+  flutter_launcher_icons: ^0.8.0
+  #骨架屏
+  pk_skeleton: 0.0.2
+  #错误上报平台
+  #sentry: ^3.0.1
   flutter_localizations:
     sdk: flutter
-
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -55,6 +60,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/logo-1024.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -67,12 +78,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - images/
+    - assets/images/
+    - assets/icon/
   fonts:
     - family: IconFont
       fonts:
         - asset: fonts/iconfont.ttf
-        - asset: fonts/IconCommon.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

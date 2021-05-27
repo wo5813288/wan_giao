@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/compents/search_view.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
+import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/viewmodel/search_view_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,8 +27,7 @@ class HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this,initialIndex: 1);
-
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -34,27 +40,51 @@ class HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return DefaultTabController(
-      length: 3,
-      initialIndex: 1,
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: _buildTopBarUI(context),
-          body: TabBarView(
-            controller: _tabController,
-            children: [ SquarePage(),RecommendPage(), QuestionPage()],
-          )),
-    );
+        length: 3,
+        initialIndex: 1,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: Scaffold(
+              backgroundColor: Colors.white,
+              appBar: _buildTopBarUI(context),
+              body: TabBarView(
+                controller: _tabController,
+                children: [SquarePage(), RecommendPage(), QuestionPage()],
+              )),
+        ));
   }
 
   ///头部搜索框
   Widget _buildTopBarUI(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size(double.infinity, 100),
+      preferredSize: Size(double.infinity, 100.h),
       child: Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         color: Theme.of(context).primaryColor,
         child: Column(
-          children: [_buildTabItemUI(), _buildSearchViewUI()],
+          children: [
+            _buildTabItemUI(),
+            ProviderWidget<SearchViewModel>(
+              model: SearchViewModel(),
+              onReadyMore: (model) {
+                model.getSearchHotKey();
+              },
+              builder: (context, model, _) {
+                var hotkeys = model.hotKeyList;
+                return Container(
+                  width: ScreenUtil().screenWidth-40.w,
+                  height: 30.h,
+                  child: SearchView(
+                      queryHint: hotkeys.isEmpty?"搜索文章"
+                          :"${hotkeys[0].name} | ${hotkeys[1].name}",
+                      onTap: () {
+                        Get.toNamed(RoutesConfig.SEARCH_PAGE);
+                      },
+                  )
+                );
+              },
+            )
+          ],
         ),
       ),
     );
@@ -83,26 +113,6 @@ class HomePageState extends State<HomePage>
             child: Text("问答"),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSearchViewUI() {
-    return Container(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      height: 35,
-      child: TextField(
-        enabled: false,
-        textAlignVertical: TextAlignVertical.bottom,
-        decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            //输入文字后面的小图标
-            fillColor: Color(0xFFF5F5F5),
-            filled: true,
-            hintText: "搜索关键词",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            )),
       ),
     );
   }

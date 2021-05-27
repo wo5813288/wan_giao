@@ -1,5 +1,5 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/we_chat_data.dart';
@@ -13,7 +13,7 @@ class WeChatTabData extends BaseViewModel {
   List<WeChat> get weChats => _weChats;
 
   void getWehChatData() async {
-    handleRequest(HttpManager.instance.get(RequestApi.weChat), false, (value){
+    handleRequest(HttpManager.instance.get(RequestApi.weChat), true, (value){
       _weChats=WeChatData.fromJson(value).data;
       setLoadState(_weChats.isEmpty?LoadState.EMPTY:LoadState.SUCCESS);
     });
@@ -51,6 +51,7 @@ class WeChatViewModel extends BaseViewModel {
       } else if (curPage == pageCount) {
         setLoadState(LoadState.NO_MORE);
         _refreshController.loadNoData();
+        _refreshController.refreshCompleted(resetFooterState: true);
       } else {
         setLoadState(LoadState.SUCCESS);
         _refreshController.loadComplete();

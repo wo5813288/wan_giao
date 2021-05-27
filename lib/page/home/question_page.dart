@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:wan_android/bean/question_data.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/viewmodel/question_view_model.dart';
 
 ///问答页面
@@ -21,13 +24,13 @@ class QuestionPageState extends State<QuestionPage>
       body: ProviderWidget<QuestionViewModel>(
         model: QuestionViewModel(),
         onReadyMore: (model) {
-          model.getQuestion(true);
+          model.initData(true);
         },
         builder: (context, model, child) {
           return StatePageWithViewModel(
             model: model,
             onPressed: (){
-              model.getQuestion(true);
+              model.initData(true);
             },
             controller: model.refreshController,
             onRefresh: () async{
@@ -47,6 +50,7 @@ class QuestionPageState extends State<QuestionPage>
     return ListView.builder(
       itemCount: model.questionItems.length,
       itemBuilder: (context, index) {
+        QuestionItem questionItem = model.questionItems[index];
         return Card(
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: InkWell(
@@ -54,7 +58,11 @@ class QuestionPageState extends State<QuestionPage>
                 ? _buildListItem(model.questionItems[index])
                 : Container(),
             onTap: () {
-              Scaffold.of(context).showBodyScrim(true, 10);
+              //Scaffold.of(context).showBodyScrim(true, 10);
+              Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
+                ConstantInfo.ARTICLE_TITLE: questionItem.title,
+                ConstantInfo.ARTICLE_URL: questionItem.link
+              });
             },
           ),
         );

@@ -1,6 +1,6 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +9,10 @@ import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/icon_text_widget.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/default/global.dart';
 import 'package:wan_android/main.dart';
 import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/util/event_bus_util.dart';
 import 'package:wan_android/viewmodel/person_view_model.dart';
 
 class PersonPage extends StatefulWidget {
@@ -18,13 +20,12 @@ class PersonPage extends StatefulWidget {
   _PersonPageState createState() => _PersonPageState();
 }
 
-class _PersonPageState extends State<PersonPage> {
-  RefreshController _refreshController;
-  double mainAixSpacing = ScreenUtil.getInstance().getAdapterSize(5);
+class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMixin{
+  double mainAixSpacing = 5.w;
   @override
   void initState() {
     super.initState();
-    _refreshController = RefreshController(initialRefresh: false);
+
   }
 
   @override
@@ -60,6 +61,9 @@ class _PersonPageState extends State<PersonPage> {
       ],
       flexibleSpace: FlexibleSpaceBar(background: Consumer<UserViewModel>(
         builder: (context, model, _) {
+          EventBusUtil.listenEvent<UserEvent>((event) {
+            model.setLoginState(event.isLogin);
+          });
           return Stack(
             children: [
               model.isLogin
@@ -67,8 +71,8 @@ class _PersonPageState extends State<PersonPage> {
                       "https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg",
                       fit: BoxFit.cover,
                       width: double.infinity)
-                  : Image.network(
-                      "https://www.wanandroid.com/resources/image/pc/logo.png",
+                  : Image.asset(
+                      "assets/icon/ic_default_avatar.png",
                       fit: BoxFit.cover,
                       width: double.infinity),
               Positioned(
@@ -80,14 +84,14 @@ class _PersonPageState extends State<PersonPage> {
           );
         },
       )),
-      expandedHeight: ScreenUtil.getInstance().getAdapterSize(200.0),
+      expandedHeight: 200.h,
     );
   }
 
   ///创建个人头像信息
   Widget _buildPersonTop(UserViewModel model) {
     return Container(
-      height: ScreenUtil.getInstance().getAdapterSize(80.0),
+      height: 80.h,
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -98,8 +102,8 @@ class _PersonPageState extends State<PersonPage> {
         children: [
           //头像
           Container(
-            width: ScreenUtil.getInstance().getAdapterSize(70),
-            height: ScreenUtil.getInstance().getAdapterSize(70),
+            width: 70.w,
+            height: 70.w,
             //加一个头像的边框
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
@@ -108,12 +112,12 @@ class _PersonPageState extends State<PersonPage> {
                 color: Colors.grey[200].withOpacity(0.5)),
             child: CircleAvatar(
               backgroundColor: Colors.white,
-              backgroundImage: NetworkImage(model.isLogin
-                  ? "https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg"
-                  : "https://www.wanandroid.com/resources/image/pc/logo.png"),
+              backgroundImage:model.isLogin?
+              NetworkImage("https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg")
+                  :AssetImage("assets/icon/ic_default_avatar.png"),
             ),
           ),
-          SizedBox(width: ScreenUtil.getInstance().getAdapterSize(10.0)),
+          SizedBox(width: 10.w),
           //个人信息
           _personInfoText(model),
           //二维码
@@ -132,14 +136,14 @@ class _PersonPageState extends State<PersonPage> {
             children: [
               //用户名
               Text(
-                SpUtil.getObject(ConstantInfo.KEY_USER)['username'],
+                Global.userProfile.username,
                 style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().getSp(18.0),
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().getAdapterSize(5.0),
+                height: 5.h,
               ),
               ProviderWidget<PersonViewModel>(
                 model: PersonViewModel(),
@@ -151,7 +155,7 @@ class _PersonPageState extends State<PersonPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 1),
                         child: Text(
-                          "lv 10",
+                          "lv ${personViewModel.coin==null?0:personViewModel.coin.level}",
                           style: TextStyle(fontSize: 13, color: Colors.white),
                         ),
                         decoration: BoxDecoration(
@@ -159,7 +163,7 @@ class _PersonPageState extends State<PersonPage> {
                             borderRadius: BorderRadius.circular(5)),
                       ),
                       SizedBox(
-                        width: ScreenUtil.getInstance().getAdapterSize(5.0),
+                        width: 5.w,
                       ),
                       //积分
                       Container(
@@ -187,7 +191,7 @@ class _PersonPageState extends State<PersonPage> {
             child: Text(
               "立即登录",
               style: TextStyle(
-                  fontSize: ScreenUtil.getInstance().getSp(18.0),
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87),
             ),
@@ -210,7 +214,7 @@ class _PersonPageState extends State<PersonPage> {
                 IconButton(
                     icon: Icon(
                       Icons.qr_code_outlined,
-                      size: ScreenUtil.getInstance().getAdapterSize(25.0),
+                      size: 25.w,
                     ),
                     onPressed: () {
                       Get.snackbar("title", "个人信息二维码");
@@ -224,23 +228,32 @@ class _PersonPageState extends State<PersonPage> {
   Widget _buildTopUIPage(){
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.all(ScreenUtil.getInstance().getAdapterSize(10)),
-        margin: EdgeInsets.all(ScreenUtil.getInstance().getAdapterSize(10)),
+        padding: EdgeInsets.all(10.w),
+        margin: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
           //背景
             color: Colors.white,
             borderRadius: BorderRadius.circular(
-                ScreenUtil.getInstance().getAdapterSize(5))),
+                5.r)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconTextWidget.builder(Icons.star_border,"收藏",mainAixSpacing: ScreenUtil.getInstance().getAdapterSize(10),
+            IconTextWidget.builder(Icons.collections_outlined,"收藏",mainAixSpacing:10.w,
             onTap: (){
               Fluttertoast.showToast(msg: "收藏");
             }),
-            IconTextWidget.builder(Icons.compare_sharp,"积分",mainAixSpacing: ScreenUtil.getInstance().getAdapterSize(10)),
-            IconTextWidget.builder(Icons.access_time,"浏览历史",mainAixSpacing: ScreenUtil.getInstance().getAdapterSize(10)),
-            IconTextWidget.builder(Icons.download_outlined,"下载管理",mainAixSpacing: ScreenUtil.getInstance().getAdapterSize(10)),
+            IconTextWidget.builder(Icons.stars_outlined,"积分",mainAixSpacing: 10.w,
+              onTap: (){
+                Get.toNamed(RoutesConfig.PERSON_STARTS_PAGE);
+              },
+            ),
+            IconTextWidget.builder(Icons.leaderboard_outlined,"排行榜",mainAixSpacing: 10.w,
+              onTap: (){
+                Get.toNamed(RoutesConfig.STARTS_LEADERBOARD_PAGE);
+              },
+            ),
+            IconTextWidget.builder(Icons.access_time,"浏览历史",mainAixSpacing:10.w),
+            IconTextWidget.builder(Icons.download_outlined,"下载管理",mainAixSpacing: 10.w),
           ],
         ),
       ),
@@ -250,14 +263,14 @@ class _PersonPageState extends State<PersonPage> {
   Widget _commonUIPage() {
     return SliverToBoxAdapter(
       child: Container(
-        height: ScreenUtil.getInstance().getAdapterSize(200),
-        padding: EdgeInsets.all(ScreenUtil.getInstance().getAdapterSize(10)),
+        height: 200.h,
+        padding: EdgeInsets.all(10.w),
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             //背景
             color: Colors.white,
             borderRadius: BorderRadius.circular(
-                ScreenUtil.getInstance().getAdapterSize(5))),
+                5.r)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -265,11 +278,11 @@ class _PersonPageState extends State<PersonPage> {
             Text(
               "常用工具",
               style: TextStyle(
-                  fontSize: ScreenUtil.getInstance().getSp(17),
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
-            SizedBox(height: ScreenUtil.getInstance().getAdapterSize(10)),
+            SizedBox(height: 10.h),
             Expanded(
               child:  GridView.count(
                 padding: EdgeInsets.zero,
@@ -289,4 +302,8 @@ class _PersonPageState extends State<PersonPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

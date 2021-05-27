@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 
 class ProviderWidget<T extends BaseViewModel> extends StatefulWidget {
   final T model;

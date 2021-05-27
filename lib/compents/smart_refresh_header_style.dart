@@ -64,7 +64,7 @@ class GifHeader1State extends RefreshIndicatorState<GifHeader1>
     return Container(
       color: Colors.white,
       child: GifImage(
-        image: AssetImage("images/gifindicator1.gif"),
+        image: AssetImage("assets/images/gifindicator1.gif"),
         controller: _gifController,
         height: 80.0,
         width: 537.0,

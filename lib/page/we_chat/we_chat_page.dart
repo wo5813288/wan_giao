@@ -37,6 +37,9 @@ class _WeChatPageState extends State<WeChatPage>
                   ),
                   body: Builder(
                     builder: (context) {
+                      if(model.loadState==LoadState.LOADING){
+                        return LoadingPage();
+                      }
                       if (model.loadState == LoadState.EMPTY) {
                         return EmptyPage(onPressed: (){
                           model.getWehChatData();

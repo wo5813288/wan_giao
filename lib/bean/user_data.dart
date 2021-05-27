@@ -79,7 +79,7 @@ class User {
   int get type => _type;
   String get username => _username;
 
-  Data({
+  User({
       bool admin, 
       List<dynamic> chapterTops, 
       int coinCount, 
@@ -139,6 +139,9 @@ class User {
     return map;
   }
 
+  void setUserPassword(String password){
+    _password = password;
+  }
 }
 
 

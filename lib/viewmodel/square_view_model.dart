@@ -1,22 +1,20 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/page/state_page.dart';
 
-class SquareViewModel extends BaseViewModel{
+class SquareViewModel extends BaseViewModelWithRefresh{
   List<ArticleItem> _articleItems = [];
 
   List<ArticleItem> get articleItems => _articleItems;
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
-  RefreshController get refreshController => _refreshController;
   int pageIndex = 0;
 
   ///获取问答列表数据
-  void getSquareArticle(bool isShowLoading) {
-    handleRequest(HttpManager.instance.get('user_article/list/$pageIndex/json'),isShowLoading,
+  void getSquareArticle(bool isShowLoading,{bool refresh=false}) {
+    handleRequest(HttpManager.instance.get('user_article/list/$pageIndex/json',list: true,refresh: refresh),isShowLoading,
             (value) {
           var result = ArticleData.fromJson(value).data;
           //当前页码
@@ -33,21 +31,28 @@ class SquareViewModel extends BaseViewModel{
             setLoadState(LoadState.EMPTY);
           } else if (curPage == pageCount) {
             setLoadState(LoadState.NO_MORE);
-            _refreshController.loadNoData();
+            refreshController.loadNoData();
           } else {
             setLoadState(LoadState.SUCCESS);
-            _refreshController.loadComplete();
-            _refreshController.refreshCompleted(resetFooterState: true);
+            refreshController.loadComplete();
+            refreshController.refreshCompleted(resetFooterState: true);
             pageIndex++;
           }
         }, failure: (error) {
-          _refreshController.loadFailed();
-          _refreshController.refreshFailed();
+          refreshController.loadFailed();
+          refreshController.refreshFailed();
         });
   }
 
+  @override
   void refresh(){
     pageIndex = 0;
-    getSquareArticle(false);
+    getSquareArticle(false,refresh: true);
+  }
+
+  @override
+  void initData(bool isShowLoading) {
+    pageIndex = 0;
+    getSquareArticle(isShowLoading);
   }
 }

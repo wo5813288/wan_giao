@@ -48,21 +48,23 @@ class Coin {
   String _rank;
   int _userId;
   String _username;
-
+  int _level;
   int get coinCount => _coinCount;
   String get rank => _rank;
   int get userId => _userId;
   String get username => _username;
-
+  int get level=>_level;
   Coin({
       int coinCount, 
       String rank,
-      int userId, 
+      int userId,
+      int level,
       String username}){
     _coinCount = coinCount;
     _rank = rank;
     _userId = userId;
     _username = username;
+    _level = level;
 }
 
   Coin.fromJson(dynamic json) {
@@ -70,6 +72,7 @@ class Coin {
     _rank = json["rank"];
     _userId = json["userId"];
     _username = json["username"];
+    _level = json["level"];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +81,7 @@ class Coin {
     map["rank"] = _rank;
     map["userId"] = _userId;
     map["username"] = _username;
+    map["level"] = _level;
     return map;
   }
 

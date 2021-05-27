@@ -1,5 +1,5 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/project_data.dart';
@@ -15,7 +15,7 @@ class ProjectTabData extends BaseViewModel {
 
   ///获取项目的分类
   getProjectTabs() async {
-    handleRequest(HttpManager.instance.get(RequestApi.projectTags), false, (value) {
+    handleRequest(HttpManager.instance.get(RequestApi.projectTags), true, (value) {
       _projects = ProjectData.fromJson(value).data;
       setLoadState(_projects.isEmpty?LoadState.EMPTY:LoadState.SUCCESS);
     });

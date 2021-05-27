@@ -38,6 +38,9 @@ class _ProjectPageState extends State<ProjectPage>
                 ),
                 body:Builder(
                   builder: (context){
+                    if(model.loadState==LoadState.LOADING){
+                      return LoadingPage();
+                    }
                     if (model.loadState == LoadState.EMPTY) {
                       return EmptyPage();
                     } else if (model.loadState == LoadState.FAILURE) {

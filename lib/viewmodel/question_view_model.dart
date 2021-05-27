@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
@@ -9,19 +10,15 @@ import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/page/state_page.dart';
 
-class QuestionViewModel extends BaseViewModel {
+class QuestionViewModel extends BaseViewModelWithRefresh {
   List<QuestionItem> _questionItems = [];
 
   List<QuestionItem> get questionItems => _questionItems;
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
-  RefreshController get refreshController => _refreshController;
-  int pageIndex = 0;
-
+  int pageIndex = 1;
   ///获取问答列表数据
-  void getQuestion(bool isShowLoading) {
-    handleRequest(HttpManager.instance.get('wenda/list/$pageIndex/json'),isShowLoading,
+  void getQuestion(bool isShowLoading,{bool refresh=false}) {
+    handleRequest(HttpManager.instance.get('wenda/list/$pageIndex/json',list: true,refresh: refresh),isShowLoading,
         (value) {
       var result = QuestionData.fromJson(value).data;
       //当前页码
@@ -29,30 +26,38 @@ class QuestionViewModel extends BaseViewModel {
       //总页数
       int pageCount = result.pageCount;
 
-      if (pageIndex == 0) {
+      if (pageIndex == 1) {
         _questionItems.clear();
       }
       //文章列表数据
       _questionItems.addAll(result.datas);
-      if (curPage == 0 && result.datas.length == 0) {
+      if (curPage == 1 && result.datas.length == 0) {
         setLoadState(LoadState.EMPTY);
       } else if (curPage == pageCount) {
         setLoadState(LoadState.NO_MORE);
-        _refreshController.loadNoData();
+        refreshController.loadNoData();
       } else {
         setLoadState(LoadState.SUCCESS);
-        _refreshController.loadComplete();
-        _refreshController.refreshCompleted(resetFooterState: true);
+        refreshController.loadComplete();
+        refreshController.refreshCompleted(resetFooterState: true);
         pageIndex++;
       }
     }, failure: (error) {
-      _refreshController.loadFailed();
-      _refreshController.refreshFailed();
+      refreshController.loadFailed();
+      refreshController.refreshFailed();
+
     });
   }
 
+  @override
   void refresh(){
-    pageIndex = 0;
-    getQuestion(false);
+    pageIndex = 1;
+    getQuestion(false,refresh: true);
+  }
+
+  @override
+  void initData(bool isShowLoading) {
+    pageIndex = 1;
+    getQuestion(isShowLoading);
   }
 }

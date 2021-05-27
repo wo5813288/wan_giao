@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/viewmodel/project_view_model.dart';
 import 'package:wan_android/viewmodel/we_chat_view_model.dart';
 
@@ -114,7 +117,12 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
               ],
             ),
             onTap:(){
-
+              Get.toNamed(
+                  RoutesConfig.WEB_PAGE,
+                  arguments: {
+                    ConstantInfo.ARTICLE_TITLE:articleItem.title,
+                    ConstantInfo.ARTICLE_URL:articleItem.link
+                  });
             }));
   }
 

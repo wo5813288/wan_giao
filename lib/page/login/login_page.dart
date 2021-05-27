@@ -1,8 +1,11 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:wan_android/compents/dialog_util.dart';
+import 'package:wan_android/compents/login_widget.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/theme/app_text.dart';
 import 'package:wan_android/viewmodel/person_view_model.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,145 +19,154 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            //TODO:关闭当前页面
-            Get.back();
-          },
-        ),
-      ),
+      backgroundColor: Theme.of(context).accentColor,
       body: Stack(
+        //返回按钮
         children: [
-          //背景
-          Column(
-            children: [
-              Container(
-                  height: ScreenUtil.getInstance().screenHeight / 4,
-                  width: double.infinity,
-                  color: Theme.of(context).primaryColor,
-                  child: Center(
-                    child: FlutterLogo(
-                      size: 90,
-                    ),
-                  )),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                ),
-              )
-            ],
+          Image.asset("assets/images/bg_login_header.png",fit: BoxFit.cover,width: double.infinity),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 250.h),
+                ClipPath(
+                    clipper: LoginClipper(),
+                    child: LoginBodyWidget(key: loginKeyState)
+                )
+              ],
+            ),
           ),
           Positioned(
-            top: ScreenUtil.getInstance().screenHeight / 5,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-                margin: EdgeInsets.all(
-                    ScreenUtil.getInstance().getAdapterSize(20.0)),
-                padding: EdgeInsets.all(
-                    ScreenUtil.getInstance().getAdapterSize(20.0)),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 2, //阴影范围
-                        spreadRadius: 1, //阴影浓度
-                        color: Colors.grey.withOpacity(0.5), //阴影颜色
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(
-                        ScreenUtil.getInstance().getAdapterSize(8.0))),
-                child: ProviderWidget<LoginUserModel>(
-                  model: LoginUserModel(),
-                  builder: (context, model, child) {
-                    return Form(
-                      key: loginKeyState,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.person),
-                                suffixIcon: model.userName.isEmpty
-                                    ? null
-                                    : IconButton(
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          model.clearText();
-                                        },
-                                      )),
-                            onSaved: (value) {
-                              model.setUserName(value);
-                            },
-                            onChanged: (value) {
-                              model.setUserName(value);
-                            },
-                            controller: model.userNameController,
-                            autovalidateMode: model.autovalidateMode,
-                            validator: model.validateUserName,
-                          ),
-                          SizedBox(
-                              height: ScreenUtil.getInstance()
-                                  .getAdapterSize(10.0)),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: model.isObscure
-                                      ? Icon(Icons.visibility_off)
-                                      : Icon(Icons.visibility),
-                                  onPressed: () {
-                                    model.setObscure(!model.isObscure);
-                                  },
-                                )),
-                            onSaved: (value) {
-                              model.setUserPwd(value);
-                            },
-                            obscureText: model.isObscure,
-                            controller: model.userPwdController,
-                            autovalidateMode: model.autovalidateMode,
-                            validator: model.validateUserPwd,
-                          ),
-                          SizedBox(
-                              height: ScreenUtil.getInstance()
-                                  .getAdapterSize(20.0)),
-                          Container(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: ScreenUtil.getInstance()
-                                        .getAdapterSize(10.0)),
-                                child: Text("登录"),
-                              ),
-                              onPressed: () {
-                                model.submitForm(loginKeyState);
-                              },
-                            ),
-                          ),
-                          TextButton(
-                            child: Text(
-                              "没有账号?去注册",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            onPressed: () {
-                              Fluttertoast.showToast(msg: "去注册");
-                            },
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )),
+            top: ScreenUtil().statusBarHeight,
+            left: 10.w,
+            child: IconButton(
+              icon: Icon(Icons.close,size: 20.w),
+              onPressed: (){
+                Get.back();
+              },
+            ),
           )
         ],
       ),
     );
   }
 }
+
+class LoginBodyWidget extends StatefulWidget {
+  LoginBodyWidget({Key key}):super(key:key);
+  @override
+  _LoginBodyWidgetState createState() => _LoginBodyWidgetState();
+}
+
+/// 登录页面内容体
+class _LoginBodyWidgetState extends State<LoginBodyWidget> {
+  final loginKeyState = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      padding: EdgeInsets.only(top: 50.h,left: 20.w,right:20.w),
+      child: ProviderWidget<LoginUserModel>(
+        model: LoginUserModel(),
+        builder: (context,model,_){
+          return Form(
+            key: loginKeyState,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(height: 4),
+                LoginInput(
+                  hintText: "用户名",
+                  prefixIcon: Icon(Icons.person),
+                  onChanged: (value){
+                    model.setUserName(value);
+                  },
+                  suffixIcon: model.userName.isNotEmpty?IconButton(
+                    icon: Icon(Icons.cancel),
+                    onPressed: (){
+                      model.clearText();
+                    },
+                  ):null,
+                  textEditingController: model.userNameController,
+                  autovalidateMode: model.autovalidateMode,
+                  validator: model.validateUserName,
+                ),
+                SizedBox(height: 16),
+                SizedBox(height: 4),
+                LoginInput(
+                  hintText: "密码",
+                  prefixIcon: Icon(Icons.lock),
+                  onChanged: (value){
+                    model.setUserPwd(value);
+                  },
+                  suffixIcon: IconButton(
+                    icon: Icon(model.isObscure?Icons.visibility_off:Icons.visibility),
+                    onPressed: (){
+                      model.setObscure(!model.isObscure);
+                    },
+                  ),
+                  obscureText: model.isObscure,
+                  textEditingController: model.userPwdController,
+                  autovalidateMode: model.autovalidateMode,
+                  validator: model.validateUserPwd,
+                ),
+                SizedBox(height: 30.h),
+                LoginButton(
+                  loginText: KText.loginText,
+                  onTap: (){
+                    //提交登录请求
+                    model.submitForm(loginKeyState);
+                  },
+                ),
+                //注册按钮
+                Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    child: Text(
+                      "没有账号?去注册",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    onPressed: () {
+                      Fluttertoast.showToast(msg: "去注册");
+                    },
+                  ),
+                ),
+                _buildBottomMenu()
+              ],
+            ),
+          );
+        },
+      )
+    );
+  }
+  ///底部第三方登录
+  Widget _buildBottomMenu(){
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Divider(color: Colors.grey)
+          ),
+          LoginTypeIconWidget(icon:"assets/icon/ic_qq.png",onTap: (){
+            Get.snackbar("", "QQ登录",snackPosition:SnackPosition.BOTTOM);
+          },),
+          LoginTypeIconWidget(icon:"assets/icon/ic_weixin.png",onTap: (){
+            Get.snackbar("", "微信登录",snackPosition:SnackPosition.BOTTOM);
+          },),
+          LoginTypeIconWidget(icon:"assets/icon/ic_weibo.png",onTap: (){
+            Get.snackbar("", "微博登录",snackPosition:SnackPosition.BOTTOM);
+          },),
+          Expanded(
+              child: Divider(color: Colors.grey)
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+

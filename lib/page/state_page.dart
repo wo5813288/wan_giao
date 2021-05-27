@@ -1,7 +1,8 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/base_view_model.dart';
+import 'package:wan_android/viewmodel/base_view_model.dart';
 
 enum LoadState { LOADING, SUCCESS, FAILURE, DONE, NO_MORE, EMPTY }
 
@@ -18,7 +19,7 @@ class EmptyPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              "images/no_data.png",
+              "assets/images/no_data.png",
               width: 50,
               height: 50,
             ),
@@ -36,7 +37,19 @@ class EmptyPage extends StatelessWidget {
   }
 }
 
+///加载数据之前给用户一个正在加载都状态提示
 class LoadingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PKCardListSkeleton(
+      isCircularImage: true,
+      isBottomLinesActive: true,
+      length: 10,
+    );
+  }
+}
+
+class CircularProgressIndicatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -44,7 +57,8 @@ class LoadingPage extends StatelessWidget {
         width: 50,
         height: 50,
         child: CircularProgressIndicator(
-            backgroundColor: Theme.of(context).primaryColor),
+          backgroundColor: Colors.blue,
+        ),
       ),
     );
   }
@@ -64,8 +78,7 @@ class NetWorkErrorPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.wifi_off,
-                size: ScreenUtil.getInstance().getAdapterSize(50),
-                color: Theme.of(context).primaryColor),
+                size: 50.w, color: Theme.of(context).primaryColor),
             Padding(padding: EdgeInsets.only(top: 10)),
             Text(errorMeg ?? "当前网络不可用"),
             Padding(padding: EdgeInsets.only(top: 10)),
@@ -91,6 +104,7 @@ class StatePageWithViewModel<T extends BaseViewModel> extends StatefulWidget {
   final RefreshController controller;
   final Widget header;
   final Widget footer;
+  final bool enablePullDown;
 
   StatePageWithViewModel(
       {this.model,
@@ -99,6 +113,7 @@ class StatePageWithViewModel<T extends BaseViewModel> extends StatefulWidget {
       this.onLoading,
       this.child,
       this.controller,
+      this.enablePullDown = true,
       this.header,
       this.footer});
 
@@ -116,16 +131,22 @@ class _StatePageWithViewModelState extends State<StatePageWithViewModel> {
         onPressed: widget.onPressed,
       );
     } else if (widget.model.loadState == LoadState.FAILURE) {
-      return NetWorkErrorPage(onPressed: widget.onPressed);
+      return NetWorkErrorPage(
+        onPressed: widget.onPressed,
+        errorMeg: widget.model.errorMessage,
+      );
     }
     return SmartRefresher(
         controller: widget.controller,
-        enablePullDown: true,
+        enablePullDown: widget.enablePullDown,
         enablePullUp: true,
         onRefresh: widget.onRefresh,
         onLoading: widget.onLoading,
         header: widget.header ?? ClassicHeader(),
-        footer: widget.footer ?? ClassicFooter(),
+        footer: widget.footer ??
+            ClassicFooter(
+              failedText: widget.model.errorMessage,
+            ),
         child: widget.child);
   }
 }
