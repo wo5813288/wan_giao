@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android/bean/article_data.dart';
+import 'package:wan_android/bean/article_item.dart';
+import 'package:wan_android/bean/share_article_data.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/viewmodel/base_view_model.dart';
 import 'package:wan_android/bean/coin_data.dart';
@@ -270,4 +273,107 @@ class StarsLeaderBoardViewModel extends BaseViewModelWithRefresh{
     pageIndex = 1;
     getStarsLeaderBoard(isShowLoading);
   }
+}
+
+
+class PersonCollectionViewModel  extends BaseViewModelWithRefresh{
+  List<ArticleItem> _articleItems = [];
+  List<ArticleItem> get articleItems =>_articleItems;
+  int pageIndex = 0;
+  ///获取收藏的文章列表
+  void getPersonCollectionArticle(bool isLoading,{bool refresh}){
+    handleRequest(HttpManager.instance.get("lg/collect/list/$pageIndex/json",refresh: refresh,list: true), isLoading, (value){
+      var result = ArticleData.fromJson(value).data;
+      int curPage = result.curPage;
+      int pageCount = result.pageCount;
+      if(curPage==1){
+        //首页
+        _articleItems.clear();
+      }
+      _articleItems.addAll(result.datas);
+      if (curPage == 1 && result.datas.length == 0) {
+        setLoadState(LoadState.EMPTY);
+      } else if (curPage == pageCount) {
+        setLoadState(LoadState.NO_MORE);
+        refreshController.loadNoData();
+      } else {
+        setLoadState(LoadState.SUCCESS);
+        refreshController.loadComplete();
+        pageIndex++;
+      }
+      refreshController.refreshCompleted(resetFooterState: true);
+    }, failure: (errorMessage) {
+      refreshController.loadFailed();
+      refreshController.refreshFailed();
+    });
+  }
+  @override
+  void initData(bool isShowLoading) {
+    pageIndex = 0;
+    getPersonCollectionArticle(isShowLoading);
+  }
+
+  @override
+  void refresh() {
+    pageIndex = 0;
+    getPersonCollectionArticle(false,refresh: true);
+  }
+
+  ///取消收藏文章
+  void unCollectionArticle(ArticleItem articleItem) {
+    handleRequest(
+        HttpManager.instance.postFormData("lg/uncollect/${articleItem.id}/json",{"originId":-1}), false,
+            (value) {
+          _articleItems.remove(articleItem);
+        }, failure: (error) {
+          Fluttertoast.showToast(msg: error,backgroundColor: Colors.red);
+    });
+  }
+
+}
+
+
+class PersonShareViewModel  extends BaseViewModelWithRefresh{
+  List<ArticleItem> _articleItems = [];
+  List<ArticleItem> get articleItems =>_articleItems;
+  int pageIndex = 1;
+  ///获取收藏的文章列表
+  void getPersonShareArticle(bool isLoading,{bool refresh}){
+    handleRequest(HttpManager.instance.get("user/lg/private_articles/$pageIndex/json",refresh: refresh,list: true), isLoading, (value){
+      var result = ShareArticleData.fromJson(value).data;
+      int curPage = result.curPage;
+      int pageCount = result.pageCount;
+      if(curPage==1){
+        //首页
+        _articleItems.clear();
+      }
+      _articleItems.addAll(result.datas);
+      if (curPage == 1 && result.datas.length == 0) {
+        setLoadState(LoadState.EMPTY);
+      } else if (curPage == pageCount) {
+        setLoadState(LoadState.NO_MORE);
+        refreshController.loadNoData();
+      } else {
+        setLoadState(LoadState.SUCCESS);
+        refreshController.loadComplete();
+        pageIndex++;
+      }
+      refreshController.refreshCompleted(resetFooterState: true);
+    }, failure: (errorMessage) {
+      refreshController.loadFailed();
+      refreshController.refreshFailed();
+    });
+  }
+  @override
+  void initData(bool isShowLoading) {
+    pageIndex = 0;
+    getPersonShareArticle(isShowLoading);
+  }
+
+  @override
+  void refresh() {
+    pageIndex = 0;
+    getPersonShareArticle(false,refresh: true);
+  }
+
 }

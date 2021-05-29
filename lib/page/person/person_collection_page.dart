@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
+import 'package:wan_android/bean/article_data.dart';
+import 'package:wan_android/bean/article_item.dart';
+import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/viewmodel/person_view_model.dart';
+
+class PersonCollectionPage extends StatefulWidget {
+  @override
+  _PersonCollectionPageState createState() => _PersonCollectionPageState();
+}
+
+class _PersonCollectionPageState extends State<PersonCollectionPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.dark,
+        title: Text("我的收藏"),
+        centerTitle: true,
+      ),
+      body: CollectionListPage(),
+    );
+  }
+}
+
+class CollectionListPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ProviderWidget<PersonCollectionViewModel>(
+      model: PersonCollectionViewModel(),
+      onReadyMore: (model) {
+        model.initData(true);
+      },
+      builder: (context, model, _) {
+        return StatePageWithViewModel<PersonCollectionViewModel>(
+            model: model,
+            controller: model.refreshController,
+            onRefresh: () async {
+              model.refresh();
+            },
+            onLoading: () async {
+              model.getPersonCollectionArticle(false);
+            },
+            onPressed: () {
+              model.initData(true);
+            },
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                List<ArticleItem> items = model.articleItems;
+                return _buildContentList(model, items, items[index]);
+              },
+              separatorBuilder: (context, index) {
+                return Divider(thickness: ScreenUtil().setHeight(1));
+              },
+              itemCount: model.articleItems.length,
+            ));
+      },
+    );
+  }
+
+  ///每个item的布局
+  Widget _buildContentList(PersonCollectionViewModel model,
+      List<ArticleItem> items, ArticleItem articleItem) {
+    return Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(5),
+            vertical: ScreenUtil().setHeight(0)),
+        child: Slidable(
+          actionPane: SlidableDrawerActionPane(),
+          actionExtentRatio: 0.35,
+          secondaryActions: [
+            IconSlideAction(
+              caption: 'Delete',
+              color: Colors.red,
+              icon: Icons.delete,
+              onTap: () {
+                model.unCollectionArticle(articleItem);
+              },
+            ),
+          ],
+          child: InkWell(
+              onTap: () {
+                Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
+                  ConstantInfo.ARTICLE_TITLE: articleItem.title,
+                  ConstantInfo.ARTICLE_URL: articleItem.link,
+                  ConstantInfo.ARTICLE_AUTHOR: articleItem.author,
+                });
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            ///第一行 作者
+                            Text(
+                              articleItem.author,
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.grey),
+                            ),
+                            //第一行 右侧 时间
+                            Expanded(
+                              child: Text(
+                                articleItem.niceDate,
+                                textAlign: TextAlign.right,
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              ),
+                            )
+                          ],
+                        ),
+                        Padding(padding: EdgeInsets.only(top: 5)),
+                        //中间的标题
+                        Text(articleItem.title.trim(),
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold)),
+                        Padding(padding: EdgeInsets.only(top: 5)),
+                        //底部的文章类型
+                        Text(
+                          "${articleItem.chapterName}",
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+        ));
+  }
+}

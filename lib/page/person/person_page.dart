@@ -30,13 +30,8 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => PersonViewModel(),
-        ),
-      ],
-      child: CustomScrollView(
+    return Scaffold(
+      body: CustomScrollView(
         physics: NeverScrollableScrollPhysics(),
         slivers: [
           _buildTitleUI(),
@@ -240,8 +235,13 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
           children: [
             IconTextWidget.builder(Icons.collections_outlined,"收藏",mainAixSpacing:10.w,
             onTap: (){
-              Fluttertoast.showToast(msg: "收藏");
+              Get.toNamed(RoutesConfig.PERSON_COLLECTION_PAGE);
             }),
+            IconTextWidget.builder(Icons.share,"分享",mainAixSpacing: 10.w,
+              onTap: (){
+                Get.toNamed(RoutesConfig.PERSON_SHARE_PAGE);
+              },
+            ),
             IconTextWidget.builder(Icons.stars_outlined,"积分",mainAixSpacing: 10.w,
               onTap: (){
                 Get.toNamed(RoutesConfig.PERSON_STARTS_PAGE);
@@ -253,7 +253,6 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
               },
             ),
             IconTextWidget.builder(Icons.access_time,"浏览历史",mainAixSpacing:10.w),
-            IconTextWidget.builder(Icons.download_outlined,"下载管理",mainAixSpacing: 10.w),
           ],
         ),
       ),

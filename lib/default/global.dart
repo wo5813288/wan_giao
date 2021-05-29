@@ -50,4 +50,6 @@ class Global {
     SpUtil.putObject(ConstantInfo.KEY_USER, user);
     userProfile = user;
   }
+
+  static bool get isUserOnLine =>SpUtil.getObject(ConstantInfo.KEY_USER)!=null;
 }

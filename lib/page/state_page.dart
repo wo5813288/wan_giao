@@ -104,6 +104,8 @@ class StatePageWithViewModel<T extends BaseViewModel> extends StatefulWidget {
   final RefreshController controller;
   final Widget header;
   final Widget footer;
+  final Widget failurePage;
+  final Widget emptyPage;
   final bool enablePullDown;
 
   StatePageWithViewModel(
@@ -112,6 +114,8 @@ class StatePageWithViewModel<T extends BaseViewModel> extends StatefulWidget {
       this.onRefresh,
       this.onLoading,
       this.child,
+      this.failurePage,
+      this.emptyPage,
       this.controller,
       this.enablePullDown = true,
       this.header,
@@ -127,14 +131,15 @@ class _StatePageWithViewModelState extends State<StatePageWithViewModel> {
     if (widget.model.loadState == LoadState.LOADING) {
       return LoadingPage();
     } else if (widget.model.loadState == LoadState.EMPTY) {
-      return EmptyPage(
+      return widget.emptyPage??EmptyPage(
         onPressed: widget.onPressed,
       );
     } else if (widget.model.loadState == LoadState.FAILURE) {
-      return NetWorkErrorPage(
-        onPressed: widget.onPressed,
-        errorMeg: widget.model.errorMessage,
-      );
+      return widget.failurePage ??
+          NetWorkErrorPage(
+            onPressed: widget.onPressed,
+            errorMeg: widget.model.errorMessage,
+          );
     }
     return SmartRefresher(
         controller: widget.controller,

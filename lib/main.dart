@@ -53,7 +53,7 @@ Future<Null> main() async {
     var userViewModel = UserViewModel();
     var themViewModel = CurThemeData();
     //初始化当前是否登录过
-    userViewModel.setLoginState(Global.userProfile.username != null);
+    userViewModel.setLoginState(Global.isUserOnLine);
     runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<UserViewModel>.value(
@@ -61,6 +61,9 @@ Future<Null> main() async {
         ),
         ChangeNotifierProvider<CurThemeData>.value(
           value: themViewModel,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PersonViewModel(),
         ),
       ],
       child: MyApp(),
