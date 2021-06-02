@@ -22,14 +22,10 @@ class PersonPage extends StatefulWidget {
 
 class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMixin{
   double mainAixSpacing = 5.w;
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: CustomScrollView(
         physics: NeverScrollableScrollPhysics(),

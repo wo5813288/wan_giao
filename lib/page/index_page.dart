@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/icon_font.dart';
+import 'package:wan_android/controller/login_controller.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/person/person_page.dart';
 import 'package:wan_android/page/project/project_page.dart';
@@ -53,6 +56,7 @@ class IndexPageState extends State<IndexPage> {
   void initState() {
     super.initState();
     _pageController = PageController();
+
   }
 
   @override

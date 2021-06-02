@@ -1,15 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/project_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/project_view_model.dart';
-import 'package:wan_android/viewmodel/we_chat_view_model.dart';
+
 
 class ProjectContentPage extends StatefulWidget {
   final String authorId;
@@ -22,25 +19,27 @@ class ProjectContentPage extends StatefulWidget {
 class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<ProjectViewModel>(
-      model: ProjectViewModel(),
-      onReadyMore: (model){
-        model.getProjectList(true, widget.authorId);
+    return GetX<ProjectController>(
+      init: Get.put<ProjectController>(ProjectController(),tag: widget.authorId),
+      initState: (_){
+        var controller =Get.find<ProjectController>(tag: widget.authorId);
+        controller.setCid(widget.authorId);
+        controller.initData(true);
       },
-      builder: (context,model,child){
-        return StatePageWithViewModel(
-            model: model,
+      builder: (_){
+        return StatePageWithViewController<ProjectController>(
+            model: Get.find<ProjectController>(tag: widget.authorId),
+            controller: Get.find<ProjectController>(tag: widget.authorId).refreshController,
             onPressed: (){
-              model.getProjectList(true, widget.authorId);
+              Get.find<ProjectController>(tag: widget.authorId).initData(true);
             },
-            controller: model.controller,
             onRefresh: () async{
-              model.refresh(widget.authorId);
+              Get.find<ProjectController>(tag: widget.authorId).refresh();
             },
             onLoading: () async{
-              model.getProjectList(false, widget.authorId);
+              Get.find<ProjectController>(tag: widget.authorId).getProjectList(false);
             },
-            child:_buildListUI(model.articleItems)
+            child:_buildListUI(Get.find<ProjectController>(tag: widget.authorId).articleItems)
         );
       },
     );

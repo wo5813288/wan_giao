@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/http/http_manager.dart';
@@ -16,10 +18,9 @@ class Global {
 
   ///在项目启动前做一些初始化操作
   static Future init() async {
-
+    var appState = Get.put<AppState>(AppState());
     //告诉程序在启动之前需要做一些其他操作
     WidgetsFlutterBinding.ensureInitialized();
-
     //初始化持久工具
     await SpUtil.getInstance();
 
@@ -44,6 +45,7 @@ class Global {
     if(isFirstOpen){
       SpUtil.putBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, false);
     }
+    appState.setIsLogin(isUserOnLine?LoginState.LOGIN:LoginState.LOGO_OUT);
   }
 
   static saveUserProfile(User user) {

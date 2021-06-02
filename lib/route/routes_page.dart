@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/compents/web_page.dart';
 import 'package:wan_android/default/global.dart';
+import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
@@ -49,6 +50,9 @@ abstract class RoutesConfig {
     GetPage(
         name: LOGIN_PAGE,
         page: () => LoginPage(),
+        bindings: [
+          LoginBindings()
+        ],
         transition: Transition.downToUp),
     GetPage(
         name: SETTING_PAGE,

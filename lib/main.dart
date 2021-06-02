@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/http/http_manager.dart';
@@ -22,18 +24,6 @@ Future<void> _reportError(dynamic error, dynamic stackTrace) async {
   if (isInDebugMode) {
     print(stackTrace);
   }
-  /*else {
-    final SentryResponse response = await _sentry.captureException(
-      exception: error,
-      stackTrace: stackTrace,
-    );
-
-    if (response.isSuccessful) {
-      print('Success! Event ID: ${response.eventId}');
-    } else {
-      print('Failed to report to Sentry.io: ${response.error}');
-    }
-  }*/
 }
 
 Future<Null> main() async {
@@ -42,9 +32,6 @@ Future<Null> main() async {
     if (isInDebugMode == true) {
       FlutterError.dumpErrorToConsole(details);
     }
-    /*else {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
-    }*/
   };
 
   // 捕获并上报 Dart 异常

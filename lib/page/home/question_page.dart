@@ -4,10 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/question_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/question_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/question_view_model.dart';
 
 ///问答页面
 
@@ -16,37 +15,37 @@ class QuestionPage extends StatefulWidget {
   QuestionPageState createState() => QuestionPageState();
 }
 
-class QuestionPageState extends State<QuestionPage>
-    with AutomaticKeepAliveClientMixin {
+class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClientMixin {
+  var questionController = Get.put<QuestionController>(QuestionController());
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      body: ProviderWidget<QuestionViewModel>(
-        model: QuestionViewModel(),
-        onReadyMore: (model) {
-          model.initData(true);
+      body: GetX<QuestionController>(
+        initState: (_){
+          questionController.initData(true);
         },
-        builder: (context, model, child) {
-          return StatePageWithViewModel(
-            model: model,
-            onPressed: (){
-              model.initData(true);
-            },
-            controller: model.refreshController,
-            onRefresh: () async{
-              model.refresh();
-            },
-            onLoading: () async{
-              model.getQuestion(false);
-            },
-            child: _buildListUI(model)
+        builder: (_){
+          return StatePageWithViewController<QuestionController>(
+              controller: questionController.refreshController,
+              model: questionController,
+              onPressed: (){
+                questionController.initData(true);
+              },
+              onRefresh: () async{
+                questionController.refresh();
+              },
+              onLoading: () async{
+                questionController.getQuestion(false);
+              },
+              child: _buildListUI(questionController)
           );
         },
-      ),
+      )
     );
   }
 
-  Widget _buildListUI(QuestionViewModel model) {
+  Widget _buildListUI(QuestionController model) {
     return ListView.builder(
       itemCount: model.questionItems.length,
       itemBuilder: (context, index) {

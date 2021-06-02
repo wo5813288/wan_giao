@@ -5,47 +5,49 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/system_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/system_view_model.dart';
-import 'package:wan_android/viewmodel/we_chat_view_model.dart';
 
 class SystemContentListPage extends StatefulWidget {
   final String cid;
-  SystemContentListPage(this.cid);
+  SystemContentListPage(this.cid,{Key key}):super(key: key);
 
   @override
   _SystemContentListPageState createState() => _SystemContentListPageState();
 }
 
-class _SystemContentListPageState extends State<SystemContentListPage> with AutomaticKeepAliveClientMixin{
+class _SystemContentListPageState extends State<SystemContentListPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<SystemContentViewModel>(
-      model: SystemContentViewModel(),
-      onReadyMore: (model){
-        model.getArticleBySystem(true, widget.cid);
+    super.build(context);
+    return GetX<SystemContentController>(
+      //加上tag属性，不然每次调用Get.find<SystemContentController>找到的都是同一个对象，那么refreshcontroller和loadstate会有冲突
+      init: Get.put<SystemContentController>(SystemContentController(),tag: widget.cid),
+      initState: (_){
+        Get.find<SystemContentController>(tag: widget.cid).setCid(widget.cid);
+        Get.find<SystemContentController>(tag: widget.cid).initData(true);
       },
-      builder: (context,model,child){
-        return StatePageWithViewModel<SystemContentViewModel>(
-          model: model,
+      builder: (_){
+        return StatePageWithViewController<SystemContentController>(
+          model:  Get.find<SystemContentController>(tag: widget.cid),
+          controller:  Get.find<SystemContentController>(tag: widget.cid).refreshController,
           onPressed: (){
-            model.getArticleBySystem(true, widget.cid);
+            Get.find<SystemContentController>(tag: widget.cid).initData(true);
           },
-          controller: model.refreshController,
           onRefresh: () async{
-            model.refresh(widget.cid);
+            Get.find<SystemContentController>(tag: widget.cid).refresh();
           },
           onLoading: () async{
-            model.getArticleBySystem(false, widget.cid);
+            Get.find<SystemContentController>(tag: widget.cid).getArticleBySystem(false);
           },
           child:ListView.builder(
             itemBuilder: (context, index) {
               return HomeListItemUI(
-                  articleItem: model.articleItems[index],
+                articleItem:  Get.find<SystemContentController>(tag: widget.cid).articleItems[index],
               );
             },
-            itemCount:  model.articleItems.length,
+            itemCount:   Get.find<SystemContentController>(tag: widget.cid).articleItems.length,
           ),
         );
       },
@@ -53,6 +55,6 @@ class _SystemContentListPageState extends State<SystemContentListPage> with Auto
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
+

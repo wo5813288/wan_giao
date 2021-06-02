@@ -88,9 +88,6 @@ class LoginUserModel extends BaseViewModel {
   bool _isObscure = true;
 
   bool get isObscure => _isObscure;
-  AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-
-  AutovalidateMode get autovalidateMode => _autovalidateMode;
 
   TextEditingController get userNameController => _userNameController;
 
@@ -136,8 +133,6 @@ class LoginUserModel extends BaseViewModel {
 
   ///提交登录
   void submitForm(GlobalKey<FormState> globalKey) {
-    if (globalKey.currentState.validate()) {
-      globalKey.currentState.save();
       LoadingDialog.show(message: KText.loginingText);
       //提交登录请求
       handleRequest(
@@ -146,7 +141,6 @@ class LoginUserModel extends BaseViewModel {
           true, (value) {
         var user = UserData.fromJson(value).data;
         //登录成功，记录账号和密码
-        //SpUtil.putString(ConstantInfo.KEY_USER_PWD, _userPwd);
         user.setUserPassword(_userPwd);
         Global.saveUserProfile(user);
         List<Cookie> cookies = [
@@ -154,18 +148,14 @@ class LoginUserModel extends BaseViewModel {
           Cookie('loginUserPassword', _userPwd)
         ];
         HttpManager.instance.addCookies(cookies);
-        EventBusUtil.send(UserEvent(true));
         LoadingDialog.dismiss();
+        /*EventBusUtil.send(UserEvent(true));
         //返回上一级页面，并返回一个结果
-        Get.back(result: true);
+        Get.back(result: true);*/
       }, failure: (error) {
             LoadingDialog.dismiss();
             Get.snackbar("错误", error,backgroundColor: Colors.red,colorText: Colors.white);
       });
-    } else {
-      _autovalidateMode = AutovalidateMode.always;
-      notifyListeners();
-    }
   }
 
   @override

@@ -1,15 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/tip_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/provider_widget.dart';
-import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/controller/system_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/system_view_model.dart';
 
 class SystemPage extends StatefulWidget {
   @override
@@ -17,7 +14,7 @@ class SystemPage extends StatefulWidget {
 }
 
 class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMixin{
-
+  var _systemController = Get.put<SystemController>(SystemController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,26 +24,25 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
         title: Text("体系"),
         elevation: 0.0,
       ),
-      body:ProviderWidget<SystemViewModel>(
-        model: SystemViewModel(),
-        onReadyMore: (model){
-          model.getSystemData();
+      body:GetX<SystemController>(
+        initState: (_){
+          _systemController.getSystemData();
         },
-        builder: (context,model,_){
-          if(model.loadState==LoadState.LOADING){
+        builder: (_){
+          if(_systemController.loadState.value==LoadState.LOADING){
             return LoadingPage();
           }
-          if (model.loadState == LoadState.EMPTY) {
+          if (_systemController.loadState.value == LoadState.EMPTY) {
             return EmptyPage();
-          } else if (model.loadState == LoadState.FAILURE) {
+          } else if (_systemController.loadState.value == LoadState.FAILURE) {
             return NetWorkErrorPage(onPressed: (){
-              model.getSystemData();
+              _systemController.getSystemData();
             },);
           }
           return ListView.separated(
-            itemCount: model.tipItems.length,
+            itemCount: _systemController.tipItems.length,
             itemBuilder: (context,index){
-              return _buildTipItemUI(model.tipItems[index]);
+              return _buildTipItemUI(_systemController.tipItems[index]);
             },
             separatorBuilder: (context,index){
               return Divider(thickness: 10.0,color: Colors.white,);
@@ -109,20 +105,6 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
       spacing: 15.0,
       runSpacing: 10.0,
       children: _childs,
-      /*children: tipItem.children.map((e){
-        return ActionChip(
-          label: Text(e.name),
-          elevation: 5.0,
-          backgroundColor: Colors.transparent,
-          onPressed: (){
-            //点击选项
-            Fluttertoast.showToast(msg: e.name);
-          },
-          labelStyle: TextStyle(
-            color: Colors.red,
-          ),
-        );
-      }).toList()*/
     );
   }
 

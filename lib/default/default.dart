@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
                 // 这行是关键
                 RefreshLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate
               ],
               debugShowCheckedModeBanner: false,
               initialRoute: RoutesConfig.SPLASH,

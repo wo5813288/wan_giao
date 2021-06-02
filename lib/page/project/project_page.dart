@@ -1,56 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wan_android/bean/project_data.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/project_controller.dart';
 import 'package:wan_android/page/project/project_content_page.dart';
 import 'package:wan_android/page/state_page.dart';
-import 'package:wan_android/viewmodel/project_view_model.dart';
 
 class ProjectPage extends StatefulWidget {
   @override
   _ProjectPageState createState() => _ProjectPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage>
-    with TickerProviderStateMixin {
+class _ProjectPageState extends State<ProjectPage> with TickerProviderStateMixin {
   TabController _tabController;
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<ProjectTabData>(
-      model: ProjectTabData(),
-      onReadyMore: (model) {
-        model.getProjectTabs();
+    return GetX<ProjectController>(
+      init: Get.put<ProjectController>(ProjectController()),
+      initState: (_){
+        Get.find<ProjectController>().getProjectTabs();;
       },
-      builder: (context, model, child) {
+      builder: (controller) {
         return DefaultTabController(
-          length: model.projects.length,
+          length: controller.projects.length,
           child: Builder(
             builder: (context) {
-              _tabController = TabController(length: model.projects.length, vsync: this);
+              _tabController = TabController(length: controller.projects.length, vsync: this);
               return Scaffold(
                 appBar: AppBar(
                   brightness: Brightness.dark,
                   title: Container(
                     width: double.infinity,
-                    child: _buildProjectTabs(model.projects),
+                    child: _buildProjectTabs(controller.projects),
                   ),
                 ),
                 body:Builder(
                   builder: (context){
-                    if(model.loadState==LoadState.LOADING){
+                    if(controller.loadState.value==LoadState.LOADING){
                       return LoadingPage();
                     }
-                    if (model.loadState == LoadState.EMPTY) {
+                    if (controller.loadState.value == LoadState.EMPTY) {
                       return EmptyPage();
-                    } else if (model.loadState == LoadState.FAILURE) {
+                    } else if (controller.loadState.value == LoadState.FAILURE) {
                       return NetWorkErrorPage(onPressed: (){
-                        model.getProjectTabs();
+                        controller.getProjectTabs();
                       },);
                     }
                     return TabBarView(
                       controller: _tabController,
-                      children: model.projects.map((e) {
+                      children: controller.projects.map((e) {
                         return ProjectContentPage(e.id.toString());
                       }).toList(),
                     );

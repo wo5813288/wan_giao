@@ -5,46 +5,47 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/we_chat_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/we_chat_view_model.dart';
 
 class WeChatContentPage extends StatefulWidget {
   final String authorId;
   WeChatContentPage(this.authorId);
-
   @override
   _WeChatContentPageState createState() => _WeChatContentPageState();
 }
 
-class _WeChatContentPageState extends State<WeChatContentPage> with AutomaticKeepAliveClientMixin{
+class _WeChatContentPageState extends State<WeChatContentPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<WeChatViewModel>(
-      model: WeChatViewModel(),
-      onReadyMore: (model){
-        model.getArticleByAuthor(true, widget.authorId);
+    return GetX<WeChatController>(
+      init: Get.put<WeChatController>(WeChatController(),tag: widget.authorId),
+      initState: (_){
+        var controller =Get.find<WeChatController>(tag: widget.authorId);
+        controller.setAuthorId(widget.authorId);
+        controller.initData(true);
       },
-      builder: (context,model,child){
-        return StatePageWithViewModel<WeChatViewModel>(
-          model: model,
+      builder: (weChatController){
+        return StatePageWithViewController<WeChatController>(
+          model: Get.find<WeChatController>(tag: widget.authorId),
+          controller: Get.find<WeChatController>(tag: widget.authorId).refreshController,
           onPressed: (){
-            model.getArticleByAuthor(true, widget.authorId);
+            Get.find<WeChatController>(tag: widget.authorId).getArticleByAuthor(true);
           },
-          controller: model.refreshController,
           onRefresh: () async{
-            model.refresh(widget.authorId);
+            Get.find<WeChatController>(tag: widget.authorId).refresh();
           },
           onLoading: () async{
-            model.getArticleByAuthor(false, widget.authorId);
+            Get.find<WeChatController>(tag: widget.authorId).getArticleByAuthor(false);
           },
           child:ListView.builder(
             itemBuilder: (context, index) {
               return HomeListItemUI(
-                  articleItem: model.articleItems[index],
+                articleItem: Get.find<WeChatController>(tag: widget.authorId).articleItems[index],
               );
             },
-            itemCount:  model.articleItems.length,
+            itemCount:  Get.find<WeChatController>(tag: widget.authorId).articleItems.length,
           ),
         );
       },
@@ -52,6 +53,5 @@ class _WeChatContentPageState extends State<WeChatContentPage> with AutomaticKee
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
