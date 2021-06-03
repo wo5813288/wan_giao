@@ -1,4 +1,5 @@
 
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/we_chat_data.dart';
@@ -22,6 +23,15 @@ class WeChatController extends BaseGetXControllerWithRefesh{
   var _weChats = <WeChat>[].obs;
 
   List<WeChat> get weChats => _weChats;
+
+  @override
+  void onInit() {
+    super.onInit();
+    ever(Get.find<AppState>().loginState, (callBack) {
+      //每次登录状态发生变化，都要重新请求广场数据
+      initData(true);
+    });
+  }
 
   void getWehChatData() async {
     handleRequest(HttpManager.instance.get(RequestApi.weChat), true, (value){

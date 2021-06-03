@@ -28,7 +28,6 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   cookie_jar: 3.0.1
   path_provider: ^2.0.1
-  event_bus: ^2.0.0
   # add this line to your dependencies
   fluttertoast: ^8.0.3
   # 刷新加载框架

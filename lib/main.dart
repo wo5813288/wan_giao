@@ -1,16 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_util/sp_util.dart';
-import 'package:wan_android/app/app_state.dart';
-import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/default/global.dart';
-import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/util/event_bus_util.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
-import 'package:wan_android/viewmodel/search_view_model.dart';
 import 'package:wan_android/viewmodel/theme_view_model.dart';
 
 import 'default/default.dart';
@@ -37,20 +28,11 @@ Future<Null> main() async {
   // 捕获并上报 Dart 异常
   runZonedGuarded(() async {
     await Global.init();
-    var userViewModel = UserViewModel();
     var themViewModel = CurThemeData();
-    //初始化当前是否登录过
-    userViewModel.setLoginState(Global.isUserOnLine);
     runApp(MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserViewModel>.value(
-          value: userViewModel,
-        ),
         ChangeNotifierProvider<CurThemeData>.value(
           value: themViewModel,
-        ),
-        ChangeNotifierProvider(
-          create: (_) => PersonViewModel(),
         ),
       ],
       child: MyApp(),

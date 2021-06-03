@@ -1,19 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/bean/user_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/icon_text_widget.dart';
-import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/user_info_controller.dart';
 import 'package:wan_android/default/global.dart';
-import 'package:wan_android/main.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/util/event_bus_util.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 
 class PersonPage extends StatefulWidget {
   @override
@@ -50,37 +43,34 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
           },
         )
       ],
-      flexibleSpace: FlexibleSpaceBar(background: Consumer<UserViewModel>(
-        builder: (context, model, _) {
-          EventBusUtil.listenEvent<UserEvent>((event) {
-            model.setLoginState(event.isLogin);
-          });
-          return Stack(
+      flexibleSpace: FlexibleSpaceBar(
+          background: Stack(
             children: [
-              model.isLogin
-                  ? Image.network(
-                      "https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg",
-                      fit: BoxFit.cover,
-                      width: double.infinity)
-                  : Image.asset(
-                      "assets/icon/ic_default_avatar.png",
-                      fit: BoxFit.cover,
-                      width: double.infinity),
+              Obx((){
+                return Get.find<AppState>().loginState.value==LoginState.LOGIN?
+                Image.network(
+                    "https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg",
+                    fit: BoxFit.cover,
+                    width: double.infinity)
+                    :Image.asset(
+                    "assets/icon/ic_default_avatar.png",
+                    fit: BoxFit.cover,
+                    width: double.infinity);
+              }),
               Positioned(
                   bottom: 0.0,
                   left: 0.0,
                   right: 0.0,
-                  child: _buildPersonTop(model))
+                  child: _buildPersonTop())
             ],
-          );
-        },
-      )),
+          )
+      ),
       expandedHeight: 200.h,
     );
   }
 
   ///创建个人头像信息
-  Widget _buildPersonTop(UserViewModel model) {
+  Widget _buildPersonTop() {
     return Container(
       height: 80.h,
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
@@ -101,27 +91,30 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                 border:
                     Border.all(width: 2.5, color: Colors.grey.withOpacity(0.5)),
                 color: Colors.grey[200].withOpacity(0.5)),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage:model.isLogin?
-              NetworkImage("https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg")
-                  :AssetImage("assets/icon/ic_default_avatar.png"),
-            ),
+            child:Obx((){
+              return CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage:Get.find<AppState>().loginState.value==LoginState.LOGIN?
+                  NetworkImage("https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg")
+                      :AssetImage("assets/icon/ic_default_avatar.png")
+              );
+            })
           ),
           SizedBox(width: 10.w),
           //个人信息
-          _personInfoText(model),
+          _personInfoText(),
           //二维码
-          _personQRcode(model)
+          _personQRcode()
         ],
       ),
     );
   }
 
   ///个人信息详情Z
-  Widget _personInfoText(UserViewModel model) {
-    return model.isLogin
-        ? Column(
+  Widget _personInfoText() {
+    return Obx((){
+       if(Get.find<AppState>().loginState.value==LoginState.LOGIN){
+          return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,17 +129,20 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
               SizedBox(
                 height: 5.h,
               ),
-              ProviderWidget<PersonViewModel>(
-                model: PersonViewModel(),
-                builder: (context, personViewModel, _) {
+              GetX<UserInfoController>(
+                init: Get.put<UserInfoController>(UserInfoController()),
+                initState: (_){
+                  Get.find<UserInfoController>().getUserCoin();
+                },
+                builder: (controller){
                   return Row(
                     children: [
                       //等级
                       Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 1),
                         child: Text(
-                          "lv ${personViewModel.coin==null?0:personViewModel.coin.level}",
+                          "lv ${controller.coin.level}",
                           style: TextStyle(fontSize: 13, color: Colors.white),
                         ),
                         decoration: BoxDecoration(
@@ -159,9 +155,9 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                       //积分
                       Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                         child: Text(
-                          "积分 ${personViewModel.coin == null ? 0 : personViewModel.coin.coinCount}",
+                          "积分 ${controller.coin.coinCount}",
                           style: TextStyle(fontSize: 13, color: Colors.white),
                         ),
                         decoration: BoxDecoration(
@@ -171,49 +167,49 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                     ],
                   );
                 },
-                onReadyMore: (personViewModel) {
-                  personViewModel.getUserCoin();
-                },
               )
             ],
-          )
-        : Expanded(
-            child: InkWell(
-            child: Text(
-              "立即登录",
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87),
-            ),
-            onTap: () async {
-              var result = await Get.toNamed(RoutesConfig.LOGIN_PAGE);
-              if (result) {
-                //成功登录，重新请求数据没更新页面状态
-                model.setLoginState(true);
-              }
-            },
-          ));
+          );
+       }
+       return Expanded(
+           child: InkWell(
+             child: Text(
+               "立即登录",
+               style: TextStyle(
+                   fontSize: 18.sp,
+                   fontWeight: FontWeight.bold,
+                   color: Colors.black87),
+             ),
+             onTap: (){
+               Get.toNamed(RoutesConfig.LOGIN_PAGE);
+             },
+           ));
+
+    });
+
   }
 
-  Widget _personQRcode(UserViewModel model) {
-    return model.isLogin
-        ? Expanded(
-            child: Stack(
-              alignment: AlignmentDirectional.centerEnd,
-              children: [
-                IconButton(
-                    icon: Icon(
-                      Icons.qr_code_outlined,
-                      size: 25.w,
-                    ),
-                    onPressed: () {
-                      Get.snackbar("title", "个人信息二维码");
-                    })
-              ],
-            ),
-          )
-        : Container();
+  Widget _personQRcode() {
+    return Obx((){
+      if(Get.find<AppState>().loginState.value==LoginState.LOGIN){
+        return Expanded(
+          child: Stack(
+            alignment: AlignmentDirectional.centerEnd,
+            children: [
+              IconButton(
+                  icon: Icon(
+                    Icons.qr_code_outlined,
+                    size: 25.w,
+                  ),
+                  onPressed: () {
+                    Get.snackbar("title", "个人信息二维码");
+                  })
+            ],
+          ),
+        );
+      }
+      return Container();
+    });
   }
 
   Widget _buildTopUIPage(){

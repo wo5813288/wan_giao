@@ -5,11 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/util/event_bus_util.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 import 'package:wan_android/viewmodel/theme_view_model.dart';
 
 class SettingPage extends StatefulWidget {
@@ -68,32 +65,26 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Widget _logoutButton(){
-    return Consumer<UserViewModel>(
-      builder: (context,model,_){
-        return Container(
-          margin: EdgeInsets.only(top:10.h),
-          width: double.infinity,
-          height: 50.h,
-          color: Colors.white,
-          child: TextButton(
-            child: Text(
-              "退出登录",
-              style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 16.sp
-              ),
-            ),
-            onPressed:()async{
-              await HttpManager.clearCookie();
-              await SpUtil.clear();
-              model.setLoginState(false);
-              //通知用户的登录状态发生变化
-              EventBusUtil.send(UserEvent(false));
-              Get.back();
-            },
+    return Container(
+      margin: EdgeInsets.only(top:10.h),
+      width: double.infinity,
+      height: 50.h,
+      color: Colors.white,
+      child: TextButton(
+        child: Text(
+          "退出登录",
+          style: TextStyle(
+              color: Colors.red,
+              fontSize: 16.sp
           ),
-        );
-      },
+        ),
+        onPressed:()async{
+          await HttpManager.clearCookie();
+          await SpUtil.clear();
+          Get.find<AppState>().loginState.value = LoginState.LOGO_OUT;
+          Get.back();
+        },
+      ),
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:wan_android/compents/login_widget.dart';
 import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/login_controller.dart';
 import 'package:wan_android/theme/app_text.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 
 class LoginPage extends StatefulWidget {
   @override

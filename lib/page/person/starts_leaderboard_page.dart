@@ -4,45 +4,34 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/coin_data.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/starts_leader_controller.dart';
 import 'package:wan_android/page/state_page.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 
 ///排行榜
-class StarsLeaderboardPage extends StatefulWidget {
-  @override
-  _StarsLeaderboardPageState createState() => _StarsLeaderboardPageState();
-}
-
-class _StarsLeaderboardPageState extends State<StarsLeaderboardPage> {
+class StarsLeaderboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: ProviderWidget<StarsLeaderBoardViewModel>(
-        model: StarsLeaderBoardViewModel(),
-        onReadyMore: (model){
-          model.scrollController.addListener(() {
-            model.setOffset(model.scrollController.offset);
+      body: GetX<StarsLeaderController>(
+        initState: (_){
+          Get.find<StarsLeaderController>().scrollController.addListener(() {
+            Get.find<StarsLeaderController>().setOffset( Get.find<StarsLeaderController>().scrollController.offset);
           });
-          model.getStarsLeaderBoard(true);
+          Get.find<StarsLeaderController>().getStarsLeaderBoard(true);
         },
-        builder: (context,model,_){
+        builder: (controller){
           return SmartRefresher(
-            controller: model.refreshController,
+            controller: controller.refreshController,
             enablePullUp: true,
             enablePullDown: false,
-            /*
-            onRefresh: ()async{
-              model.refresh(false);
-            },*/
             onLoading: () async{
-              model.getStarsLeaderBoard(false);
+              controller.getStarsLeaderBoard(false);
             },
             child:  CustomScrollView(
-              controller: model.scrollController,
+              controller: controller.scrollController,
               slivers: [
-                _buildTopUI(model),
-                _buildBodyContent(model)
+                _buildTopUI(controller),
+                _buildBodyContent(controller)
               ],
             ),
           );
@@ -52,7 +41,7 @@ class _StarsLeaderboardPageState extends State<StarsLeaderboardPage> {
   }
 
   ///头部UI
-  Widget _buildTopUI(StarsLeaderBoardViewModel model){
+  Widget _buildTopUI(StarsLeaderController model){
     return SliverAppBar(
       title: model.offset>=120?Text("排行榜"):Container(),
       pinned: true,
@@ -92,7 +81,7 @@ class _StarsLeaderboardPageState extends State<StarsLeaderboardPage> {
     );
   }
 
-  Widget _buildTopContent(StarsLeaderBoardViewModel model){
+  Widget _buildTopContent(StarsLeaderController model){
     return model.coins.length>=3? Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,16 +108,16 @@ class _StarsLeaderboardPageState extends State<StarsLeaderboardPage> {
     ):Container();
   }
 
-  Widget _buildBodyContent(StarsLeaderBoardViewModel model){
-    if(model.loadState==LoadState.EMPTY){
+  Widget _buildBodyContent(StarsLeaderController model){
+    if(model.loadState.value==LoadState.EMPTY){
       return SliverFillRemaining(
         child: EmptyPage(),
       );
-    }else if(model.loadState==LoadState.FAILURE){
+    }else if(model.loadState.value==LoadState.FAILURE){
       return SliverFillRemaining(
         child: NetWorkErrorPage(),
       );
-    }else if(model.loadState==LoadState.LOADING){
+    }else if(model.loadState.value==LoadState.LOADING){
       return SliverFillRemaining(
         child: LoadingPage(),
       );

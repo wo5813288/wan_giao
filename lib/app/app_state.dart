@@ -7,7 +7,6 @@ class AppState extends BaseGetXController {
 
   void setIsLogin(LoginState state) {
     loginState.value = state;
-    update();
   }
 }
 

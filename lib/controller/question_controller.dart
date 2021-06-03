@@ -1,4 +1,5 @@
 
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/question_data.dart';
 import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
 import 'package:wan_android/http/http_manager.dart';
@@ -10,6 +11,15 @@ class QuestionController extends BaseGetXControllerWithRefesh{
   List<QuestionItem> get questionItems => _questionItems;
 
   int pageIndex = 1;
+
+  @override
+  void onInit() {
+    super.onInit();
+    ever(Get.find<AppState>().loginState, (callBack) {
+      //每次登录状态发生变化，都要重新请求广场数据
+      initData(true);
+    });
+  }
   ///获取问答列表数据
   void getQuestion(bool isShowLoading,{bool refresh=false}) {
     handleRequest(HttpManager.instance.get('wenda/list/$pageIndex/json',list: true,refresh: refresh),isShowLoading,

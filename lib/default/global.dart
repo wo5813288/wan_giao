@@ -8,7 +8,6 @@ import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/util/event_bus_util.dart';
 
 class Global {
   static User userProfile = User();
@@ -27,7 +26,6 @@ class Global {
 
     await HttpManager.getCookieJar();
 
-    EventBusUtil.init();
 
     if (Platform.isAndroid) {
       //如果是android设备，状态栏设置为透明沉浸

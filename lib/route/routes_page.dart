@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:wan_android/bindings/article_collection_bindings.dart';
+import 'package:wan_android/bindings/person_collection_bindings.dart';
+import 'package:wan_android/bindings/person_share_bindings.dart';
+import 'package:wan_android/bindings/person_stars_bindings.dart';
+import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
+import 'package:wan_android/controller/person_share_controller.dart';
+import 'package:wan_android/controller/person_stars_controller.dart';
+import 'package:wan_android/controller/starts_leader_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/page/home/question_page.dart';
@@ -41,7 +49,10 @@ abstract class RoutesConfig {
 
   static final List<GetPage> getPages = [
     GetPage(name: SPLASH, page: () => SplashPage()),
-    GetPage(name: MAIN, page: () => IndexPage()),
+    GetPage(
+        name: MAIN,
+        page: () => IndexPage(),
+        bindings: [ArticleCollectionBindings()]),
     GetPage(name: RECOMMEND, page: () => RecommendPage()),
     GetPage(name: QUESTION, page: () => QuestionPage()),
     GetPage(name: SYSTEM, page: () => SystemPage()),
@@ -51,7 +62,7 @@ abstract class RoutesConfig {
         name: LOGIN_PAGE,
         page: () => LoginPage(),
         bindings: [
-          LoginBindings()
+          LoginBindings(),
         ],
         transition: Transition.downToUp),
     GetPage(
@@ -67,15 +78,21 @@ abstract class RoutesConfig {
     GetPage(
         name: PERSON_STARTS_PAGE,
         page: () => PersonStartsPage(),
+        binding: PersonStarsBindings(),
         middlewares: [RouteAuthMiddleware()]),
-    GetPage(name: STARTS_LEADERBOARD_PAGE, page: () => StarsLeaderboardPage()),
+    GetPage(
+        name: STARTS_LEADERBOARD_PAGE,
+        page: () => StarsLeaderboardPage(),
+        binding: StarsLeaderBindings()),
     GetPage(
         name: PERSON_COLLECTION_PAGE,
         page: () => PersonCollectionPage(),
+        binding: PersonCollectionBindings(),
         middlewares: [RouteAuthMiddleware()]),
     GetPage(
         name: PERSON_SHARE_PAGE,
         page: () => PersonSharePage(),
+        binding: PersonShareBindings(),
         middlewares: [RouteAuthMiddleware()]),
   ];
 }

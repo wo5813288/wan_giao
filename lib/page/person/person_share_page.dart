@@ -7,16 +7,11 @@ import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/person_share_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 
-class PersonSharePage extends StatefulWidget {
-  @override
-  _PersonSharePageState createState() => _PersonSharePageState();
-}
-
-class _PersonSharePageState extends State<PersonSharePage> {
+class PersonSharePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,40 +28,39 @@ class _PersonSharePageState extends State<PersonSharePage> {
 class ShareListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<PersonShareViewModel>(
-      model: PersonShareViewModel(),
-      onReadyMore: (model) {
-        model.initData(true);
+    return GetX<PersonShareController>(
+      initState: (_){
+        Get.find<PersonShareController>().initData(true);
       },
-      builder: (context, model, _) {
-        return StatePageWithViewModel<PersonShareViewModel>(
-            model: model,
-            controller: model.refreshController,
+      builder: (controller) {
+        return StatePageWithViewController<PersonShareController>(
+            model: controller,
+            controller: controller.refreshController,
             onRefresh: () async {
-              model.refresh();
+              controller.refresh();
             },
             onLoading: () async {
-              model.getPersonShareArticle(false);
+              controller.getPersonShareArticle(false);
             },
             emptyPage: ShareEmptyPage(onPressed: (){
               Fluttertoast.showToast(msg: "去分享文章");
             },),
             child: ListView.separated(
               itemBuilder: (context, index) {
-                List<ArticleItem> items = model.articleItems;
-                return _buildContentList(model, items, items[index]);
+                List<ArticleItem> items = controller.articleItems;
+                return _buildContentList(controller, items, items[index]);
               },
               separatorBuilder: (context, index) {
                 return Divider(thickness: ScreenUtil().setHeight(1));
               },
-              itemCount: model.articleItems.length,
+              itemCount: controller.articleItems.length,
             ));
       },
     );
   }
 
   ///每个item的布局
-  Widget _buildContentList(PersonShareViewModel model,
+  Widget _buildContentList(PersonShareController model,
       List<ArticleItem> items, ArticleItem articleItem) {
     return Container(
         padding: EdgeInsets.symmetric(

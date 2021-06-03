@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/tip_data.dart';
@@ -24,9 +25,11 @@ class SystemContentController extends BaseGetXControllerWithRefesh{
   }
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    debugPrint("========================================build");
+    ever(Get.find<AppState>().loginState, (callBack) {
+      //每次登录状态发生变化，都要重新请求广场数据
+      initData(true);
+    });
   }
 
   void getArticleBySystem(bool isShowLoading, {bool refresh}) async {

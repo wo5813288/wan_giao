@@ -21,6 +21,9 @@ TextStyle kSearchHintTextStyle = TextStyle(
   color: Colors.grey
 );
 
+
+
+
 ThemeData lightTheme = ThemeData(
     primaryColor:Colors.blue,
     splashColor: Colors.white12,

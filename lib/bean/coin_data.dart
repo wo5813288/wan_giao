@@ -44,7 +44,7 @@ class CoinData {
 /// username : "x**oyang"
 
 class Coin {
-  int _coinCount=0;
+  int _coinCount;
   String _rank;
   int _userId;
   String _username;
@@ -55,10 +55,10 @@ class Coin {
   String get username => _username;
   int get level=>_level;
   Coin({
-      int coinCount, 
+      int coinCount=0,
       String rank,
       int userId,
-      int level,
+      int level=0,
       String username}){
     _coinCount = coinCount;
     _rank = rank;

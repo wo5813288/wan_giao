@@ -1,18 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wan_android/bean/coin_sign_data.dart';
-import 'package:wan_android/compents/provider_widget.dart';
+import 'package:wan_android/controller/person_stars_controller.dart';
 import 'package:wan_android/page/state_page.dart';
-import 'package:wan_android/viewmodel/person_view_model.dart';
 
 ///个人积分
-class PersonStartsPage extends StatefulWidget {
-  @override
-  _PersonStartsPageState createState() => _PersonStartsPageState();
-}
-
-class _PersonStartsPageState extends State<PersonStartsPage> {
-  ScrollController _scrollController = ScrollController();
+class PersonStartsPage extends StatelessWidget {
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +17,12 @@ class _PersonStartsPageState extends State<PersonStartsPage> {
           "积分列表"
         ),
       ),
-      body: ProviderWidget<PersonStartsViewModel>(
-        model: PersonStartsViewModel(),
-        onReadyMore: (model){
-          model.initData(true);
+      body: GetX<PersonStarsController>(
+        initState: (_){
+          Get.find<PersonStarsController>().initData(true);
         },
-        builder: (context,model,_){
-          return _buildContentUI(model);
+        builder: (controller){
+          return _buildContentUI(controller);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -41,15 +35,18 @@ class _PersonStartsPageState extends State<PersonStartsPage> {
     );
   }
 
-  Widget _buildContentUI(PersonStartsViewModel model){
-    return StatePageWithViewModel<PersonStartsViewModel>(
+  Widget _buildContentUI(PersonStarsController model){
+    return StatePageWithViewController<PersonStarsController>(
       model: model,
       controller: model.refreshController,
       onPressed: () async{
-        model.refresh();
+        model.initData(true);
       },
       onLoading: () async{
         model.getPersonStarts(false);
+      },
+      onRefresh: (){
+        model.refresh();
       },
       child: ListView.separated(
         controller: _scrollController,

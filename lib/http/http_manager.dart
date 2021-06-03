@@ -54,7 +54,7 @@ class HttpManager {
     await _cookieJar.loadForRequest(Uri.parse(RequestApi.host));
   }
 
-  static void clearCookie() async {
+  static Future<void> clearCookie() async {
     await _cookieJar.deleteAll();
   }
 

@@ -10,7 +10,6 @@ import 'package:wan_android/controller/base_getx_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_text.dart';
-import 'package:wan_android/util/event_bus_util.dart';
 
 class LoginController extends BaseGetXController{
   var autovalidateMode = AutovalidateMode.disabled.obs;
@@ -51,17 +50,15 @@ class LoginController extends BaseGetXController{
       //登录成功，记录账号和密码
       user.setUserPassword(userPwdController.text.trim());
       Global.saveUserProfile(user);
+      Get.find<AppState>().loginState.value = LoginState.LOGIN;
       List<Cookie> cookies = [
         Cookie('loginUserName', userNameController.text.trim()),
         Cookie('loginUserPassword', userPwdController.text.trim())
       ];
-
-      Get.find<AppState>().loginState.value = LoginState.LOGIN;
       HttpManager.instance.addCookies(cookies);
       LoadingDialog.dismiss();
-      EventBusUtil.send(UserEvent(true));
       //返回上一级页面，并返回一个结果
-      Get.back(result: true);
+      Get.back();
     }, failure: (error) {
       LoadingDialog.dismiss();
       Get.snackbar("错误", error,backgroundColor: Colors.red,colorText: Colors.white);
