@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +9,7 @@ import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/icon_text_widget.dart';
 import 'package:wan_android/controller/user_info_controller.dart';
 import 'package:wan_android/default/global.dart';
+import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 class PersonPage extends StatefulWidget {
@@ -46,17 +50,18 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
       flexibleSpace: FlexibleSpaceBar(
           background: Stack(
             children: [
-              Obx((){
-                return Get.find<AppState>().loginState.value==LoginState.LOGIN?
-                Image.network(
-                    "https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg",
-                    fit: BoxFit.cover,
-                    width: double.infinity)
-                    :Image.asset(
-                    "assets/icon/ic_default_avatar.png",
-                    fit: BoxFit.cover,
-                    width: double.infinity);
-              }),
+              CachedNetworkImage(
+                cacheKey: Random().nextInt(100).toString(),
+                imageUrl: RequestApi.PERSON_PAGE_TOP_BACKGROUND_API,
+                fit: BoxFit.cover,
+                height: double.infinity,
+                placeholder: (context,url){
+                  return Image.asset(
+                      "assets/icon/ic_default_avatar.png",
+                      fit: BoxFit.cover,
+                      width: double.infinity);
+                },
+              ),
               Positioned(
                   bottom: 0.0,
                   left: 0.0,
@@ -95,7 +100,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
               return CircleAvatar(
                   backgroundColor: Colors.white,
                   backgroundImage:Get.find<AppState>().loginState.value==LoginState.LOGIN?
-                  NetworkImage("https://p5.ssl.qhimgs1.com/sdr/400__/t01c17aaee52c2cbcff.jpg")
+                  NetworkImage(RequestApi.PERSON_PAGE_AVATAR)
                       :AssetImage("assets/icon/ic_default_avatar.png")
               );
             })

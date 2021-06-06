@@ -34,7 +34,7 @@ class WeChatController extends BaseGetXControllerWithRefesh{
   }
 
   void getWehChatData() async {
-    handleRequest(HttpManager.instance.get(RequestApi.weChat), true, (value){
+    handleRequest(HttpManager.instance.get(RequestApi.WE_CHAT), true, (value){
       _weChats.value=WeChatData.fromJson(value).data;
       loadState.value=_weChats.isEmpty?LoadState.EMPTY:LoadState.SUCCESS;
     });

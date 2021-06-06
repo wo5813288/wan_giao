@@ -1,22 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/login_widget.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/login_controller.dart';
-import 'package:wan_android/route/routes_page.dart';
+import 'package:get/get.dart';
+import 'package:wan_android/controller/register_controller.dart';
 import 'package:wan_android/theme/app_text.dart';
-
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final loginKeyState = GlobalKey<FormState>();
-
+class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 250.h),
                 ClipPath(
                     clipper: LoginClipper(),
-                    child: LoginBodyWidget()
+                    child: RegisterBodyWidget()
                 )
               ],
             ),
@@ -40,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
             top: ScreenUtil().statusBarHeight,
             left: 10.w,
             child: IconButton(
-              icon: Icon(Icons.close,size: 20.w),
+              icon: Icon(Icons.arrow_back_ios,size: 20.w,color: Colors.white,),
               onPressed: (){
                 Get.back();
               },
@@ -52,10 +42,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
-class LoginBodyWidget extends StatelessWidget {
+class RegisterBodyWidget extends StatelessWidget {
   final _loginKeyState = GlobalKey<FormState>();
-  var loginController = Get.find<LoginController>();
+  var registerController = Get.find<RegisterController>();
   ///验证用户是否为空
   String _validateUserName(value) {
     if (value.isEmpty) {
@@ -90,15 +79,15 @@ class LoginBodyWidget extends StatelessWidget {
                 return LoginInput(
                   hintText: "用户名",
                   prefixIcon: Icon(Icons.person),
-                  suffixIcon: loginController.isShowClearIcon.value?IconButton(
+                  suffixIcon: registerController.isShowClearIcon.value?IconButton(
                     icon: Icon(Icons.cancel),
                     onPressed: (){
-                      loginController.clearText();
+                      registerController.clearText();
                     },
                   ):null,
-                  autovalidateMode: loginController.autovalidateMode.value,
+                  autovalidateMode: registerController.autovalidateMode.value,
                   validator: _validateUserName,
-                  textEditingController: loginController.userNameController,
+                  textEditingController: registerController.userNameController,
                 );
               }),
               SizedBox(height: 16),
@@ -107,76 +96,43 @@ class LoginBodyWidget extends StatelessWidget {
                   hintText: "密码",
                   prefixIcon: Icon(Icons.lock),
                   suffixIcon: IconButton(
-                    icon: Icon(loginController.isObscure.value?Icons.visibility_off:Icons.visibility),
+                    icon: Icon(registerController.isObscure.value?Icons.visibility_off:Icons.visibility),
                     onPressed: (){
-                      loginController.setObscure(!loginController.isObscure.value);
+                      registerController.setObscure(!registerController.isObscure.value);
                     },
                   ),
-                  textEditingController: loginController.userPwdController,
-                  obscureText: loginController.isObscure.value,
-                  autovalidateMode: loginController.autovalidateMode.value,
+                  textEditingController: registerController.userPwdController,
+                  obscureText: registerController.isObscure.value,
+                  autovalidateMode: registerController.autovalidateMode.value,
+                  validator: _validateUserPwd,
+                );
+              }),
+              SizedBox(height: 16),
+              Obx((){
+                return LoginInput(
+                  hintText: "确认密码",
+                  prefixIcon: Icon(Icons.lock),
+                  textEditingController: registerController.userRePwdController,
+                  obscureText: registerController.isObscure.value,
+                  autovalidateMode: registerController.autovalidateMode.value,
                   validator: _validateUserPwd,
                 );
               }),
               SizedBox(height: 30.h),
               LoginButton(
-                loginText: KText.loginText,
+                loginText: KText.registerText,
                 onTap: (){
                   if(!_loginKeyState.currentState.validate()){
-                   loginController.setAutovalidateMode(AutovalidateMode.always);
+                    registerController.setAutovalidateMode(AutovalidateMode.always);
                     return;
                   }
                   //提交登录请求
-                  loginController.submitForm();
+                  registerController.submitForm();
                 },
               ),
-              SizedBox(height: ScreenUtil().setHeight(20)),
-              //注册按钮
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: TextButton(
-                  child: Text(
-                    "没有账号?去注册",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  onPressed: () {
-                    Get.toNamed(RoutesConfig.REGISTER_PAGE);
-                  },
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(20)),
-              _buildBottomMenu()
             ],
           ),
         )
     );
   }
-  ///底部第三方登录
-  Widget _buildBottomMenu(){
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-              child: Divider(color: Colors.grey)
-          ),
-          LoginTypeIconWidget(icon:"assets/icon/ic_qq.png",onTap: (){
-            Get.snackbar("", "QQ登录",snackPosition:SnackPosition.BOTTOM);
-          },),
-          LoginTypeIconWidget(icon:"assets/icon/ic_weixin.png",onTap: (){
-            Get.snackbar("", "微信登录",snackPosition:SnackPosition.BOTTOM);
-          },),
-          LoginTypeIconWidget(icon:"assets/icon/ic_weibo.png",onTap: (){
-            Get.snackbar("", "微博登录",snackPosition:SnackPosition.BOTTOM);
-          },),
-          Expanded(
-              child: Divider(color: Colors.grey)
-          ),
-        ],
-      ),
-    );
-  }
-
 }
-

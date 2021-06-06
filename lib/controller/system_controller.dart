@@ -86,7 +86,7 @@ class SystemController extends BaseGetXController {
 
   ///获取体系相关的类别
   void getSystemData() {
-    handleRequest(HttpManager.instance.get(RequestApi.systemApi), true,
+    handleRequest(HttpManager.instance.get(RequestApi.SYSTEM_TREE_API), true,
         (value) {
       _tipItems.value = TipData.fromJson(value).data;
       loadState.value =

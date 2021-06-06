@@ -24,7 +24,7 @@ class HttpManager {
   //构造方法私有化
   HttpManager._() {
     BaseOptions options = BaseOptions(
-        baseUrl: RequestApi.host,
+        baseUrl: RequestApi.HOST,
         sendTimeout: TIME_OUT,
         receiveTimeout: TIME_OUT,
         connectTimeout: TIME_OUT);
@@ -51,7 +51,7 @@ class HttpManager {
   }
 
   void addCookies(List<Cookie> cookies) async {
-    await _cookieJar.loadForRequest(Uri.parse(RequestApi.host));
+    await _cookieJar.loadForRequest(Uri.parse(RequestApi.HOST));
   }
 
   static Future<void> clearCookie() async {

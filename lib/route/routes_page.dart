@@ -4,6 +4,7 @@ import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
+import 'package:wan_android/bindings/register_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
 import 'package:wan_android/controller/person_share_controller.dart';
@@ -16,6 +17,7 @@ import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/page/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
+import 'package:wan_android/page/login/register_page.dart';
 import 'package:wan_android/page/person/person_collection_page.dart';
 import 'package:wan_android/page/person/person_share_page.dart';
 import 'package:wan_android/page/person/person_stars_page.dart';
@@ -39,6 +41,7 @@ abstract class RoutesConfig {
   static const SYSTEM_CONTENT = "/system/content";
   static const PROJECT = "/project";
   static const LOGIN_PAGE = "/login";
+  static const REGISTER_PAGE = "/register";
   static const SETTING_PAGE = "/setting_page";
   static const WEB_PAGE = "/web_page";
   static const SEARCH_PAGE = "/search_page";
@@ -52,6 +55,7 @@ abstract class RoutesConfig {
     GetPage(
         name: MAIN,
         page: () => IndexPage(),
+        binding: RegisterBindings(),
         bindings: [ArticleCollectionBindings()]),
     GetPage(name: RECOMMEND, page: () => RecommendPage()),
     GetPage(name: QUESTION, page: () => QuestionPage()),
@@ -65,6 +69,10 @@ abstract class RoutesConfig {
           LoginBindings(),
         ],
         transition: Transition.downToUp),
+    GetPage(
+        name: REGISTER_PAGE,
+        page: () => RegisterPage(),
+        transition: Transition.rightToLeft),
     GetPage(
         name: SETTING_PAGE,
         page: () => SettingPage(),

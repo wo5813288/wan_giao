@@ -25,7 +25,7 @@ class ProjectController extends BaseGetXControllerWithRefesh {
 
   ///获取项目的分类
   getProjectTabs() async {
-    handleRequest(HttpManager.instance.get(RequestApi.projectTags), true,
+    handleRequest(HttpManager.instance.get(RequestApi.PROJECT_TREE_API), true,
         (value) {
       _projects.value = ProjectData.fromJson(value).data;
       loadState.value = _projects.isEmpty ? LoadState.EMPTY : LoadState.SUCCESS;

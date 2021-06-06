@@ -38,7 +38,7 @@ class RecommendController extends BaseGetXControllerWithRefesh {
   ///获取Banner数据
   void getHomeBanner({bool refresh = false}) {
     handleRequest(
-        HttpManager.instance.get(RequestApi.homeBanner, refresh: refresh),
+        HttpManager.instance.get(RequestApi.HOME_BANNER, refresh: refresh),
         false, (value) {
       var items = BannerData.fromJson(value).data;
       _bannerItems.value = items;
@@ -85,7 +85,7 @@ class RecommendController extends BaseGetXControllerWithRefesh {
   ///获取首页置顶文章
   void getHomeTopArticle({bool refresh = false}) async {
     handleRequest(
-        HttpManager.instance.get(RequestApi.homeTop, refresh: refresh), false,
+        HttpManager.instance.get(RequestApi.HOME_TOP, refresh: refresh), false,
         (value) {
       _topArticleItems.value = TopArticleData.fromJson(value).data;
     });
