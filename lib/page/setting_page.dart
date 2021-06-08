@@ -3,18 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
+import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/viewmodel/theme_view_model.dart';
+import 'package:wan_android/theme/app_theme.dart';
 
-class SettingPage extends StatefulWidget {
-  @override
-  _SettingPageState createState() => _SettingPageState();
-}
-
-class _SettingPageState extends State<SettingPage> {
+class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,18 +43,16 @@ class _SettingPageState extends State<SettingPage> {
 
   Widget _switchThemeDark(){
     return Container(
-      child:  Consumer<CurThemeData>(
-        builder: (context,model,_){
-          return SwitchListTile(
-            activeTrackColor: Colors.lightGreen,
-            value: model.isThemeDark,
-            title: Text("夜间模式"),
-            onChanged: (flag){
-              model.setThemeDark(flag);
-            },
-          );
-        },
-      ),
+      child: Obx((){
+        return SwitchListTile(
+          activeTrackColor: Colors.lightGreen,
+          value: Get.find<ThemeController>().themKey==ThemeKey.DARK,
+          title: Text("夜间模式"),
+          onChanged: (flag){
+            Get.find<ThemeController>().setThemeData(flag?ThemeKey.DARK:ThemeKey.LIGHT);
+          },
+        );
+      }),
       color: Colors.white,
     );
   }

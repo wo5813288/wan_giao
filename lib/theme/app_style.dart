@@ -24,15 +24,4 @@ TextStyle kSearchHintTextStyle = TextStyle(
 
 
 
-ThemeData lightTheme = ThemeData(
-    primaryColor:Colors.blue,
-    splashColor: Colors.white12,
-    highlightColor: Colors.grey[200].withOpacity(0.7),
-    accentColor: Colors.white);
-
-ThemeData darkTheme = ThemeData(
-    primaryColor:Colors.black,
-    splashColor: Colors.white12,
-    highlightColor: Colors.grey[200].withOpacity(0.7),
-    accentColor: Colors.black);
 

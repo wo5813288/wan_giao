@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sp_util/sp_util.dart';
+import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/theme/app_theme.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -39,15 +42,10 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     });
     _animationController.forward();
   }
-
+  ///跳转到主页面
   void _jumpToMain(){
     _timer.cancel();
     Get.offNamed(RoutesConfig.MAIN);
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   @override

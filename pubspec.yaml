@@ -29,7 +29,7 @@ dependencies:
   cookie_jar: 3.0.1
   path_provider: ^2.0.1
   # add this line to your dependencies
-  fluttertoast: ^8.0.3
+  fluttertoast: ^8.0.7
   # 刷新加载框架
   pull_to_refresh: ^1.6.3
   flutter_gifimage: ^1.0.0

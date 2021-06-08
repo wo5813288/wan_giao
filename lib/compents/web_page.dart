@@ -1,15 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pk_skeleton/pk_skeleton.dart';
+import 'package:get/get.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/provider_widget.dart';
-import 'package:wan_android/compents/scroll_text.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/web_view_view_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {

@@ -5,6 +5,7 @@ import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
 import 'package:wan_android/bindings/register_bindings.dart';
+import 'package:wan_android/bindings/setting_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
 import 'package:wan_android/controller/person_share_controller.dart';
@@ -51,7 +52,10 @@ abstract class RoutesConfig {
   static const PERSON_SHARE_PAGE = "/person/person_share_page";
 
   static final List<GetPage> getPages = [
-    GetPage(name: SPLASH, page: () => SplashPage()),
+    GetPage(
+        name: SPLASH,
+        page: () => SplashPage(),
+    ),
     GetPage(
         name: MAIN,
         page: () => IndexPage(),
