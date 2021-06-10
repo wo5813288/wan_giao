@@ -1,6 +1,8 @@
 # WanGiao 
 这是一款用Flutter开发的学习App，主要数据api来自[WanAndroid](https://wanandroid.com/blog/show/2)。
 
+APK下载![输入图片说明](https://images.gitee.com/uploads/images/2021/0610/191159_e245414f_1008291.png "2znq.png")
+
 <img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/175903_f5e3431e_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173147_09762ed8_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173341_133a5032_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173348_2762e827_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173400_cab2075c_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173411_455b09ac_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/173421_8f8c9dde_1008291.png"/><img width="300" height="600" src="https://images.gitee.com/uploads/images/2021/0610/175737_92b94ecc_1008291.png"/>
 
 ## 前言
