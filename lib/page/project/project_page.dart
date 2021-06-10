@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:wan_android/bean/project_data.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/project_controller.dart';
 import 'package:wan_android/page/project/project_content_page.dart';
 import 'package:wan_android/page/state_page.dart';

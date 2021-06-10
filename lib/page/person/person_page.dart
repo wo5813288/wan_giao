@@ -55,6 +55,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                 imageUrl: RequestApi.PERSON_PAGE_TOP_BACKGROUND_API,
                 fit: BoxFit.cover,
                 height: double.infinity,
+                width: double.infinity,
                 placeholder: (context,url){
                   return Image.asset(
                       "assets/icon/ic_default_avatar.png",

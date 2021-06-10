@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/login_widget.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/login_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_text.dart';
@@ -20,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Colors.white,
       body: Stack(
         //返回按钮
         children: [

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/bean/article_data.dart';
-import 'package:wan_android/bean/we_chat_data.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/we_chat_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_content_page.dart';

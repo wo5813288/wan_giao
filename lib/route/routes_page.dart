@@ -5,6 +5,7 @@ import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
 import 'package:wan_android/bindings/register_bindings.dart';
+import 'package:wan_android/bindings/search_bindings.dart';
 import 'package:wan_android/bindings/setting_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
@@ -59,8 +60,11 @@ abstract class RoutesConfig {
     GetPage(
         name: MAIN,
         page: () => IndexPage(),
-        binding: RegisterBindings(),
-        bindings: [ArticleCollectionBindings()]),
+        bindings: [
+          ArticleCollectionBindings(),
+          RegisterBindings(),
+          SearchBindings()
+        ]),
     GetPage(name: RECOMMEND, page: () => RecommendPage()),
     GetPage(name: QUESTION, page: () => QuestionPage()),
     GetPage(name: SYSTEM, page: () => SystemPage()),
@@ -85,6 +89,7 @@ abstract class RoutesConfig {
     GetPage(
         name: SEARCH_PAGE,
         page: () => SearchPage(),
+        //binding: SearchBindings(),
         transition: Transition.fadeIn),
     //需要登录后才能访问积分列表页面
     GetPage(

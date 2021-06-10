@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/compents/search_view.dart';
+import 'package:wan_android/controller/search_controller.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/viewmodel/search_view_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,23 +63,23 @@ class HomePageState extends State<HomePage>
         child: Column(
           children: [
             _buildTabItemUI(),
-            ProviderWidget<SearchViewModel>(
-              model: SearchViewModel(),
-              onReadyMore: (model) {
-                model.getSearchHotKey();
+            GetX(
+              init: Get.find<SearchController>(),
+              initState: (_){
+                Get.find<SearchController>().getSearchHotKey();
               },
-              builder: (context, model, _) {
-                var hotkeys = model.hotKeyList;
+              builder: (controller){
+                var hotkeys = controller.hotKeyList;
                 return Container(
-                  width: ScreenUtil().screenWidth-40.w,
-                  height: 30.h,
-                  child: SearchView(
+                    width: ScreenUtil().screenWidth-40.w,
+                    height: 30.h,
+                    child: SearchView(
                       queryHint: hotkeys.isEmpty?"搜索文章"
                           :"${hotkeys[0].name} | ${hotkeys[1].name}",
                       onTap: () {
                         Get.toNamed(RoutesConfig.SEARCH_PAGE);
                       },
-                  )
+                    )
                 );
               },
             )

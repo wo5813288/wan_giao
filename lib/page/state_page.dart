@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/controller/base_getx_controller.dart';
-import 'package:wan_android/viewmodel/base_view_model.dart';
 
 enum LoadState { LOADING, SUCCESS, FAILURE, DONE, NO_MORE, EMPTY }
 
@@ -95,67 +94,6 @@ class NetWorkErrorPage extends StatelessWidget {
   }
 }
 
-///viewModel带有刷新列表的组件
-class StatePageWithViewModel<T extends BaseViewModel> extends StatefulWidget {
-  final T model;
-  final VoidCallback onPressed;
-  final VoidCallback onRefresh;
-  final VoidCallback onLoading;
-  final Widget child;
-  final RefreshController controller;
-  final Widget header;
-  final Widget footer;
-  final Widget failurePage;
-  final Widget emptyPage;
-  final bool enablePullDown;
-
-  StatePageWithViewModel(
-      {this.model,
-      this.onPressed,
-      this.onRefresh,
-      this.onLoading,
-      this.child,
-      this.failurePage,
-      this.emptyPage,
-      this.controller,
-      this.enablePullDown = true,
-      this.header,
-      this.footer});
-
-  @override
-  _StatePageWithViewModelState createState() => _StatePageWithViewModelState();
-}
-
-class _StatePageWithViewModelState extends State<StatePageWithViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    if (widget.model.loadState == LoadState.LOADING) {
-      return LoadingPage();
-    } else if (widget.model.loadState == LoadState.EMPTY) {
-      return widget.emptyPage??EmptyPage(
-        onPressed: widget.onPressed,
-      );
-    } else if (widget.model.loadState == LoadState.FAILURE) {
-      return widget.failurePage ??
-          NetWorkErrorPage(
-            onPressed: widget.onPressed,
-            errorMeg: widget.model.errorMessage,
-          );
-    }
-    return SmartRefresher(
-        controller: widget.controller,
-        enablePullDown: widget.enablePullDown,
-        enablePullUp: true,
-        onRefresh: widget.onRefresh,
-        onLoading: widget.onLoading,
-        header: widget.header ?? ClassicHeader(),
-        footer: widget.footer ??
-            ClassicFooter(
-              failedText: widget.model.errorMessage,
-            ),
-        child: widget.child);
-  }
-}
 
 class StatePageWithViewController<T extends BaseGetXController> extends StatefulWidget {
   final T model;

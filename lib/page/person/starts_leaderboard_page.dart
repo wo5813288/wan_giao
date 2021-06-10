@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/bean/coin_data.dart';
-import 'package:wan_android/compents/provider_widget.dart';
 import 'package:wan_android/controller/starts_leader_controller.dart';
 import 'package:wan_android/page/state_page.dart';
 
