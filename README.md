@@ -30,3 +30,6 @@
 7.[动态权限](https://pub.dev/packages/permission_handler)
 
 8[轮播图](https://pub.dev/packages/flutter_swiper)
+
+# 结束
+项目还在持续更新当中，也会不断完善代码结构，另外还有以前用kotlin语言开发的WanAndroid项目，有兴趣也可以看看...
