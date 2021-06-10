@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/bean/article_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/search_view.dart';
 import 'package:wan_android/controller/search_controller.dart';
 import 'package:wan_android/page/state_page.dart';
+
 
 class SearchPage extends GetView<SearchController>{
   TextEditingController _textEditingController = TextEditingController();
