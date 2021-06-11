@@ -39,13 +39,10 @@ class Global {
     if (userMap != null) {
       userProfile = User.fromJson(userMap);
     }
+    isFirstOpen = SpUtil.getBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, defValue: true);
 
-    isFirstOpen =
-        SpUtil.getBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, defValue: true);
-    if (isFirstOpen) {
-      SpUtil.putBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, false);
-    }
     appState.setIsLogin(isUserOnLine ? LoginState.LOGIN : LoginState.LOGO_OUT);
+
     themeController.setThemeData(SpUtil.getString(ThemeKey.KEY_APP_THEME)??ThemeKey.LIGHT);
   }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/person_share_controller.dart';
@@ -41,7 +41,7 @@ class ShareListPage extends StatelessWidget {
               controller.getPersonShareArticle(false);
             },
             emptyPage: ShareEmptyPage(onPressed: (){
-              Fluttertoast.showToast(msg: "去分享文章");
+              showToast("去分享文章");
             },),
             child: ListView.separated(
               itemBuilder: (context, index) {

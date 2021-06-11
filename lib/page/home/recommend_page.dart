@@ -2,15 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/controller/recommond_controller.dart';
 import 'package:wan_android/page/state_page.dart';
+import 'package:wan_android/route/routes_page.dart';
 
 
 class RecommendPage extends StatefulWidget {
@@ -91,7 +92,13 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
            builder: DotSwiperPaginationBuilder(size: 5, activeSize: 5)),
        //点击事件
        onTap: (index) {
-         Fluttertoast.showToast(msg: banners[index].title);
+         Get.toNamed(
+             RoutesConfig.WEB_PAGE,
+             arguments: {
+               ConstantInfo.ARTICLE_TITLE:banners[index].title,
+               ConstantInfo.ARTICLE_URL:banners[index].url,
+               ConstantInfo.ARTICLE_AUTHOR:banners[index].desc,
+             });
        },
      ),
     );

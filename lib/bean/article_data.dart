@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/artilce_collection_controller.dart';
@@ -151,12 +151,12 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
                       !widget.articleItem.collect? Get.find<ArticleCollectionController>().collectionArticle(
                           widget.articleItem.id.toString(), () {
                         widget.articleItem.setCollection(true);
-                        Fluttertoast.showToast(msg: "收藏成功");
+                        showToast("收藏成功");
                         setState(() {
 
                         });
                       }, (value) {
-                        Fluttertoast.showToast(msg: value);
+                        showToast(value);
                       }) : Get.find<ArticleCollectionController>().unCollectionArticle(
                           widget.articleItem.id.toString(), () {
                         //取消收藏
@@ -165,7 +165,7 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
 
                         });
                       }, (value) {
-                        Fluttertoast.showToast(msg: value);
+                        showToast(value);
                       });
                     }),
                 Expanded(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
@@ -77,7 +77,7 @@ class RecommendController extends BaseGetXControllerWithRefesh {
       refreshController.loadFailed();
       refreshController.refreshFailed();
       if (!showLoading && pageIndex == 0) {
-        Fluttertoast.showToast(msg: errorMessage, backgroundColor: Colors.red);
+        showToast(errorMessage, backgroundColor: Colors.red);
       }
     });
   }

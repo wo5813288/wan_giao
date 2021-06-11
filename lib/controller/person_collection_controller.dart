@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
@@ -59,7 +59,7 @@ class PersonCollectionController extends BaseGetXControllerWithRefesh{
             (value) {
           _articleItems.remove(articleItem);
         }, failure: (error) {
-      Fluttertoast.showToast(msg: error,backgroundColor: Colors.red);
+      showToast(error,backgroundColor: Colors.red);
     });
   }
 }

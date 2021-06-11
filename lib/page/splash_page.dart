@@ -6,7 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/controller/theme_controller.dart';
+import 'package:wan_android/default/global.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_theme.dart';
 import 'package:wan_android/util/device_util.dart';
@@ -26,7 +29,7 @@ class _SplashPageState extends State<SplashPage>
   Timer _timer;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     //线性的放大动画
     _animationController =
@@ -38,10 +41,8 @@ class _SplashPageState extends State<SplashPage>
         }
         setState(() {});
       });
-    _requestPermissions();
+     _requestPermissions();
   }
-
-
 
   ///跳转到主页面
   void _jumpToMain() {
@@ -51,7 +52,6 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -112,7 +112,9 @@ class _SplashPageState extends State<SplashPage>
 
   ///动态权限申请
   Future _requestPermissions() async {
-     PermissionUtil.requestPermission(Permission.storage, denied: () {},
+     PermissionUtil.requestPermission(Permission.storage, denied: () {
+       Permission.storage.request();
+     },
         permanentlyDenied: () {
       Get.defaultDialog(
           title: "权限授予",

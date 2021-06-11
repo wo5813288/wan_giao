@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/search_view.dart';
 import 'package:wan_android/controller/search_controller.dart';
 import 'package:wan_android/page/home/question_page.dart';

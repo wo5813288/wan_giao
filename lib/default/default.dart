@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/route/routes_page.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       hideFooterWhenNotFull: false,
       child: ScreenUtilInit(
         designSize: Size(360,690),
-        builder: ()=>GetMaterialApp(
+        builder: ()=>OKToast(child: GetMaterialApp(
           localizationsDelegates: [
             // 这行是关键
             RefreshLocalizations.delegate,
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
             const Locale('zh'),
             const Locale('en','US'),
           ],
-        ),
+        )),
       )
     );
   }
