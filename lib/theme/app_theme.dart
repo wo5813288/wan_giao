@@ -1,17 +1,21 @@
 
 import 'package:flutter/material.dart';
 
-ThemeData lightTheme = ThemeData(
+ThemeData lightTheme = ThemeData.light().copyWith(
     primaryColor:Colors.blue,
     splashColor: Colors.white12,
     highlightColor: Colors.grey[200].withOpacity(0.7),
-    accentColor: Colors.white);
-
-ThemeData darkTheme = ThemeData(
-    primaryColor:Colors.black,
+    accentColor: Colors.white
+);
+/*ThemeData lightTheme = ThemeData(
+    primaryColor:Colors.blue,
     splashColor: Colors.white12,
     highlightColor: Colors.grey[200].withOpacity(0.7),
-    accentColor: Colors.black);
+    accentColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white
+);*/
+
+ThemeData darkTheme = ThemeData.dark();
 
 IconThemeData lightIconTheme = IconThemeData(
     color:Colors.grey

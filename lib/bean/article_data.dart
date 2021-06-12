@@ -137,7 +137,6 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
         padding: EdgeInsets.only(top: 15, right: 10, bottom: 5),
         child: InkWell(
             child: Row(
@@ -216,7 +215,7 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
                       Text(widget.articleItem.title,
                           style: TextStyle(
                               fontSize: 17,
-                              color: Colors.black,
+                              color: Theme.of(context).textTheme.headline1.color,
                               fontWeight: FontWeight.bold)),
                       Padding(padding: EdgeInsets.only(top: 5)),
                       //底部的文章类型
