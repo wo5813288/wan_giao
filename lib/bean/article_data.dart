@@ -178,8 +178,7 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
                               visible: widget.isTop,
                               child: Container(
                                 margin: EdgeInsets.only(right: 10),
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 3),
+                                padding: EdgeInsets.symmetric(horizontal: 3),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(

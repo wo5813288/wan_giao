@@ -5,7 +5,17 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     primaryColor:Colors.blue,
     splashColor: Colors.white12,
     highlightColor: Colors.grey[200].withOpacity(0.7),
-    accentColor: Colors.white
+    accentColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white,
+    textTheme: TextTheme(
+      headline1: TextStyle(
+        color: Colors.black,
+      ),
+      bodyText1: TextStyle(
+        color: Colors.black
+      )
+
+    )
 );
 /*ThemeData lightTheme = ThemeData(
     primaryColor:Colors.blue,

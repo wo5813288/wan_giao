@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: Size(360,690),
         builder: ()=>OKToast(child: GetMaterialApp(
-          darkTheme: ThemeData.dark(),
+          //darkTheme: ThemeData.dark(),
           localizationsDelegates: [
             // 这行是关键
             RefreshLocalizations.delegate,

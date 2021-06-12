@@ -96,7 +96,7 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
           padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 5),
           child: Text(
             questionItem.title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).textTheme.headline1.color),
           ),
         ),
         //问题的内容描述
@@ -133,7 +133,7 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
       padding: EdgeInsets.all(1),
       child: Text(
         label,
-        style: TextStyle(fontSize: 10),
+        style: TextStyle(fontSize: 10,color: Theme.of(context).textTheme.headline1.color),
         textAlign: TextAlign.center,
       ),
       decoration: BoxDecoration(border: Border.all(color: Colors.green)),

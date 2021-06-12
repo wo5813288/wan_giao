@@ -25,6 +25,7 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GetX<RecommendController>(
         initState: (_){
           _recommendController.initData(true);
