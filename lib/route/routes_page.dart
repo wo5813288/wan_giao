@@ -8,6 +8,7 @@ import 'package:wan_android/bindings/register_bindings.dart';
 import 'package:wan_android/bindings/search_bindings.dart';
 import 'package:wan_android/bindings/setting_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
+import 'package:wan_android/bindings/todo_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
 import 'package:wan_android/controller/person_share_controller.dart';
 import 'package:wan_android/controller/person_stars_controller.dart';
@@ -17,7 +18,7 @@ import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
-import 'package:wan_android/page/index_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
 import 'package:wan_android/page/person/person_collection_page.dart';
@@ -26,10 +27,11 @@ import 'package:wan_android/page/person/person_stars_page.dart';
 import 'package:wan_android/page/person/starts_leaderboard_page.dart';
 import 'package:wan_android/page/project/project_page.dart';
 import 'package:wan_android/page/search/search_page.dart';
-import 'package:wan_android/page/setting_page.dart';
-import 'package:wan_android/page/splash_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/page/set/setting_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/page/splash/splash_page.dart';
 import 'package:wan_android/page/system/system_content_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
+import 'package:wan_android/page/todo/todo_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_page.dart';
 
 abstract class RoutesConfig {
@@ -51,6 +53,7 @@ abstract class RoutesConfig {
   static const STARTS_LEADERBOARD_PAGE = "/person/starts_leaderboard_page";
   static const PERSON_COLLECTION_PAGE = "/person/person_collection_page";
   static const PERSON_SHARE_PAGE = "/person/person_share_page";
+  static const TODO_PAGE = "/person/todo_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -110,6 +113,11 @@ abstract class RoutesConfig {
         name: PERSON_SHARE_PAGE,
         page: () => PersonSharePage(),
         binding: PersonShareBindings(),
+        middlewares: [RouteAuthMiddleware()]),
+    GetPage(
+        name: TODO_PAGE,
+        page: () => TODOPage(),
+        binding: ToDoBindings(),
         middlewares: [RouteAuthMiddleware()]),
   ];
 }

@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 
 
@@ -19,6 +20,8 @@ class KColors{
   static const Color kBtnShadowColor = Color(0x33D83131);
 // 输入框边框颜色
   static const Color kInputBorderColor = Color(0xFFECECEC);
+  static const Color kIconLightColor = Colors.blue;
+  static const Color kIconDarkColor = Colors.greenAccent;
 }
 
 

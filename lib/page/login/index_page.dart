@@ -11,7 +11,7 @@ import 'package:wan_android/page/system/system_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_page.dart';
 import 'package:wan_android/util/device_util.dart';
 
-import 'home/home_page.dart';
+import '../home/home_page.dart';
 
 class   IndexPage extends StatefulWidget {
 
@@ -100,6 +100,7 @@ class IndexPageState extends State<IndexPage> {
     return BottomNavigationBar(
       items: widget._tabs,
       currentIndex: _pageIndex,
+      backgroundColor: Theme.of(context).bottomAppBarColor,
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
         setState(() {

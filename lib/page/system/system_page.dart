@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/tip_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/system_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 class SystemPage extends StatefulWidget {
@@ -18,7 +18,6 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         brightness: Brightness.dark,
         title: Text("体系"),
@@ -45,7 +44,7 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
               return _buildTipItemUI(_systemController.tipItems[index]);
             },
             separatorBuilder: (context,index){
-              return Divider(thickness: 10.0,color: Colors.white,);
+              return Divider(thickness: 10.0,);
             },
           );
         },
@@ -109,7 +108,6 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 

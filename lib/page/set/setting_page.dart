@@ -16,36 +16,38 @@ class SettingPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
-          color: Colors.black
+          color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
         ),
         title: Text(
             "设置",
           style: TextStyle(
-            color: Colors.black
+            color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.white:Colors.black,
       ),
       body:Container(
         padding: EdgeInsets.only(top: 10.h),
+        color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.grey[200].withOpacity(0.7):Colors.black45,
         child: Column(
           children: [
-            _switchThemeDark(),
+            _switchThemeDark(context),
             SizedBox(height: 10.h),
             //退出登录
-            _logoutButton()
+            _logoutButton(context)
           ],
         ),
       )
     );
   }
 
-  Widget _switchThemeDark(){
+  Widget _switchThemeDark(BuildContext context){
     return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Obx((){
         return SwitchListTile(
-          activeTrackColor: Colors.lightGreen,
+          activeTrackColor: Colors.black45,
           value: Get.find<ThemeController>().themKey==ThemeKey.DARK,
           title: Text("夜间模式"),
           onChanged: (flag){
@@ -53,16 +55,15 @@ class SettingPage extends StatelessWidget {
           },
         );
       }),
-      color: Colors.white,
     );
   }
 
-  Widget _logoutButton(){
+  Widget _logoutButton(BuildContext context){
     return Container(
       margin: EdgeInsets.only(top:10.h),
       width: double.infinity,
-      height: 50.h,
-      color: Colors.white,
+      height: 40.h,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: TextButton(
         child: Text(
           "退出登录",

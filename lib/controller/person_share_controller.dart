@@ -3,7 +3,7 @@ import 'package:wan_android/bean/share_article_data.dart';
 import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 class PersonShareController extends BaseGetXControllerWithRefesh {
   var _articleItems = <ArticleItem>[].obs;

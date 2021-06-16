@@ -10,7 +10,7 @@ import 'package:wan_android/bean/banner_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/controller/recommond_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 
@@ -25,7 +25,6 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: GetX<RecommendController>(
         initState: (_){
           _recommendController.initData(true);
@@ -61,7 +60,7 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
   Widget _buildBannerUI(RecommendController model) {
     return SliverToBoxAdapter(
       child: Container(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           padding: EdgeInsets.all(10.w),
           child: _buildSwiperUI(model.bannerItems)),
     );

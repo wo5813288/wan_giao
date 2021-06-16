@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/project_data.dart';
 import 'package:wan_android/controller/project_controller.dart';
 import 'package:wan_android/page/project/project_content_page.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 class ProjectPage extends StatefulWidget {
   @override

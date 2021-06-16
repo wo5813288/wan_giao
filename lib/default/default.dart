@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: Size(360,690),
         builder: ()=>OKToast(child: GetMaterialApp(
-          //darkTheme: ThemeData.dark(),
+          darkTheme: darkTheme,
           localizationsDelegates: [
             // 这行是关键
             RefreshLocalizations.delegate,

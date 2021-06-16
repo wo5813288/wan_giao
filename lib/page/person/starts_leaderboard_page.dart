@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/controller/starts_leader_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 ///排行榜
 class StarsLeaderboardPage extends StatelessWidget {
@@ -29,7 +29,7 @@ class StarsLeaderboardPage extends StatelessWidget {
               controller: controller.scrollController,
               slivers: [
                 _buildTopUI(controller),
-                _buildBodyContent(controller)
+                _buildBodyContent(context,controller)
               ],
             ),
           );
@@ -106,7 +106,7 @@ class StarsLeaderboardPage extends StatelessWidget {
     ):Container();
   }
 
-  Widget _buildBodyContent(StarsLeaderController model){
+  Widget _buildBodyContent(BuildContext context,StarsLeaderController model){
     if(model.loadState.value==LoadState.EMPTY){
       return SliverFillRemaining(
         child: EmptyPage(),
@@ -124,11 +124,11 @@ class StarsLeaderboardPage extends StatelessWidget {
       delegate:SliverChildListDelegate(
           model.coins.getRange(3, model.coins.length).map((e){
             return ListTile(
-              title: Text(e.username),
-              subtitle: Text(e.userId.toString()),
-              trailing: Text(e.coinCount.toString()),
+              title: Text(e.username,style:TextStyle(color:Theme.of(context).textTheme.headline3.color)),
+              subtitle: Text(e.userId.toString(),style: Theme.of(context).textTheme.subtitle1),
+              trailing: Text(e.coinCount.toString(),style: Theme.of(context).textTheme.subtitle1),
               leading: Container(
-                width: 30,
+                width: 30.w,
                 alignment: Alignment.center,
                 child:CircleAvatar(
                   child: Text(

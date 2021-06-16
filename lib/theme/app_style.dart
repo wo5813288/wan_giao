@@ -16,8 +16,13 @@ TextStyle kTextLoadingStyle = TextStyle(
   color: Colors.black
 );
 
+TextStyle kTextLoginInputStyle = TextStyle(
+    fontSize: 15.sp,
+    color: Colors.black
+);
+
 TextStyle kSearchHintTextStyle = TextStyle(
-  fontSize: ScreenUtil().setSp(15),
+  fontSize: 15.sp,
   color: Colors.grey
 );
 

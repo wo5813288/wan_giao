@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/controller/we_chat_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_content_page.dart';
 
 class WeChatPage extends StatefulWidget {

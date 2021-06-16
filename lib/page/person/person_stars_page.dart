@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/coin_sign_data.dart';
 import 'package:wan_android/controller/person_stars_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 ///个人积分
 class PersonStartsPage extends StatelessWidget {
@@ -11,8 +11,10 @@ class PersonStartsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         brightness: Brightness.dark,
+        centerTitle: true,
         title: Text(
           "积分列表"
         ),
@@ -54,7 +56,7 @@ class PersonStartsPage extends StatelessWidget {
         itemBuilder: (context,index){
           CoinSignItem item = model.coinSigItems[index];
           return ListTile(
-            title: Text(item.desc),
+            title: Text(item.desc,style: TextStyle(color: Theme.of(context).textTheme.headline3.color)),
           );
         },
         separatorBuilder: (context,index){

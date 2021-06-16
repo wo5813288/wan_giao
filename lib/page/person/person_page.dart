@@ -24,6 +24,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: CustomScrollView(
         physics: NeverScrollableScrollPhysics(),
         slivers: [
@@ -81,7 +82,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
       height: 80.h,
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))),
       child: Row(
@@ -219,38 +220,39 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
   }
 
   Widget _buildTopUIPage(){
+    Color  iconTextWidgetColor = Theme.of(context).textTheme.headline3.color;
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.all(10.w),
         margin: EdgeInsets.all(10.w),
         decoration: BoxDecoration(
           //背景
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(
                 5.r)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconTextWidget.builder(Icons.collections_outlined,"收藏",mainAixSpacing:10.w,
+            IconTextWidget.builder(Icons.collections_outlined,"收藏",mainAixSpacing:10.w,labelColor: iconTextWidgetColor,
             onTap: (){
               Get.toNamed(RoutesConfig.PERSON_COLLECTION_PAGE);
             }),
-            IconTextWidget.builder(Icons.share,"分享",mainAixSpacing: 10.w,
+            IconTextWidget.builder(Icons.share,"分享",mainAixSpacing: 10.w,labelColor: iconTextWidgetColor,
               onTap: (){
                 Get.toNamed(RoutesConfig.PERSON_SHARE_PAGE);
               },
             ),
-            IconTextWidget.builder(Icons.stars_outlined,"积分",mainAixSpacing: 10.w,
+            IconTextWidget.builder(Icons.stars_outlined,"积分",mainAixSpacing: 10.w,labelColor: iconTextWidgetColor,
               onTap: (){
                 Get.toNamed(RoutesConfig.PERSON_STARTS_PAGE);
               },
             ),
-            IconTextWidget.builder(Icons.leaderboard_outlined,"排行榜",mainAixSpacing: 10.w,
+            IconTextWidget.builder(Icons.leaderboard_outlined,"排行榜",mainAixSpacing: 10.w,labelColor: iconTextWidgetColor,
               onTap: (){
                 Get.toNamed(RoutesConfig.STARTS_LEADERBOARD_PAGE);
               },
             ),
-            IconTextWidget.builder(Icons.access_time,"浏览历史",mainAixSpacing:10.w),
+            IconTextWidget.builder(Icons.access_time,"浏览历史",mainAixSpacing:10.w,labelColor: iconTextWidgetColor),
           ],
         ),
       ),
@@ -258,6 +260,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
   }
   //常用工具
   Widget _commonUIPage() {
+    Color  iconTextWidgetColor = Theme.of(context).textTheme.headline3.color;
     return SliverToBoxAdapter(
       child: Container(
         height: 200.h,
@@ -265,7 +268,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             //背景
-            color: Colors.white,
+            color:Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(
                 5.r)),
         child: Column(
@@ -286,11 +289,11 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                 physics: NeverScrollableScrollPhysics(),
                 crossAxisCount: 4,
                 children: [
-                  IconTextWidget.builder(Icons.fiber_smart_record,"google仓库",mainAixSpacing: mainAixSpacing),
-                  IconTextWidget.builder(Icons.wysiwyg,"TODO",mainAixSpacing: mainAixSpacing,),
-                  IconTextWidget.builder(Icons.date_range,"日历",mainAixSpacing: mainAixSpacing,),
-                  IconTextWidget.builder(Icons.send,"快递",mainAixSpacing: mainAixSpacing,),
-                  IconTextWidget.builder(Icons.wb_sunny_rounded,"天气",mainAixSpacing: mainAixSpacing,),
+                  IconTextWidget.builder(Icons.fiber_smart_record,"google仓库",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
+                  IconTextWidget.builder(Icons.wysiwyg,"TODO",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
+                  IconTextWidget.builder(Icons.date_range,"日历",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
+                  IconTextWidget.builder(Icons.send,"快递",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
+                  IconTextWidget.builder(Icons.wb_sunny_rounded,"天气",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
                 ],
               ),
             )

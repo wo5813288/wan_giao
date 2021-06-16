@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 typedef Success(dynamic value);

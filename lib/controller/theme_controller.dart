@@ -12,6 +12,7 @@ class ThemeController extends GetxController{
 
   ///保存当前选择到主题
   void setThemeData(String themKey) async {
+    debugPrint("===主题$themKey====");
     Get.changeTheme(themeList[themKey]);
     _themKeyObs.value = themKey;
     await SpUtil.putString(ThemeKey.KEY_APP_THEME,themKey);

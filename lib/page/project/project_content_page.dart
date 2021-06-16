@@ -1,12 +1,13 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/project_controller.dart';
-import 'package:wan_android/page/state_page.dart';
+import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProjectContentPage extends StatefulWidget {
   final String authorId;
@@ -50,19 +51,24 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
       itemBuilder: (context, index) {
         return _buildListItemUI(articleItems[index]);
       },
-      itemCount:  articleItems.length,
+      itemCount:articleItems.length,
     );
   }
 
   Widget _buildListItemUI(ArticleItem articleItem){
     return Container(
-        color: Colors.white,
+        height: 120.h,
         padding: EdgeInsets.only(top: 15,right: 10, bottom: 5,left: 10),
         child: InkWell(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(articleItem.envelopePic,fit: BoxFit.cover,width: 80,height: 100,),
+                CachedNetworkImage(
+                  imageUrl: articleItem.envelopePic,
+                  fit: BoxFit.cover,
+                  width: 80.w,
+                  height: 100.h,
+                ),
                 SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -90,18 +96,18 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
                       //中间的标题
                       Text(articleItem.title,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
+                          maxLines: 1,
                           style: TextStyle(
                               fontSize: 17,
-                              color: Colors.black,
+                              color: Theme.of(context).textTheme.headline1.color,
                               fontWeight: FontWeight.bold)),
                       Padding(padding: EdgeInsets.only(top: 5)),
                       Text(articleItem.desc,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
+                        maxLines: 2,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.black54
+                          color: Theme.of(context).textTheme.bodyText1.color
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top:8)),

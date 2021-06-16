@@ -30,8 +30,10 @@ class Global {
 
     if (Platform.isAndroid) {
       //如果是android设备，状态栏设置为透明沉浸
-      SystemUiOverlayStyle _style =
-          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemUiOverlayStyle _style = SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.grey
+      );
       SystemChrome.setSystemUIOverlayStyle(_style);
     }
 
@@ -42,8 +44,9 @@ class Global {
     isFirstOpen = SpUtil.getBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, defValue: true);
 
     appState.setIsLogin(isUserOnLine ? LoginState.LOGIN : LoginState.LOGO_OUT);
+    //初始化默认主题
+    themeController.setThemeData(SpUtil.getString(ThemeKey.KEY_APP_THEME,defValue: ThemeKey.LIGHT));
 
-    themeController.setThemeData(SpUtil.getString(ThemeKey.KEY_APP_THEME)??ThemeKey.LIGHT);
   }
 
   static saveUserProfile(User user) {

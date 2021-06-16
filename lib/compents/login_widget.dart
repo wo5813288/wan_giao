@@ -77,6 +77,7 @@ class LoginInput extends StatelessWidget {
     return TextFormField(
       obscureText: obscureText,
       onChanged: onChanged,
+      style:kTextLoginInputStyle ,
       decoration: InputDecoration(
           hintText: hintText,
           suffixIcon: suffixIcon,
