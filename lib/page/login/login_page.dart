@@ -18,32 +18,35 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        //返回按钮
-        children: [
-          Image.asset("assets/images/bg_login_header.png",fit: BoxFit.cover,width: double.infinity),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 250.h),
-                ClipPath(
-                    clipper: LoginClipper(),
-                    child: LoginBodyWidget()
-                )
-              ],
+      body: Theme(
+        data: ThemeData.light(),
+        child: Stack(
+          //返回按钮
+          children: [
+            Image.asset("assets/images/bg_login_header.png",fit: BoxFit.cover,width: double.infinity),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 250.h),
+                  ClipPath(
+                      clipper: LoginClipper(),
+                      child: LoginBodyWidget()
+                  )
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: ScreenUtil().statusBarHeight,
-            left: 10.w,
-            child: IconButton(
-              icon: Icon(Icons.close,size: 20.w),
-              onPressed: (){
-                Get.back();
-              },
-            ),
-          )
-        ],
+            Positioned(
+              top: ScreenUtil().statusBarHeight,
+              left: 10.w,
+              child: IconButton(
+                icon: Icon(Icons.close,size: 20.w,color: Colors.black,),
+                onPressed: (){
+                  Get.back();
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

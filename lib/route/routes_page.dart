@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
+import 'package:wan_android/bindings/device_info_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
 import 'package:wan_android/bindings/register_bindings.dart';
 import 'package:wan_android/bindings/search_bindings.dart';
-import 'package:wan_android/bindings/setting_bindings.dart';
+import 'package:wan_android/bindings/theme_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/bindings/todo_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
@@ -59,6 +60,9 @@ abstract class RoutesConfig {
     GetPage(
         name: SPLASH,
         page: () => SplashPage(),
+        bindings: [
+          DeviceInfoBindings()
+        ]
     ),
     GetPage(
         name: MAIN,

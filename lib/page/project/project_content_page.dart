@@ -57,7 +57,6 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
 
   Widget _buildListItemUI(ArticleItem articleItem){
     return Container(
-        height: 120.h,
         padding: EdgeInsets.only(top: 15,right: 10, bottom: 5,left: 10),
         child: InkWell(
             child: Row(
@@ -65,9 +64,9 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
               children: [
                 CachedNetworkImage(
                   imageUrl: articleItem.envelopePic,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   width: 80.w,
-                  height: 100.h,
+                  height: 120.h,
                 ),
                 SizedBox(width: 10),
                 Expanded(

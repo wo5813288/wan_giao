@@ -18,7 +18,6 @@ ThemeData lightTheme = ThemeData.light().copyWith(
 
 ///夜间模式
 ThemeData darkTheme = ThemeData.dark().copyWith(
-    //accentColor: Colors.black45,
     iconTheme: IconThemeData(color: KColors.kIconDarkColor));
 
 IconThemeData lightIconTheme = IconThemeData(color: Colors.grey);

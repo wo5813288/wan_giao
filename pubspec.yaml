@@ -54,6 +54,8 @@ dependencies:
   cached_network_image: ^2.5.1
   #动态权限申请
   permission_handler: ^8.0.1
+  #版本信息
+  package_info: ^2.0.2
   flutter_localizations:
     sdk: flutter
 

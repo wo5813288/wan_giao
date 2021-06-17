@@ -80,6 +80,9 @@ class LoginInput extends StatelessWidget {
       style:kTextLoginInputStyle ,
       decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: TextStyle(
+            color: Colors.grey
+          ),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           focusedBorder: kInputBorder,
