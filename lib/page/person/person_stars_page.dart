@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/coin_sign_data.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/person_stars_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 ///个人积分
 class PersonStartsPage extends StatelessWidget {

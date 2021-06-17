@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/controller/system_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
-
+import 'package:wan_android/compents/state_page.dart';
 class SystemContentListPage extends StatefulWidget {
   final String cid;
   SystemContentListPage(this.cid,{Key key}):super(key: key);

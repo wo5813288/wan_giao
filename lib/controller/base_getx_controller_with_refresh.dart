@@ -1,9 +1,5 @@
-import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/controller/base_getx_controller.dart';
-import 'package:wan_android/http/http_manager.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
-import 'package:wan_android/route/routes_page.dart';
 
 
 

@@ -9,8 +9,8 @@ import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/recommond_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 

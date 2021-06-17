@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/starts_leader_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 
 ///排行榜
 class StarsLeaderboardPage extends StatelessWidget {

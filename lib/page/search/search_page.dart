@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/compents/search_view.dart';
 import 'package:wan_android/controller/search_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
-
+import 'package:wan_android/compents/state_page.dart';
 
 class SearchPage extends GetView<SearchController>{
   TextEditingController _textEditingController = TextEditingController();

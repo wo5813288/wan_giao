@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/question_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/question_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 ///问答页面

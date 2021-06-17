@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/square_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 class SquarePage extends StatefulWidget {

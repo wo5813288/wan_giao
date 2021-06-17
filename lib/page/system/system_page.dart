@@ -5,9 +5,8 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/tip_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/system_controller.dart';
-import 'file:///D:/androidwork/wan_android_flutter/lib/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
-
+import 'package:wan_android/compents/state_page.dart';
 class SystemPage extends StatefulWidget {
   @override
   _SystemPageState createState() => _SystemPageState();
