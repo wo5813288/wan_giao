@@ -140,6 +140,7 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                 init: Get.put<UserInfoController>(UserInfoController()),
                 initState: (_){
                   Get.find<UserInfoController>().getUserCoin();
+                  Get.find<UserInfoController>().getMessage();
                 },
                 builder: (controller){
                   return Row(
@@ -205,12 +206,27 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
             children: [
               IconButton(
                   icon: Icon(
-                    Icons.qr_code_outlined,
+                    Icons.message_outlined,
                     size: 25.w,
                   ),
                   onPressed: () {
-                    Get.snackbar("title", "个人信息二维码");
-                  })
+                   //TODO:显示消息列表
+                    Get.toNamed(RoutesConfig.MESSAGE_LIST_PAGE);
+                  }),
+              Positioned(
+                child: Container(
+                    width: 15.w,
+                    alignment: Alignment.center,
+                    child:Get.find<UserInfoController>().messageCount>0?CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: Text(
+                          Get.find<UserInfoController>().messageCount.toString()
+                      ),
+                    ):null
+                ),
+                top:-5.0,
+                right: 5,
+              )
             ],
           ),
         );

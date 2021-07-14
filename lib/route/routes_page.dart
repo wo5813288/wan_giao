@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/device_info_bindings.dart';
+import 'package:wan_android/bindings/message_list_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
@@ -23,6 +24,7 @@ import 'package:wan_android/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
 import 'package:wan_android/page/person/person_collection_page.dart';
+import 'package:wan_android/page/person/person_message_list_page.dart';
 import 'package:wan_android/page/person/person_share_page.dart';
 import 'package:wan_android/page/person/person_stars_page.dart';
 import 'package:wan_android/page/person/starts_leaderboard_page.dart';
@@ -54,6 +56,7 @@ abstract class RoutesConfig {
   static const STARTS_LEADERBOARD_PAGE = "/person/starts_leaderboard_page";
   static const PERSON_COLLECTION_PAGE = "/person/person_collection_page";
   static const PERSON_SHARE_PAGE = "/person/person_share_page";
+  static const MESSAGE_LIST_PAGE = "/person/message_list_page";
   static const TODO_PAGE = "/person/todo_page";
 
   static final List<GetPage> getPages = [
@@ -117,6 +120,11 @@ abstract class RoutesConfig {
         name: PERSON_SHARE_PAGE,
         page: () => PersonSharePage(),
         binding: PersonShareBindings(),
+        middlewares: [RouteAuthMiddleware()]),
+    GetPage(
+        name: MESSAGE_LIST_PAGE,
+        page: () => MessageListPage(),
+        binding: MessageListBindings(),
         middlewares: [RouteAuthMiddleware()]),
     GetPage(
         name: TODO_PAGE,

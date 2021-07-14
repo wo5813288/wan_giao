@@ -13,11 +13,6 @@ import 'package:wan_android/theme/app_theme.dart';
 
 class SettingPage extends StatelessWidget {
 
-  Future<String> _getVersion() async{
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
