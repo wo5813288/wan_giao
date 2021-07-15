@@ -23,7 +23,7 @@ class EmptyPage extends StatelessWidget {
               width: 50,
               height: 50,
             ),
-            Text("暂无数据哦"),
+            Text("暂无数据哦",style: Theme.of(context).textTheme.subtitle1,),
             Padding(padding: EdgeInsets.only(top: 10)),
             OutlinedButton(
               child: Text("点击刷新",

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/device_info_bindings.dart';
 import 'package:wan_android/bindings/message_list_bindings.dart';
+import 'package:wan_android/bindings/message_list_new_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
@@ -124,7 +125,7 @@ abstract class RoutesConfig {
     GetPage(
         name: MESSAGE_LIST_PAGE,
         page: () => MessageListPage(),
-        binding: MessageListBindings(),
+        bindings: [MessageListBindings(),MessageListNewBindings()],
         middlewares: [RouteAuthMiddleware()]),
     GetPage(
         name: TODO_PAGE,
