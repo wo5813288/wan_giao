@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/compents/login_widget.dart';
-import 'package:wan_android/controller/login_controller.dart';
+import 'package:wan_android/controller/login/login_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_text.dart';
 

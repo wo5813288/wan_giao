@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 
 enum LoadState { LOADING, SUCCESS, FAILURE, DONE, NO_MORE, EMPTY }
 

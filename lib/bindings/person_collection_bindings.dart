@@ -1,6 +1,6 @@
 
 import 'package:get/get.dart';
-import 'package:wan_android/controller/person_collection_controller.dart';
+import 'package:wan_android/controller/person/person_collection_controller.dart';
 
 class PersonCollectionBindings extends Bindings{
   @override

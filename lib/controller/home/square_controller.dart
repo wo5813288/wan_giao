@@ -1,28 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
-import 'package:wan_android/bean/tip_data.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
+import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
 import 'package:wan_android/http/http_manager.dart';
-import 'package:wan_android/http/request_api.dart';
 
-class SystemContentController extends BaseGetXControllerWithRefesh{
+class SquareController extends BaseGetXControllerWithRefesh {
   var _articleItems = <ArticleItem>[].obs;
 
   List<ArticleItem> get articleItems => _articleItems;
 
   int pageIndex = 0;
 
-  //当前要查询的文章类别id
-  var _cid = "".obs;
-
-  void setCid(String cid) {
-    _cid.value = cid;
-  }
   @override
   void onInit() {
     super.onInit();
@@ -32,9 +24,10 @@ class SystemContentController extends BaseGetXControllerWithRefesh{
     });
   }
 
-  void getArticleBySystem(bool isShowLoading, {bool refresh}) async {
+  ///获取问答列表数据
+  void getSquareArticle(bool isShowLoading, {bool refresh = false}) {
     handleRequest(
-        HttpManager.instance.get('article/list/$pageIndex/json?cid=$_cid',
+        HttpManager.instance.get('user_article/list/$pageIndex/json',
             list: true, refresh: refresh),
         isShowLoading, (value) {
       var result = ArticleData.fromJson(value).data;
@@ -43,17 +36,16 @@ class SystemContentController extends BaseGetXControllerWithRefesh{
       //总页数
       int pageCount = result.pageCount;
 
-      if (curPage == 1) {
+      if (pageIndex == 0) {
         _articleItems.clear();
       }
       //文章列表数据
       _articleItems.addAll(result.datas);
-      if (curPage == 1 && result.datas.length == 0) {
+      if (curPage == 0 && result.datas.length == 0) {
         loadState.value = LoadState.EMPTY;
       } else if (curPage == pageCount) {
         loadState.value = LoadState.NO_MORE;
         refreshController.loadNoData();
-        refreshController.refreshCompleted(resetFooterState: true);
       } else {
         loadState.value = LoadState.SUCCESS;
         refreshController.loadComplete();
@@ -69,29 +61,12 @@ class SystemContentController extends BaseGetXControllerWithRefesh{
   @override
   void refresh() {
     pageIndex = 0;
-    getArticleBySystem(false, refresh: true);
+    getSquareArticle(false, refresh: true);
   }
 
   @override
   void initData(bool isShowLoading) {
     pageIndex = 0;
-    getArticleBySystem(isShowLoading);
+    getSquareArticle(isShowLoading);
   }
-}
-class SystemController extends BaseGetXController {
-  var _tipItems = <TipItem>[].obs;
-
-  List<TipItem> get tipItems => _tipItems;
-
-
-  ///获取体系相关的类别
-  void getSystemData() {
-    handleRequest(HttpManager.instance.get(RequestApi.SYSTEM_TREE_API), true,
-        (value) {
-      _tipItems.value = TipData.fromJson(value).data;
-      loadState.value =
-          _tipItems.length > 0 ? LoadState.SUCCESS : LoadState.EMPTY;
-    });
-  }
-
 }

@@ -1,4 +1,4 @@
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:get/get.dart';
 
 class AppState extends BaseGetXController {

@@ -5,8 +5,8 @@ import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/hot_key_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
-import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
 import 'package:wan_android/http/http_manager.dart';
 
 class SearchController extends BaseGetXControllerWithRefesh {

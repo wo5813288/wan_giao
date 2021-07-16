@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/icon_text_widget.dart';
-import 'package:wan_android/controller/user_info_controller.dart';
+import 'package:wan_android/controller/person/user_info_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -308,7 +308,9 @@ class _PersonPageState extends State<PersonPage> with AutomaticKeepAliveClientMi
                   IconTextWidget.builder(Icons.fiber_smart_record,"google仓库",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
                   IconTextWidget.builder(Icons.wysiwyg,"TODO",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
                   IconTextWidget.builder(Icons.date_range,"日历",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
-                  IconTextWidget.builder(Icons.send,"快递",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
+                  IconTextWidget.builder(Icons.send,"快递",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor,onTap: (){
+                    Get.toNamed(RoutesConfig.EXPRESS_DELIVERY_PAGE);
+                  },),
                   IconTextWidget.builder(Icons.wb_sunny_rounded,"天气",mainAixSpacing: mainAixSpacing,labelColor: iconTextWidgetColor),
                 ],
               ),

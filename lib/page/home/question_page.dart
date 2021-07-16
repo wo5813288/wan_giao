@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bean/question_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/question_controller.dart';
+import 'package:wan_android/controller/home/question_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 ///问答页面

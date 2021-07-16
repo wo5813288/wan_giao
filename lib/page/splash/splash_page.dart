@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/compents/contrants_info.dart';
@@ -31,6 +33,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   void initState(){
     super.initState();
+    initJPush();
     //线性的放大动画
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
@@ -131,5 +134,40 @@ class _SplashPageState extends State<SplashPage>
     }, granted: () {
       _initSplash();
     });
+  }
+
+
+  initJPush() async{
+    JPush jPush = new JPush();
+    jPush.setup(
+      appKey: "5dd800de21a7ebcf9281879e", //你自己应用的 AppKey
+      channel: "theChannel",
+      production: false,
+      debug: !kReleaseMode,
+    );
+    jPush.applyPushAuthority(new NotificationSettingsIOS(sound: true, alert: true, badge: true));
+    String id = await jPush.getRegistrationID();
+    jPush.addEventHandler(
+      onReceiveNotification: (message) async{
+        print("flutter onReceiveNotification===> $message");
+        Get.snackbar(
+            message['title'],
+            message['alert'],
+          snackPosition: SnackPosition.TOP,
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.white,
+          colorText: Colors.black
+        );
+      },
+      onOpenNotification: (message) async{
+        print("flutter onOpenNotification: $message");
+      },
+      onReceiveMessage: (message) async{
+        print("flutter onReceiveMessage: $message");
+      },
+      onReceiveNotificationAuthorization: (message) async{
+        print("flutter onReceiveNotificationAuthorization: $message");
+      },
+    );
   }
 }

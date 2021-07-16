@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/controller/we_chat_controller.dart';
+import 'package:wan_android/controller/wechat/we_chat_controller.dart';
 import 'package:wan_android/page/we_chat/we_chat_content_page.dart';
 import 'package:wan_android/compents/state_page.dart';
 

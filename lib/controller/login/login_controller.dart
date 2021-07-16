@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/dialog_util.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_text.dart';

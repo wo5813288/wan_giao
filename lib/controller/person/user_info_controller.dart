@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wan_android/bean/coin_data.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/http/http_manager.dart';
 

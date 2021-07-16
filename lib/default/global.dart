@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
@@ -56,4 +57,5 @@ class Global {
 
   static bool get isUserOnLine =>
       SpUtil.getObject(ConstantInfo.KEY_USER) != null;
+
 }

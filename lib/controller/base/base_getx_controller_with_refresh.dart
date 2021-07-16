@@ -1,5 +1,5 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
 
 
 

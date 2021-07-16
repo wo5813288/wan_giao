@@ -7,9 +7,9 @@ import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/bean/message_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/base_getx_controller.dart';
-import 'package:wan_android/controller/message_list_new_controller.dart';
-import 'package:wan_android/controller/message_list_readed_controller.dart';
+import 'package:wan_android/controller/base/base_getx_controller.dart';
+import 'package:wan_android/controller/person/message_list_new_controller.dart';
+import 'package:wan_android/controller/person/message_list_readed_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_theme.dart';
@@ -29,6 +29,7 @@ class MessageListPageState extends State with TickerProviderStateMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?KColors.kMessageBgLightColor:KColors.kMessageBgDarkColor,
         appBar: AppBar(
           elevation: 2,
           iconTheme: IconThemeData(
@@ -89,7 +90,6 @@ class MessageListContentPageState extends State<MessageListContentPage> with Aut
   }
   Widget _bodyContent(){
     return Ink(
-      color: KColors.kMessageBgLightColor,
       padding: EdgeInsets.all(5.w),
       child: GetX<MessageListController>(
         initState: (_){
@@ -215,7 +215,6 @@ class MessageListNewContentPageState extends State<MessageListNewContentPage> wi
   Widget _bodyContent(){
     MessageListNewController _controller = Get.find<MessageListNewController>();
     return Ink(
-      color: KColors.kMessageBgLightColor,
       padding: EdgeInsets.all(5.w),
       child: GetX<MessageListNewController>(
         initState: (_){

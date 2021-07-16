@@ -22,6 +22,7 @@ class KColors{
   static const Color kIconLightColor = Colors.blue;
   static const Color kIconDarkColor = Colors.greenAccent;
   static const Color kMessageBgLightColor = kInputBorderColor;
+  static const Color kMessageBgDarkColor = Colors.grey;
 }
 
 

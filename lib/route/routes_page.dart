@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/device_info_bindings.dart';
+import 'package:wan_android/bindings/express_delivery_bindings.dart';
 import 'package:wan_android/bindings/message_list_bindings.dart';
 import 'package:wan_android/bindings/message_list_new_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
@@ -13,9 +14,9 @@ import 'package:wan_android/bindings/theme_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/bindings/todo_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
-import 'package:wan_android/controller/person_share_controller.dart';
-import 'package:wan_android/controller/person_stars_controller.dart';
-import 'package:wan_android/controller/starts_leader_controller.dart';
+import 'package:wan_android/controller/person/person_share_controller.dart';
+import 'package:wan_android/controller/person/person_stars_controller.dart';
+import 'package:wan_android/controller/person/starts_leader_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/page/home/question_page.dart';
@@ -24,6 +25,7 @@ import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
+import 'package:wan_android/page/person/express_delivery_page.dart';
 import 'package:wan_android/page/person/person_collection_page.dart';
 import 'package:wan_android/page/person/person_message_list_page.dart';
 import 'package:wan_android/page/person/person_share_page.dart';
@@ -59,6 +61,7 @@ abstract class RoutesConfig {
   static const PERSON_SHARE_PAGE = "/person/person_share_page";
   static const MESSAGE_LIST_PAGE = "/person/message_list_page";
   static const TODO_PAGE = "/person/todo_page";
+  static const EXPRESS_DELIVERY_PAGE = "/person/express_delivery_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -132,6 +135,10 @@ abstract class RoutesConfig {
         page: () => TODOPage(),
         binding: ToDoBindings(),
         middlewares: [RouteAuthMiddleware()]),
+    GetPage(
+        name: EXPRESS_DELIVERY_PAGE,
+        page: () => ExpressDeliveryPage(),
+        binding: ExpressDeliveryBindings())
   ];
 }
 

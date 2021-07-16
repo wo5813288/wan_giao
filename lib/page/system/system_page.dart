@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/tip_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/controller/system_controller.dart';
+import 'package:wan_android/controller/system/system_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/compents/state_page.dart';
 class SystemPage extends StatefulWidget {

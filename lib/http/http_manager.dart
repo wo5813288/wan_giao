@@ -6,6 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wan_android/http/net_cache.dart';
+import 'package:wan_android/http/new_url_reuqest.dart';
 import 'package:wan_android/http/request_api.dart';
 import '';
 import 'cache.dart';
@@ -31,6 +32,7 @@ class HttpManager {
     _dio = Dio(options);
     //管理cookie
     _dio.interceptors.add(CookieManager(_cookieJar));
+    _dio.interceptors.add(NewUrlRequest());
     //加入缓存机制
     _dio.interceptors.add(NetCache());
     if (kDebugMode) {
@@ -63,19 +65,23 @@ class HttpManager {
       bool refresh = false,
       bool list = false,
       bool cacheDisk = true,
-      bool noCache = !CACHE_ENABLED
+      bool noCache = !CACHE_ENABLED, String newUrl =""
       }) async {
     Options options = Options(
       extra: {
         "list":list,
         "noCache":noCache,
         "cacheDisk":cacheDisk,
-        "refresh":refresh
+        "refresh":refresh,
+        "newUrl":newUrl
       }
     );
     try {
       Response response;
       response = await _dio.get(url, queryParameters: params,options: options);
+      if(url.isEmpty){
+        return response.data;
+      }
       if (response.data['errorCode'] != 0) {
         throw ResultException(
             response.data['errorCode'], response.data['errorMsg']);

@@ -3,7 +3,7 @@ import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/we_chat_data.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
+import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/http/request_api.dart';
 import 'package:get/get.dart';

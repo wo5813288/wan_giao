@@ -1,6 +1,6 @@
 import 'package:wan_android/bean/coin_sign_data.dart';
 import 'package:wan_android/compents/state_page.dart';
-import 'package:wan_android/controller/base_getx_controller_with_refresh.dart';
+import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
 
 import 'package:get/get.dart';
 import 'package:wan_android/http/http_manager.dart';
