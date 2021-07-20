@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:package_info/package_info.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
@@ -94,56 +93,48 @@ class SettingPage extends StatelessWidget {
             title: Text("作者",
                 style: Theme.of(context).textTheme.bodyText1),
             dense: true,
-            trailing: Obx((){
-              return Text(
-                  "Lollipop",
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontSize: 15.sp
-                  )
-              );
-            }),
+            trailing: Text(
+                "Lollipop",
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    fontSize: 15.sp
+                )
+            )
           ),
           Divider(thickness: 1.h),
           ListTile(
             title: Text("邮箱",
                 style: Theme.of(context).textTheme.bodyText1),
             dense: true,
-            trailing: Obx((){
-              return Text(
-                  "ljs581@163.com",
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontSize: 15.sp
-                  )
-              );
-            }),
+            trailing: Text(
+                "ljs581@163.com",
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    fontSize: 15.sp
+                )
+            )
           ),
           Divider(thickness: 1.h),
           ListTile(
             title: Text("Gitee",
                 style: Theme.of(context).textTheme.bodyText1),
             dense: true,
-            trailing: Obx((){
-              return Text(
-                  "gitee.com/lambadaace/wan_android",
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontSize: 15.sp
-                  )
-              );
-            }),
+            trailing: Text(
+                "gitee.com/lambadaace/wan_android",
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    fontSize: 15.sp
+                )
+            )
           ),
           Divider(thickness: 1.h),
           ListTile(
             title: Text("GitHub",
                 style: Theme.of(context).textTheme.bodyText1),
             dense: true,
-            trailing: Obx((){
-              return Text(
-                  "github.com/wo5813288/wan_giao",
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(
-                      fontSize: 15.sp
-                  )
-              );
-            }),
+            trailing: Text(
+                "github.com/wo5813288/wan_giao",
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                    fontSize: 15.sp
+                )
+            )
           ),
         ],
       )
