@@ -29,6 +29,7 @@ class IconTextWidget extends StatelessWidget {
     return Container(
       child:  InkWell(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: iconColor ?? Theme.of(context).iconTheme.color),
             SizedBox(height: mainAixSpacing),

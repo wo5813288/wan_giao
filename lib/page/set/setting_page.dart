@@ -38,6 +38,8 @@ class SettingPage extends StatelessWidget {
             _switchThemeDark(context),
             SizedBox(height: 10.h),
             _appVersionText(context),
+            SizedBox(height: 10.h),
+            _appAuthorText(context),
             //退出登录
             _logoutButton(context),
             SizedBox(height: 10.h),
@@ -80,6 +82,71 @@ class SettingPage extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  Widget _appAuthorText(BuildContext context) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text("作者",
+                style: Theme.of(context).textTheme.bodyText1),
+            dense: true,
+            trailing: Obx((){
+              return Text(
+                  "Lollipop",
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      fontSize: 15.sp
+                  )
+              );
+            }),
+          ),
+          Divider(thickness: 1.h),
+          ListTile(
+            title: Text("邮箱",
+                style: Theme.of(context).textTheme.bodyText1),
+            dense: true,
+            trailing: Obx((){
+              return Text(
+                  "ljs581@163.com",
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      fontSize: 15.sp
+                  )
+              );
+            }),
+          ),
+          Divider(thickness: 1.h),
+          ListTile(
+            title: Text("Gitee",
+                style: Theme.of(context).textTheme.bodyText1),
+            dense: true,
+            trailing: Obx((){
+              return Text(
+                  "gitee.com/lambadaace/wan_android",
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      fontSize: 15.sp
+                  )
+              );
+            }),
+          ),
+          Divider(thickness: 1.h),
+          ListTile(
+            title: Text("GitHub",
+                style: Theme.of(context).textTheme.bodyText1),
+            dense: true,
+            trailing: Obx((){
+              return Text(
+                  "github.com/wo5813288/wan_giao",
+                  style: Theme.of(context).textTheme.subtitle1.copyWith(
+                      fontSize: 15.sp
+                  )
+              );
+            }),
+          ),
+        ],
+      )
     );
   }
 

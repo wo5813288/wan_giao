@@ -8,10 +8,13 @@ import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/icon_text_widget.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/home/recommond_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/theme/app_color.dart';
+import 'package:wan_android/theme/app_text.dart';
 
 
 class RecommendPage extends StatefulWidget {
@@ -44,7 +47,9 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
             child: CustomScrollView(
               slivers: [
                 //轮播图
-                _buildBannerUI(_recommendController),//置顶文章列表
+                _buildBannerUI(_recommendController),//置顶
+                _buildBoxGrid(),
+                // 文章列表
                 _buildTopArticleListUI(_recommendController),
                 //列表数据
                 _buildArticleListUI(_recommendController),
@@ -104,6 +109,41 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
     );
   }
 
+  ///中间菜单网格
+  Widget _buildBoxGrid(){
+    return SliverToBoxAdapter(
+      child: Container(
+        height: 130.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.w),
+          boxShadow: [
+            BoxShadow(offset: Offset(1,1),color: KColors.kMessageBgLightColor.withOpacity(0.5)),
+            BoxShadow(offset: Offset(-1,1),color: KColors.kMessageBgLightColor.withOpacity(0.5)),
+            BoxShadow(offset: Offset(-1,-0.5),color: KColors.kMessageBgLightColor.withOpacity(0.5)),
+            BoxShadow(offset: Offset(1,-1),color: KColors.kMessageBgLightColor.withOpacity(0.5)),
+          ]
+        ),
+        margin: EdgeInsets.all(10.w),
+        child: GridView.count(
+          crossAxisCount: 4,
+          crossAxisSpacing: 10.w,
+          children: KText.menusTexts.map((e){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.red,
+                  child: Text(e['menuTitle'],style: TextStyle(color: Colors.white,fontSize: 20.sp),),
+                ),
+                Text(e['menuName'],style: TextStyle(color: Theme.of(context).textTheme.headline1.color))
+              ],
+            );
+          }).toList()
+        ),
+      ),
+    );
+  }
   ///创建toplist列表
   Widget _buildTopArticleListUI(RecommendController model) {
     return SliverList(
@@ -150,3 +190,4 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
   @override
   bool get wantKeepAlive => true;
 }
+
