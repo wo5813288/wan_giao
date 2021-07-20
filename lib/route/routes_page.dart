@@ -67,9 +67,6 @@ abstract class RoutesConfig {
     GetPage(
         name: SPLASH,
         page: () => SplashPage(),
-        bindings: [
-          DeviceInfoBindings()
-        ]
     ),
     GetPage(
         name: MAIN,
@@ -77,7 +74,7 @@ abstract class RoutesConfig {
         bindings: [
           ArticleCollectionBindings(),
           RegisterBindings(),
-          SearchBindings()
+          SearchBindings(),
         ]),
     GetPage(name: RECOMMEND, page: () => RecommendPage()),
     GetPage(name: QUESTION, page: () => QuestionPage()),
@@ -98,6 +95,7 @@ abstract class RoutesConfig {
     GetPage(
         name: SETTING_PAGE,
         page: () => SettingPage(),
+        binding:  DeviceInfoBindings(),
         transition: Transition.fadeIn),
     GetPage(name: WEB_PAGE, page: () => WebPage()),
     GetPage(

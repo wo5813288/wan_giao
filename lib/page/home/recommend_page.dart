@@ -8,7 +8,6 @@ import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/icon_text_widget.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/home/recommond_controller.dart';
@@ -115,7 +114,7 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
       child: Container(
         height: 130.h,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(5.w),
           boxShadow: [
             BoxShadow(offset: Offset(1,1),color: KColors.kMessageBgLightColor.withOpacity(0.5)),

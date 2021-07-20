@@ -12,7 +12,6 @@ class DeviceInfoController extends GetxController{
     super.onInit();
     PackageInfo.fromPlatform().then((value){
       versionName.value = value.version;
-      debugPrint("===版本号${versionName.value}");
     });
   }
 }
