@@ -32,15 +32,8 @@ class ExpressDeliveryController extends BaseGetXController{
   /// singleNumber --被查询的快递单号
   /// logisticsId -- 单号对应的物流id
   void queryExpressInfo(String singleNumber,int logisticsId){
-    loadState.value = LoadState.LOADING;
-    HttpManager.instance.get("",newUrl: RequestApi.QUERY_EXPRESS_INFO(singleNumber,logisticsId)).then((value) {
-      var logisticsData = LogisticsData.fromJson(value);
-      if(logisticsData.code!=1){
-        loadState.value=LoadState.FAILURE;
-        exception.value = ResultException(logisticsData.code,logisticsData.msg);
-        return;
-      }
-      logistics.value = logisticsData.data;
+    handleRequest(HttpManager.instance.get("",newUrl: RequestApi.QUERY_EXPRESS_INFO(singleNumber,logisticsId)), true, (value){
+      logistics.value = value.data;
       loadState.value = LoadState.SUCCESS;
     });
   }

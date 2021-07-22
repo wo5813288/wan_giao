@@ -12,55 +12,42 @@ class ProjectPage extends StatefulWidget {
 
 class _ProjectPageState extends State<ProjectPage> with TickerProviderStateMixin {
   TabController _tabController;
-
+  var _projectController = Get.put<ProjectController>(ProjectController());
   @override
   Widget build(BuildContext context) {
-    return GetX<ProjectController>(
-      init: Get.put<ProjectController>(ProjectController()),
-      initState: (_){
-        Get.find<ProjectController>().getProjectTabs();;
-      },
-      builder: (controller) {
-        return DefaultTabController(
-          length: controller.projects.length,
-          child: Builder(
-            builder: (context) {
-              _tabController = TabController(length: controller.projects.length, vsync: this);
-              return Scaffold(
-                appBar: AppBar(
-                  brightness: Brightness.dark,
-                  title: Container(
-                    width: double.infinity,
-                    child: _buildProjectTabs(controller.projects),
-                  ),
-                ),
-                body:Builder(
-                  builder: (context){
-                    if(controller.loadState.value==LoadState.LOADING){
-                      return LoadingPage();
-                    }
-                    if (controller.loadState.value == LoadState.EMPTY) {
-                      return EmptyPage();
-                    } else if (controller.loadState.value == LoadState.FAILURE) {
-                      return NetWorkErrorPage(onPressed: (){
-                        controller.getProjectTabs();
-                      },);
-                    }
-                    return TabBarView(
-                      controller: _tabController,
-                      children: controller.projects.map((e) {
-                        return ProjectContentPage(e.id.toString());
-                      }).toList(),
-                    );
-                  },
-                )
-
-              );
-            },
+    return  DefaultTabController(
+      length: _projectController.projects.length,
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          title: Container(
+            width: double.infinity,
+            child: Obx(()=>_buildProjectTabs(_projectController.projects)),
           ),
-        );
-      },
+        ),
+        body: GetX<ProjectController>(
+          initState: (_){
+            _projectController.getProjectTabs();
+          },
+          builder: (_){
+            _tabController = TabController(length: _projectController.projects.length,vsync: this);
+            return StateCommonPage<ProjectController>(
+                model: _projectController,
+                onPressed: (){
+                  _projectController.getProjectTabs();
+                },
+                child:TabBarView(
+                  controller: _tabController,
+                  children: _projectController.projects.map((e) {
+                    return ProjectContentPage(e.id.toString());
+                  }).toList(),
+                )
+            );
+          },
+        ),
+      ),
     );
+
   }
 
   ///构建顶部的tbs

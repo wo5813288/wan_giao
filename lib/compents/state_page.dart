@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:pk_skeleton/pk_skeleton.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/controller/base/base_getx_controller.dart';
@@ -23,7 +24,10 @@ class EmptyPage extends StatelessWidget {
               width: 50,
               height: 50,
             ),
-            Text("暂无数据哦",style: Theme.of(context).textTheme.subtitle1,),
+            Text(
+              "暂无数据哦",
+              style: TextStyle(color: Colors.black),
+            ),
             Padding(padding: EdgeInsets.only(top: 10)),
             OutlinedButton(
               child: Text("点击刷新",
@@ -80,7 +84,8 @@ class NetWorkErrorPage extends StatelessWidget {
             Icon(Icons.wifi_off,
                 size: 50.w, color: Theme.of(context).primaryColor),
             Padding(padding: EdgeInsets.only(top: 10)),
-            Text(errorMeg ?? "当前网络不可用"),
+            Text(errorMeg ?? "当前网络不可用",
+                style: Theme.of(context).textTheme.subtitle1),
             Padding(padding: EdgeInsets.only(top: 10)),
             OutlinedButton(
               child: Text("点击重试",
@@ -94,8 +99,8 @@ class NetWorkErrorPage extends StatelessWidget {
   }
 }
 
-
-class StatePageWithViewController<T extends BaseGetXController> extends StatefulWidget {
+class StatePageWithViewController<T extends BaseGetXController>
+    extends StatefulWidget {
   final T model;
   final VoidCallback onPressed;
   final VoidCallback onRefresh;
@@ -107,51 +112,105 @@ class StatePageWithViewController<T extends BaseGetXController> extends Stateful
   final Widget failurePage;
   final Widget emptyPage;
   final bool enablePullDown;
+  final bool enablePullUp;
 
   StatePageWithViewController(
       {this.model,
-        this.onPressed,
-        this.onRefresh,
-        this.onLoading,
-        this.child,
-        this.failurePage,
-        this.emptyPage,
-        this.controller,
-        this.enablePullDown = true,
-        this.header,
-        this.footer});
+      this.onPressed,
+      this.onRefresh,
+      this.onLoading,
+      this.child,
+      this.failurePage,
+      this.emptyPage,
+      this.controller,
+      this.enablePullDown = true,
+      this.enablePullUp = true,
+      this.header,
+      this.footer});
 
   @override
-  _StatePageWithViewControllerState createState() => _StatePageWithViewControllerState();
+  _StatePageWithViewControllerState createState() =>
+      _StatePageWithViewControllerState();
 }
 
-class _StatePageWithViewControllerState extends State<StatePageWithViewController> {
+class _StatePageWithViewControllerState
+    extends State<StatePageWithViewController> {
   @override
   Widget build(BuildContext context) {
-    if (widget.model.loadState.value == LoadState.LOADING) {
-      return LoadingPage();
-    } else if (widget.model.loadState.value == LoadState.EMPTY) {
-      return widget.emptyPage??EmptyPage(
-        onPressed: widget.onPressed,
-      );
-    } else if (widget.model.loadState.value == LoadState.FAILURE) {
-      return widget.failurePage ??
-          NetWorkErrorPage(
-            onPressed: widget.onPressed,
-            errorMeg: widget.model.errorMessage.value,
-          );
-    }
-    return SmartRefresher(
-        controller: widget.controller,
-        enablePullDown: widget.enablePullDown,
-        enablePullUp: true,
-        onRefresh: widget.onRefresh,
-        onLoading: widget.onLoading,
-        header: widget.header ?? ClassicHeader(),
-        footer: widget.footer ??
-            ClassicFooter(
-              failedText: widget.model.errorMessage.value,
-            ),
-        child: widget.child);
+    return Obx((){
+      if (widget.model.loadState.value == LoadState.LOADING) {
+        return LoadingPage();
+      } else if (widget.model.loadState.value == LoadState.EMPTY) {
+        return widget.emptyPage ??
+            EmptyPage(
+              onPressed: widget.onPressed,
+            );
+      } else if (widget.model.loadState.value == LoadState.FAILURE) {
+        return widget.failurePage ??
+            NetWorkErrorPage(
+              onPressed: widget.onPressed,
+              errorMeg: widget.model.errorMessage.value,
+            );
+      }
+      return SmartRefresher(
+          controller: widget.controller,
+          enablePullDown: widget.enablePullDown,
+          enablePullUp: widget.enablePullUp,
+          onRefresh: widget.onRefresh,
+          onLoading: widget.onLoading,
+          header: widget.header ?? ClassicHeader(),
+          footer: widget.footer ??
+              ClassicFooter(
+                failedText: widget.model.errorMessage.value,
+              ),
+          child: widget.child);
+    });
+
+  }
+}
+
+class StateCommonPage<T extends BaseGetXController> extends StatefulWidget {
+  final T model;
+  final VoidCallback onPressed;
+  final VoidCallback onRefresh;
+  final VoidCallback onLoading;
+  final Widget child;
+  final Widget failurePage;
+  final Widget emptyPage;
+
+  StateCommonPage(
+      {this.model,
+      this.onPressed,
+      this.onRefresh,
+      this.onLoading,
+      this.child,
+      this.failurePage,
+      this.emptyPage});
+
+  @override
+  _StateCommonPageState<T> createState() => _StateCommonPageState<T>();
+}
+
+class _StateCommonPageState<T extends BaseGetXController> extends State<StateCommonPage<T>> {
+  @override
+  Widget build(BuildContext context) {
+    return Obx((){
+      if (widget.model.loadState.value == LoadState.LOADING) {
+        return LoadingPage();
+      } else if (widget.model.loadState.value == LoadState.EMPTY) {
+        return widget.emptyPage ??
+            EmptyPage(
+              onPressed: widget.onPressed,
+            );
+      } else if (widget.model.loadState.value == LoadState.FAILURE) {
+        return widget.failurePage ??
+            NetWorkErrorPage(
+              onPressed: widget.onPressed,
+              errorMeg: widget.model.errorMessage.value,
+            );
+      }
+      return widget.child;
+    });
+
   }
 }

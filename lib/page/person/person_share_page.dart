@@ -150,7 +150,7 @@ class ShareEmptyPage extends StatelessWidget {
               width: 50,
               height: 50,
             ),
-            Text("还没有分享过文章哦，快去分享吧"),
+            Text("还没有分享过文章哦，快去分享吧",style: TextStyle(color: Colors.grey),),
             Padding(padding: EdgeInsets.only(top: 10)),
             OutlinedButton(
               child: Text("点击分享",

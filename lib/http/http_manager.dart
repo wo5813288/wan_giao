@@ -48,7 +48,6 @@ class HttpManager {
   static Future<PersistCookieJar> getCookieJar() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
-    print('获取的文件系统目录 appDocPath： ' + appDocPath);
     _cookieJar = new PersistCookieJar(storage: FileStorage(appDocPath));
   }
 
@@ -79,10 +78,11 @@ class HttpManager {
     try {
       Response response;
       response = await _dio.get(url, queryParameters: params,options: options);
-      if(url.isEmpty){
-        return response.data;
+      if(response.data['code']!=null&&response.data['code']!=1){
+        throw ResultException(
+            response.data['code'], response.data['msg']);
       }
-      if (response.data['errorCode'] != 0) {
+      if (response.data['errorCode']!=null&&response.data['errorCode'] != 0) {
         throw ResultException(
             response.data['errorCode'], response.data['errorMsg']);
       }

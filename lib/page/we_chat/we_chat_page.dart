@@ -15,45 +15,37 @@ class _WeChatPageState extends State<WeChatPage> with TickerProviderStateMixin, 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return GetX<WeChatController>(
-      initState: (_){
-        _weChatController.getWehChatData();
-      },
-      builder: (_){
-        _tabController = TabController(length: _weChatController.weChats.length, vsync: this);
-        return DefaultTabController(
-          length: _weChatController.weChats.length,
-          child: Scaffold(
-              appBar: AppBar(
-                brightness: Brightness.dark,
-                centerTitle: true,
-                title: _buildTabItemUI(_weChatController.weChats),
-              ),
-            body:  Builder(
-              builder: (context) {
-                if(_weChatController.loadState.value==LoadState.LOADING){
-                  return LoadingPage();
-                }
-                if (_weChatController.loadState.value == LoadState.EMPTY) {
-                  return EmptyPage(onPressed: (){
-                    _weChatController.getWehChatData();
-                  });
-                } else if (_weChatController.loadState.value == LoadState.FAILURE) {
-                  return NetWorkErrorPage(onPressed: (){
-                    _weChatController.getWehChatData();
-                  },);
-                }
-                //成功加载数据后
-                return TabBarView(
-                  children: _weChatController.weChats.map((e) {
-                    return WeChatContentPage(e.id.toString());
-                  }).toList(),
-                  controller: _tabController,
-                );
+    return DefaultTabController(
+      length: _weChatController.weChats.length,
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          centerTitle: true,
+          title:Obx((){
+            return _buildTabItemUI(_weChatController.weChats);
+          })
+        ),
+        body: GetX<WeChatController>(
+          initState: (_){
+            _weChatController.getWehChatData();
+          },
+          builder: (_){
+            _tabController = TabController(length: _weChatController.weChats.length, vsync: this);
+            return StateCommonPage<WeChatController>(
+              model:_weChatController ,
+              onPressed: (){
+                _weChatController.getWehChatData();
               },
-            ))
-        );
-      },
+              child: TabBarView(
+                children: _weChatController.weChats.map((e) {
+                  return WeChatContentPage(e.id.toString());
+                }).toList(),
+                controller: _tabController,
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
   //创建顶部横向列表tab

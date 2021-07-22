@@ -18,7 +18,21 @@ class RequestApi {
 
   static String QUERY_EXPRESS_INFO(String singleNumber,int logisticsId) {
     return "https://www.mxnzp.com/api/logistics/details/search?logistics_no=804967979558203287"
-        "&logistics_id=$logisticsId&app_id=ofgmqilkocukdqjf&app_secret=by9GMlJjWVlkSzl1RVQvVW4rcGtGdz09";
+        "&logistics_id=$logisticsId";
   }
+
+  static const String QUERY_NEWS_TYPE_API = "https://www.mxnzp.com/api/news/types";
+  static const String QUERY_GIRLS_API = "https://www.mxnzp.com/api/image/girl/list/random";
+
+
+
+  static String QUERY_NEWS_LIST_BY_TYPE(String typeId,int page) {
+    return "https://www.mxnzp.com/api/news/list?typeId=$typeId&page=$page";
+  }
+
+  static String QUERY_NEWS_CONTENT_DETAIL(String newsId) {
+    return "https://www.mxnzp.com/api/news/details?newsId=$newsId";
+  }
+
 
 }

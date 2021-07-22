@@ -128,15 +128,20 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
           crossAxisCount: 4,
           crossAxisSpacing: 10.w,
           children: KText.menusTexts.map((e){
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.red,
-                  child: Text(e['menuTitle'],style: TextStyle(color: Colors.white,fontSize: 20.sp),),
-                ),
-                Text(e['menuName'],style: TextStyle(color: Theme.of(context).textTheme.headline1.color))
-              ],
+            return InkWell(
+              onTap: (){
+                Get.toNamed(e['toPath']);
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.red,
+                    child: Text(e['menuTitle'],style: TextStyle(color: Colors.white,fontSize: 20.sp),),
+                  ),
+                  Text(e['menuName'],style: TextStyle(color: Theme.of(context).textTheme.headline1.color))
+                ],
+              ),
             );
           }).toList()
         ),

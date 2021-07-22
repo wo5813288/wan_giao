@@ -5,6 +5,8 @@ import 'package:wan_android/bindings/device_info_bindings.dart';
 import 'package:wan_android/bindings/express_delivery_bindings.dart';
 import 'package:wan_android/bindings/message_list_bindings.dart';
 import 'package:wan_android/bindings/message_list_new_bindings.dart';
+import 'package:wan_android/bindings/news_content_bindings.dart';
+import 'package:wan_android/bindings/news_list_bindings.dart';
 import 'package:wan_android/bindings/person_collection_bindings.dart';
 import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
@@ -25,6 +27,8 @@ import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
+import 'package:wan_android/page/news/news_content_detail_page.dart';
+import 'package:wan_android/page/news/news_list_page.dart';
 import 'package:wan_android/page/person/express_delivery_page.dart';
 import 'package:wan_android/page/person/person_collection_page.dart';
 import 'package:wan_android/page/person/person_message_list_page.dart';
@@ -62,20 +66,19 @@ abstract class RoutesConfig {
   static const MESSAGE_LIST_PAGE = "/person/message_list_page";
   static const TODO_PAGE = "/person/todo_page";
   static const EXPRESS_DELIVERY_PAGE = "/person/express_delivery_page";
+  static const NEWS_LIST_PAGE = "/news_list_page";
+  static const NEWS_CONTENT_PAGE = "/news_list_page/content";
 
   static final List<GetPage> getPages = [
     GetPage(
-        name: SPLASH,
-        page: () => SplashPage(),
+      name: SPLASH,
+      page: () => SplashPage(),
     ),
-    GetPage(
-        name: MAIN,
-        page: () => IndexPage(),
-        bindings: [
-          ArticleCollectionBindings(),
-          RegisterBindings(),
-          SearchBindings(),
-        ]),
+    GetPage(name: MAIN, page: () => IndexPage(), bindings: [
+      ArticleCollectionBindings(),
+      RegisterBindings(),
+      SearchBindings(),
+    ]),
     GetPage(name: RECOMMEND, page: () => RecommendPage()),
     GetPage(name: QUESTION, page: () => QuestionPage()),
     GetPage(name: SYSTEM, page: () => SystemPage()),
@@ -95,7 +98,7 @@ abstract class RoutesConfig {
     GetPage(
         name: SETTING_PAGE,
         page: () => SettingPage(),
-        binding:  DeviceInfoBindings(),
+        binding: DeviceInfoBindings(),
         transition: Transition.fadeIn),
     GetPage(name: WEB_PAGE, page: () => WebPage()),
     GetPage(
@@ -126,7 +129,7 @@ abstract class RoutesConfig {
     GetPage(
         name: MESSAGE_LIST_PAGE,
         page: () => MessageListPage(),
-        bindings: [MessageListBindings(),MessageListNewBindings()],
+        bindings: [MessageListBindings(), MessageListNewBindings()],
         middlewares: [RouteAuthMiddleware()]),
     GetPage(
         name: TODO_PAGE,
@@ -136,7 +139,16 @@ abstract class RoutesConfig {
     GetPage(
         name: EXPRESS_DELIVERY_PAGE,
         page: () => ExpressDeliveryPage(),
-        binding: ExpressDeliveryBindings())
+        binding: ExpressDeliveryBindings()),
+
+    GetPage(
+        name: NEWS_LIST_PAGE,
+        page: () => NewsListPage(),
+        binding: NewsListBindings()),
+    GetPage(
+        name: NEWS_CONTENT_PAGE,
+        page: () => NewsContentDetailPage(),
+        binding: NewsContentBindings())
   ];
 }
 

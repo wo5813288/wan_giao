@@ -10,7 +10,11 @@ class NewUrlRequest extends Interceptor{
     if(url!=null&&url.isNotEmpty){
       //如果新地址参数部位空，则使用新地址请求
       options.path = url;
-      debugPrint("===>${options.path}");
+      if(url.startsWith("https://www.mxnzp.com"))
+      options.headers = {
+        'app_id':'riidpjorptmmtm2u',
+        'app_secret':'YVVIcURwS08vKzFXc2RMMGcxVHRBUT09'
+      };
     }
     handler.next(options);
   }

@@ -1,3 +1,5 @@
+import 'package:wan_android/route/routes_page.dart';
+
 class KText{
 
   KText._();
@@ -13,7 +15,8 @@ class KText{
     {
       "menuName":"新闻",
       "menuIcon":"assets/icon/icon_news.png",
-      "menuTitle":"闻"
+      "menuTitle":"闻",
+      "toPath":RoutesConfig.NEWS_LIST_PAGE
     },
     {
       "menuName":"妹子",
