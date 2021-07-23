@@ -50,7 +50,7 @@ class NewsContentDetailPage extends GetView<NewsContentDetailController> {
                   Html(
                     data:controller.newsContent.content,
                     style: {
-                      "p":Style(color: Colors.black)
+                      "p":Style(color: Colors.black,fontSize:FontSize.large)
                     },
                     onImageTap: (src,_,__,___){
                       showToast(src);

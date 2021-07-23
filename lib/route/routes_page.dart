@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/device_info_bindings.dart';
 import 'package:wan_android/bindings/express_delivery_bindings.dart';
+import 'package:wan_android/bindings/girl_bindings.dart';
 import 'package:wan_android/bindings/message_list_bindings.dart';
 import 'package:wan_android/bindings/message_list_new_bindings.dart';
 import 'package:wan_android/bindings/news_content_bindings.dart';
@@ -21,6 +22,7 @@ import 'package:wan_android/controller/person/person_stars_controller.dart';
 import 'package:wan_android/controller/person/starts_leader_controller.dart';
 import 'package:wan_android/default/global.dart';
 import 'package:wan_android/bindings/login_bindings.dart';
+import 'package:wan_android/page/girl/girls_page.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
@@ -68,6 +70,7 @@ abstract class RoutesConfig {
   static const EXPRESS_DELIVERY_PAGE = "/person/express_delivery_page";
   static const NEWS_LIST_PAGE = "/news_list_page";
   static const NEWS_CONTENT_PAGE = "/news_list_page/content";
+  static const GIRL_PAGE = "/girl_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -148,7 +151,11 @@ abstract class RoutesConfig {
     GetPage(
         name: NEWS_CONTENT_PAGE,
         page: () => NewsContentDetailPage(),
-        binding: NewsContentBindings())
+        binding: NewsContentBindings()),
+    GetPage(
+        name: GIRL_PAGE,
+        page: () => GirlsPage(),
+        binding: GirlBindings())
   ];
 }
 

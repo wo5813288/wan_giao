@@ -30,7 +30,13 @@ class _WeChatPageState extends State<WeChatPage> with TickerProviderStateMixin, 
             _weChatController.getWehChatData();
           },
           builder: (_){
-            _tabController = TabController(length: _weChatController.weChats.length, vsync: this);
+            _tabController = TabController(
+                length: _weChatController.weChats.length,
+                initialIndex: _weChatController.iniItemIndex,
+                vsync: this);
+            _tabController.addListener(() {
+              _weChatController.iniItemIndex = _tabController.index;
+            });
             return StateCommonPage<WeChatController>(
               model:_weChatController ,
               onPressed: (){

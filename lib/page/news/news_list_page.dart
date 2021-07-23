@@ -14,10 +14,12 @@ class NewsListPage extends StatefulWidget {
   _NewsListPageState createState() => _NewsListPageState();
 }
 
-class _NewsListPageState extends State<NewsListPage> with TickerProviderStateMixin{
+class _NewsListPageState extends State<NewsListPage> with TickerProviderStateMixin,AutomaticKeepAliveClientMixin{
   TabController _tabController;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: Get.find<NewsController>().newsTypes.length,
       child: Scaffold(
@@ -33,9 +35,16 @@ class _NewsListPageState extends State<NewsListPage> with TickerProviderStateMix
             Get.find<NewsController>().getNewTypes();
           },
           builder: (_){
-            _tabController = TabController(length: Get.find<NewsController>().newsTypes.length, vsync: this);
+            _tabController = TabController(length: Get.find<NewsController>().newsTypes.length,
+                vsync: this,initialIndex:  Get.find<NewsController>().iniItemIndex);
+            _tabController.addListener(() {
+              Get.find<NewsController>().iniItemIndex = _tabController.index;
+            });
             return StateCommonPage<NewsController>(
               model: Get.find<NewsController>(),
+              onPressed: (){
+                Get.find<NewsController>().getNewTypes();
+              },
               child: TabBarView(
                 children: Get.find<NewsController>().newsTypes.map((e) {
                   return NewsListContentPage(e.typeId.toString());
@@ -60,4 +69,8 @@ class _NewsListPageState extends State<NewsListPage> with TickerProviderStateMix
       controller: _tabController,
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -22,7 +22,7 @@ class RequestApi {
   }
 
   static const String QUERY_NEWS_TYPE_API = "https://www.mxnzp.com/api/news/types";
-  static const String QUERY_GIRLS_API = "https://www.mxnzp.com/api/image/girl/list/random";
+  static const String QUERY_GIRLS_API = "https://www.mxnzp.com/api/image/girl/list";
 
 
 

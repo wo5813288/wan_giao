@@ -56,6 +56,7 @@ class NewsListController extends BaseGetXControllerWithRefesh{
 
   @override
   void refresh() {
+    _pageIndex = 1;
     getNewsList(false);
   }
 }

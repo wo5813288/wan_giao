@@ -11,7 +11,7 @@ typedef Done();
 
 abstract class BaseGetXController extends GetxController {
   var loadState = LoadState.DONE.obs;
-
+  int iniItemIndex = 0;
   //返回都错误结果
   var exception = ResultException(0, "null").obs;
 

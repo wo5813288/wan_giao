@@ -30,7 +30,13 @@ class _ProjectPageState extends State<ProjectPage> with TickerProviderStateMixin
             _projectController.getProjectTabs();
           },
           builder: (_){
-            _tabController = TabController(length: _projectController.projects.length,vsync: this);
+            _tabController = TabController(
+                length: _projectController.projects.length,
+                initialIndex: _projectController.iniItemIndex,
+                vsync: this);
+            _tabController.addListener(() {
+              _projectController.iniItemIndex = _tabController.index;
+            });
             return StateCommonPage<ProjectController>(
                 model: _projectController,
                 onPressed: (){

@@ -125,6 +125,7 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
         ),
         margin: EdgeInsets.all(10.w),
         child: GridView.count(
+          physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 4,
           crossAxisSpacing: 10.w,
           children: KText.menusTexts.map((e){

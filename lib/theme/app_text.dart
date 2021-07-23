@@ -21,7 +21,8 @@ class KText{
     {
       "menuName":"妹子",
       "menuIcon":"assets/icon/icon_girls.png",
-      "menuTitle":"妹"
+      "menuTitle":"妹",
+      "toPath":RoutesConfig.GIRL_PAGE
     },
     {
       "menuName":"视频",
