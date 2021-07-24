@@ -1,6 +1,6 @@
 # WanGiao 
 这是一款用Flutter开发的学习App，主要数据api来自[WanAndroid](https://wanandroid.com/blog/show/2)。
-
+GitHub访问太慢了，如果有想看最新代码的可以[这里](https://gitee.com/lambadaace/wan_android)
 APK下载
 
 ![APK下载](https://images.gitee.com/uploads/images/2021/0610/191159_e245414f_1008291.png "2znq.png")
