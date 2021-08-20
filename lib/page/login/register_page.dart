@@ -10,7 +10,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Colors.white,
       body: Stack(
         //返回按钮
         children: [

@@ -47,6 +47,7 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
               slivers: [
                 //轮播图
                 _buildBannerUI(_recommendController),//置顶
+                //首页菜单
                 _buildBoxGrid(),
                 // 文章列表
                 _buildTopArticleListUI(_recommendController),
@@ -112,7 +113,6 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
   Widget _buildBoxGrid(){
     return SliverToBoxAdapter(
       child: Container(
-        height: 130.h,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(5.w),
@@ -128,6 +128,8 @@ class _RecommendPageState extends State<RecommendPage> with AutomaticKeepAliveCl
           physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 4,
           crossAxisSpacing: 10.w,
+          mainAxisSpacing: 0,
+          shrinkWrap: true,
           children: KText.menusTexts.map((e){
             return InkWell(
               onTap: (){

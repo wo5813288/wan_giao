@@ -74,24 +74,27 @@ class LoginInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText,
-      onChanged: onChanged,
-      style:kTextLoginInputStyle ,
-      decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey
-          ),
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          focusedBorder: kInputBorder,
-          errorBorder: kInputBorder,
-          focusedErrorBorder: kInputBorder,
-          enabledBorder: kInputBorder),
-      controller: textEditingController,
-      autovalidateMode: autovalidateMode,
-      validator: validator,
+    return Container(
+      height: 48.h,
+      child: TextFormField(
+        obscureText: obscureText,
+        onChanged: onChanged,
+        style:kTextLoginInputStyle ,
+        decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(
+              color: Colors.grey
+            ),
+            suffixIcon: suffixIcon,
+            prefixIcon: prefixIcon,
+            focusedBorder: kInputBorder,
+            errorBorder: kInputBorder,
+            focusedErrorBorder: kInputBorder,
+            enabledBorder: kInputBorder),
+        controller: textEditingController,
+        autovalidateMode: autovalidateMode,
+        validator: validator,
+      ),
     );
   }
 }
