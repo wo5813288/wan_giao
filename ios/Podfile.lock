@@ -3,6 +3,15 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - JCore (2.6.2)
+  - JPush (3.6.1):
+    - JCore (< 3.0.0, >= 2.0.0)
+  - jpush_flutter (0.0.2):
+    - Flutter
+    - JCore (= 2.6.2)
+    - JPush (= 3.6.1)
+  - package_info (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
@@ -12,24 +21,38 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - video_player (0.0.1):
+    - Flutter
+  - wakelock (0.0.1):
+    - Flutter
   - webview_flutter (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
   trunk:
     - FMDB
+    - JCore
+    - JPush
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  jpush_flutter:
+    :path: ".symlinks/plugins/jpush_flutter/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
@@ -38,17 +61,27 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  video_player:
+    :path: ".symlinks/plugins/video_player/ios"
+  wakelock:
+    :path: ".symlinks/plugins/wakelock/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  JCore: 0cb4fc5892bc97af4f27283875369ead3eaa3067
+  JPush: 507d66d7ea307faba1330666d48e4e92af611659
+  jpush_flutter: e75658a5342e3bfe22d9f3de5dfacd3ef44230c5
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
+  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+  webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
 
 PODFILE CHECKSUM: 3aaee2e660a2a825e7c3beecb0e4a334b934f851
 

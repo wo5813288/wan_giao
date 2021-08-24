@@ -1,34 +1,47 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/default/global.dart';
+import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/theme/app_theme.dart';
 
-import 'default/default.dart';
 
-// 是否开发环境
-bool get isInDebugMode => true;
 
-// 上报异常的函数
-Future<void> _reportError(dynamic error, dynamic stackTrace) async {
-  print('Caught error: $error');
-  if (isInDebugMode) {
-    print(stackTrace);
-  }
+void main() async{
+  await Global.init();
+  runApp(MyApp());
 }
 
-Future<Null> main() async {
-  // 捕获并上报 Flutter 异常
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    if (isInDebugMode == true) {
-      FlutterError.dumpErrorToConsole(details);
-    }
-  };
+class MyApp extends StatelessWidget {
 
-  // 捕获并上报 Dart 异常
-  runZonedGuarded(() async {
-    await Global.init();
-    runApp(MyApp());
-  }, (Object error, StackTrace stack) {
-    _reportError(error, stack);
-  });
+  @override
+  Widget build(BuildContext context) {
+    return RefreshConfiguration(
+        hideFooterWhenNotFull: false,
+        child: ScreenUtilInit(
+          designSize: Size(360,690),
+          builder: ()=>OKToast(child: GetMaterialApp(
+            darkTheme: darkTheme,
+            localizationsDelegates: [
+              // 这行是关键
+              RefreshLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+            debugShowCheckedModeBanner: false,
+            initialRoute: RoutesConfig.SPLASH,
+            getPages: RoutesConfig.getPages,
+            supportedLocales: [
+              const Locale('zh'),
+              const Locale('en','US'),
+            ],
+          )),
+        )
+    );
+  }
 }

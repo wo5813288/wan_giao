@@ -7,32 +7,4 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_theme.dart';
 
-class MyApp extends StatelessWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return RefreshConfiguration(
-      hideFooterWhenNotFull: false,
-      child: ScreenUtilInit(
-        designSize: Size(360,690),
-        builder: ()=>OKToast(child: GetMaterialApp(
-          darkTheme: darkTheme,
-          localizationsDelegates: [
-            // 这行是关键
-            RefreshLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate
-          ],
-          debugShowCheckedModeBanner: false,
-          initialRoute: RoutesConfig.SPLASH,
-          getPages: RoutesConfig.getPages,
-          supportedLocales: [
-            const Locale('zh'),
-            const Locale('en','US'),
-          ],
-        )),
-      )
-    );
-  }
-}
