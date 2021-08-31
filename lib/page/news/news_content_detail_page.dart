@@ -36,6 +36,7 @@ class NewsContentDetailPage extends GetView<NewsContentDetailController> {
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                       child: Text(
                         controller.newsContent.title,
+                        maxLines: 1,
                         style: TextStyle(color: Colors.black,fontSize: 20.sp,fontWeight: FontWeight.bold),
                       )
                   ),
