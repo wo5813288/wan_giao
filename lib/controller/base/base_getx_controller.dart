@@ -3,6 +3,7 @@ import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/page/set/setting_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 
 typedef Success(dynamic value);
@@ -32,8 +33,7 @@ abstract class BaseGetXController extends GetxController {
         loadState.value=LoadState.FAILURE;
       }
       if (error.code == HttpDioError.LOGIN_CODE) {
-        await HttpManager.clearCookie();
-        await SpUtil.clear();
+        logout();
         Get.find<AppState>().loginState.value = LoginState.LOGO_OUT;
         //用户需要登录才能进行操作
         Get.toNamed(RoutesConfig.LOGIN_PAGE);

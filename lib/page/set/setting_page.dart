@@ -1,10 +1,13 @@
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
@@ -142,7 +145,7 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _logoutButton(BuildContext context){
-    return Container(
+    return Get.find<AppState>().loginState.value==LoginState.LOGIN? Container(
       margin: EdgeInsets.only(top:10.h),
       width: double.infinity,
       height: 40.h,
@@ -155,13 +158,17 @@ class SettingPage extends StatelessWidget {
               fontSize: 16.sp
           ),
         ),
-        onPressed:()async{
-          await HttpManager.clearCookie();
-          await SpUtil.clear();
-          Get.find<AppState>().loginState.value = LoginState.LOGO_OUT;
+        onPressed:(){
+          logout();
           Get.back();
         },
       ),
-    );
+    ):Container();
   }
+}
+
+logout() {
+  HttpManager.clearCookie();
+  SpUtil.remove(ConstantInfo.KEY_USER);
+  Get.find<AppState>().setIsLogin(LoginState.LOGO_OUT);
 }

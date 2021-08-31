@@ -42,19 +42,23 @@ class Global {
     if (userMap != null) {
       userProfile = User.fromJson(userMap);
     }
-    isFirstOpen = SpUtil.getBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, defValue: true);
 
+    ///用户是否选择了同意“用户协议”
+    isFirstOpen = SpUtil.getBool(ConstantInfo.KEY_IS_FIRST_OPEN_APP, defValue: true);
+    //开启应用初始化用户状态
     appState.setIsLogin(isUserOnLine ? LoginState.LOGIN : LoginState.LOGO_OUT);
     //初始化默认主题
     themeController.setThemeData(SpUtil.getString(ThemeKey.KEY_APP_THEME,defValue: ThemeKey.LIGHT));
 
   }
 
+  /// 登录后保存用户信息
   static saveUserProfile(User user) {
     SpUtil.putObject(ConstantInfo.KEY_USER, user);
     userProfile = user;
   }
 
+  ///当前用户是否处于登录状态
   static bool get isUserOnLine =>
       SpUtil.getObject(ConstantInfo.KEY_USER) != null;
 

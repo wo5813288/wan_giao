@@ -100,6 +100,7 @@ abstract class RoutesConfig {
     GetPage(
         name: REGISTER_PAGE,
         page: () => RegisterPage(),
+        binding:RegisterBindings() ,
         transition: Transition.rightToLeft),
     GetPage(
         name: SETTING_PAGE,
