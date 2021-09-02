@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
@@ -22,8 +21,6 @@ class Global {
   static Future init() async {
     var appState = Get.put<AppState>(AppState());
     var themeController = Get.put<ThemeController>(ThemeController());
-    //告诉程序在启动之前需要做一些其他操作
-    WidgetsFlutterBinding.ensureInitialized();
     //初始化持久工具
     await SpUtil.getInstance();
 

@@ -13,13 +13,13 @@ import 'cache.dart';
 
 class HttpManager {
   Dio _dio;
+  static const int TIME_OUT = 30000;
+  static HttpManager _instance;
 
   factory HttpManager() => _getInstance();
-  static HttpManager _instance;
 
   static HttpManager get instance => _getInstance();
 
-  static const int TIME_OUT = 30000;
   static PersistCookieJar _cookieJar;
 
   //构造方法私有化
@@ -64,50 +64,32 @@ class HttpManager {
       bool refresh = false,
       bool list = false,
       bool cacheDisk = true,
-      bool noCache = !CACHE_ENABLED, String newUrl =""
-      }) async {
-    Options options = Options(
-      extra: {
-        "list":list,
-        "noCache":noCache,
-        "cacheDisk":cacheDisk,
-        "refresh":refresh,
-        "newUrl":newUrl
-      }
-    );
-    try {
-      Response response;
-      response = await _dio.get(url, queryParameters: params,options: options);
-      if(response.data['code']!=null&&response.data['code']!=1){
-        throw ResultException(
-            response.data['code'], response.data['msg']);
-      }
-      if (response.data['errorCode']!=null&&response.data['errorCode'] != 0) {
-        throw ResultException(
-            response.data['errorCode'], response.data['errorMsg']);
-      }
-      return response.data;
-    } on DioError catch (e) {
-      throw HttpDioError.handleError(e);
-    }
+      bool noCache = !CACHE_ENABLED,
+      String newUrl = ""}) async {
+    return request(url,
+        params: params,
+        refresh: refresh,
+        list: list,
+        cacheDisk: cacheDisk,
+        noCache: noCache,
+        newUrl: newUrl);
   }
 
-  Future post(String url, {dynamic params}) async {
-    try {
-      Response response;
-      if (params == null) {
-        response = await _dio.post(url);
-      } else {
-        response = await _dio.post(url, data: params);
-      }
-      if (response.data['errorCode'] != 0) {
-        throw ResultException(
-            response.data['errorCode'], response.data['errorMsg']);
-      }
-      return response.data;
-    } on DioError catch (e) {
-      throw HttpDioError.handleError(e);
-    }
+  Future post(String url,
+      {Map<String, dynamic> params,
+      bool refresh = false,
+      bool list = false,
+      bool cacheDisk = true,
+      bool noCache = !CACHE_ENABLED,
+      String newUrl = ""}) async {
+    return request(url,
+        params: params,
+        refresh: refresh,
+        method: Method.POST,
+        list: list,
+        cacheDisk: cacheDisk,
+        noCache: noCache,
+        newUrl: newUrl);
   }
 
   Future postFormData(String url, Map<String, dynamic> params) async {
@@ -120,6 +102,41 @@ class HttpManager {
       }
       return response.data;
     } on DioError catch (e) {
+      throw HttpDioError.handleError(e);
+    }
+  }
+
+  request(String url,
+      {Map<String, dynamic> params,
+      String method = Method.GET,
+      bool refresh = false,
+      bool list = false,
+      bool cacheDisk = true,
+      bool noCache = !CACHE_ENABLED,
+      String newUrl = ""}) async {
+    Response response;
+    Options options = Options(
+        extra: {
+          "list":list,
+          "noCache":noCache,
+          "cacheDisk":cacheDisk,
+          "refresh":refresh,
+          "newUrl":newUrl
+        },
+      method: method
+    );
+    try{
+      response = await _dio.request(url, data: params,options: options);
+      if(response.data['code']!=null&&response.data['code']!=1){
+        throw ResultException(
+            response.data['code'], response.data['msg']);
+      }
+      if (response.data['errorCode']!=null&&response.data['errorCode'] != 0) {
+        throw ResultException(
+            response.data['errorCode'], response.data['errorMsg']);
+      }
+      return response.data;
+    } on DioError catch(e){
       throw HttpDioError.handleError(e);
     }
   }
@@ -166,4 +183,9 @@ class ResultException {
   final String message;
 
   ResultException(this.code, this.message);
+}
+
+class Method{
+  static const GET = "get";
+  static const POST = "post";
 }
