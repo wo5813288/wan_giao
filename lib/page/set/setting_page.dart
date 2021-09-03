@@ -11,6 +11,7 @@ import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_theme.dart';
 
 class SettingPage extends StatelessWidget {
@@ -159,8 +160,31 @@ class SettingPage extends StatelessWidget {
           ),
         ),
         onPressed:(){
-          logout();
-          Get.back();
+          Get.defaultDialog(
+            title: "退出确认",
+            titleStyle: TextStyle(color: Colors.black),
+            radius: 5,
+            content: Text("退出当前账号，将不能同步收藏，评论，查看积分等",style: TextStyle(color: Colors.black)),
+            actions: [
+              TextButton(
+                child: Text("取消",style: kPrivacyYesTextStyle),
+                onPressed: (){
+                  Get.back(result: false);
+                },
+              ),
+              TextButton(
+                child: Text("确认退出",style: kPrivacyYesTextStyle),
+                onPressed: (){
+                  Get.back(result: true);
+                },
+              )
+            ],
+          ).then((value){
+            if(value){
+              logout();
+              Get.back();
+            }
+          });
         },
       ),
     ):Container();
@@ -170,5 +194,5 @@ class SettingPage extends StatelessWidget {
 logout() {
   HttpManager.clearCookie();
   SpUtil.remove(ConstantInfo.KEY_USER);
-  Get.find<AppState>().setIsLogin(LoginState.LOGO_OUT);
+  appState.setIsLogin(LoginState.LOGO_OUT);
 }

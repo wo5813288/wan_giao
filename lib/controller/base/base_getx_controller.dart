@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
+import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/state_page.dart';
+import 'package:wan_android/default/global.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/page/set/setting_page.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -34,9 +36,10 @@ abstract class BaseGetXController extends GetxController {
       }
       if (error.code == HttpDioError.LOGIN_CODE) {
         logout();
-        Get.find<AppState>().loginState.value = LoginState.LOGO_OUT;
+        //提示用户去登录
+        showNeedLogin();
         //用户需要登录才能进行操作
-        Get.toNamed(RoutesConfig.LOGIN_PAGE);
+       // Get.toNamed(RoutesConfig.LOGIN_PAGE);
       }
       if (failure != null) {
         failure(error.message);
@@ -44,9 +47,11 @@ abstract class BaseGetXController extends GetxController {
       errorMessage.value = error.message;
     });
   }
+
   void initData(bool isShowLoading){
 
   }
+
   void refresh(){
 
   }

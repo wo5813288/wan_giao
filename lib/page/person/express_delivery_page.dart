@@ -62,8 +62,8 @@ class ExpressDeliveryPage extends GetView<ExpressDeliveryController> {
                     contentPadding:
                     EdgeInsets.only(left: 8.w, top: 0, right: 8.w, bottom: 0),
                     hintText: "请输入快递单号",
-                    border: kInputBorder,
-                    focusedBorder: kInputBorder),
+                    border: kLoginInputBorder,
+                    focusedBorder: kLoginInputBorder),
               )
             ),
             SizedBox(width: 10.w),

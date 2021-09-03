@@ -26,7 +26,7 @@ class LoginController extends BaseGetXController{
   }
 
   void clearText(){
-    userNameController.text = "";
+    userNameController.clear();
   }
   ///设置当前密码是否可见，false可见，true不可见
   void setObscure(bool obscure) {
@@ -34,7 +34,7 @@ class LoginController extends BaseGetXController{
   }
 
   ///设置当前自动验证模式
-  void setAutovalidateMode(AutovalidateMode mode){
+  void setAutoValidateMode(AutovalidateMode mode){
     autovalidateMode.value = mode;
   }
 
@@ -50,12 +50,7 @@ class LoginController extends BaseGetXController{
       //登录成功，记录账号和密码
       user.setUserPassword(userPwdController.text.trim());
       Global.saveUserProfile(user);
-      Get.find<AppState>().loginState.value = LoginState.LOGIN;
-      List<Cookie> cookies = [
-        Cookie('loginUserName', userNameController.text.trim()),
-        Cookie('loginUserPassword', userPwdController.text.trim())
-      ];
-      HttpManager.instance.addCookies(cookies);
+      appState.setIsLogin(LoginState.LOGIN);
       LoadingDialog.dismiss();
       //返回上一级页面，并返回一个结果
       Get.back();

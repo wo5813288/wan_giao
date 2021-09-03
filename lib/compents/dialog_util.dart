@@ -52,51 +52,49 @@ class LoadingDialog extends StatelessWidget {
   }
 }
 
+///用户协议弹窗
 Future showPrivacyDialog() async {
   bool agree = await Get.defaultDialog<bool>(
       title: "温馨提示",
       titleStyle: TextStyle(color: Colors.blue,fontSize: 18.sp),
-      content: Column(
-        children: [
-          Container(
-            height: 220.h,
-            width: 200.w,
-            child: SingleChildScrollView(
-              child: RichText(
-                text: TextSpan(text: "请您在使用本产品之前仔细阅读", style:TextStyle(color: Colors.grey), children: [
-                  TextSpan(text: "《用户协议》", style: TextStyle(color: Colors.blue)),
-                  TextSpan(text: "与"),
-                  TextSpan(text: "《隐私协议》", style: TextStyle(color: Colors.blue)),
-                  TextSpan(text: KText.userPrivateProtocol)
-                ]),
-              ),
-            ),
+      content: Container(
+        height: 220.h,
+        child: SingleChildScrollView(
+          child: RichText(
+            text: TextSpan(text: "请您在使用本产品之前仔细阅读", style:TextStyle(color: Colors.grey), children: [
+              TextSpan(text: "《用户协议》", style: TextStyle(color: Colors.blue)),
+              TextSpan(text: "与"),
+              TextSpan(text: "《隐私协议》", style: TextStyle(color: Colors.blue)),
+              TextSpan(text: KText.userPrivateProtocol)
+            ]),
           ),
-          Divider(thickness: 1.w,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                child: Text("不同意",style: TextStyle(color: Colors.grey),),
-                onPressed: () {
-                  Get.back(result: false);
-                },
-              ),
-              TextButton(
-                child: Text("同意",textAlign: TextAlign.start,),
-                onPressed: () {
-                  Get.back(result: true);
-                },
-              ),
-            ],
-          )
-        ],
+        ),
       ),
-
+      radius: 5.w,
+      confirm:TextButton(
+        child: Text("同意",style: kPrivacyYesTextStyle,),
+        onPressed: () {
+          Get.back(result: true);
+        },
+      ),
+      cancel:TextButton(
+        child: Text("不同意",style: kPrivacyNoTextStyle,),
+        onPressed: () {
+          Get.back(result: false);
+        },
+      ) ,
       barrierDismissible: false,
-    onWillPop: () async {
+      onWillPop: () async {
         return false;
-    }
-  );
+      });
   return agree;
+}
+
+///提示用户登录弹窗
+showNeedLogin(){
+  Get.defaultDialog(
+    title: "提示",
+    content: Text("使用此功能需要登录"),
+    textConfirm: "去登录"
+  );
 }

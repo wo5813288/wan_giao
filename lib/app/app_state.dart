@@ -11,3 +11,7 @@ class AppState extends BaseGetXController {
 }
 
 enum LoginState { LOGIN, LOGO_OUT }
+
+LoginState get loginState=>Get.find<AppState>().loginState.value;
+
+AppState get appState=>Get.find<AppState>();

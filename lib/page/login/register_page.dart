@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android/compents/login_widget.dart';
-import 'package:wan_android/controller/login/login_controller.dart';
 import 'package:get/get.dart';
+import 'package:wan_android/compents/login_widget.dart';
 import 'package:wan_android/controller/login/register_controller.dart';
 import 'package:wan_android/theme/app_text.dart';
 class RegisterPage extends StatelessWidget {
@@ -14,7 +13,7 @@ class RegisterPage extends StatelessWidget {
       body: Stack(
         //返回按钮
         children: [
-          Image.asset("assets/images/bg_login_header.png",fit: BoxFit.cover,width: double.infinity),
+          Image.asset("assets/images/bg_welcome_header.png",fit: BoxFit.cover,width: double.infinity),
           SingleChildScrollView(
             child: Column(
               children: [
@@ -30,7 +29,7 @@ class RegisterPage extends StatelessWidget {
             top: ScreenUtil().statusBarHeight,
             left: 10.w,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios,size: 20.w,color: Colors.white,),
+              icon: Icon(Icons.arrow_back,size: 25.w,color: Colors.white),
               onPressed: (){
                 Get.back();
               },
@@ -44,7 +43,7 @@ class RegisterPage extends StatelessWidget {
 
 class RegisterBodyWidget extends StatelessWidget {
   final _loginKeyState = GlobalKey<FormState>();
-  var registerController = Get.find<RegisterController>();
+  final registerController = Get.find<RegisterController>();
   ///验证用户是否为空
   String _validateUserName(value) {
     if (value.isEmpty) {
@@ -75,64 +74,79 @@ class RegisterBodyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(height: 4),
-              Obx((){
-                return LoginInput(
-                  hintText: "用户名",
-                  prefixIcon: Icon(Icons.person),
-                  suffixIcon: registerController.isShowClearIcon.value?IconButton(
-                    icon: Icon(Icons.cancel),
-                    onPressed: (){
-                      registerController.clearText();
-                    },
-                  ):null,
-                  autovalidateMode: registerController.autovalidateMode.value,
-                  validator: _validateUserName,
-                  textEditingController: registerController.userNameController,
-                );
-              }),
+              _buildUserNameInput(),
               SizedBox(height: 16),
-              Obx((){
-                return LoginInput(
-                  hintText: "密码",
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(registerController.isObscure.value?Icons.visibility_off:Icons.visibility),
-                    onPressed: (){
-                      registerController.setObscure(!registerController.isObscure.value);
-                    },
-                  ),
-                  textEditingController: registerController.userPwdController,
-                  obscureText: registerController.isObscure.value,
-                  autovalidateMode: registerController.autovalidateMode.value,
-                  validator: _validateUserPwd,
-                );
-              }),
+              _buildPasswordInput(),
               SizedBox(height: 16),
-              Obx((){
-                return LoginInput(
-                  hintText: "确认密码",
-                  prefixIcon: Icon(Icons.lock),
-                  textEditingController: registerController.userRePwdController,
-                  obscureText: registerController.isObscure.value,
-                  autovalidateMode: registerController.autovalidateMode.value,
-                  validator: _validateUserPwd,
-                );
-              }),
+              _buildPasswordReview(),
               SizedBox(height: 30.h),
-              LoginButton(
-                loginText: KText.registerText,
-                onTap: (){
-                  if(!_loginKeyState.currentState.validate()){
-                    registerController.setAutovalidateMode(AutovalidateMode.always);
-                    return;
-                  }
-                  //提交登录请求
-                  registerController.submitForm();
-                },
-              ),
+              _buildLoginButton(),
             ],
           ),
         )
     );
   }
+
+  Widget _buildUserNameInput() {
+    return Obx((){
+      return LoginInput(registerController.userNameController,
+        hintText: "用户名",
+        prefixIcon: Icon(Icons.person),
+        suffixIcon: registerController.isShowClearIcon.value?IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: (){
+            registerController.clearText();
+          },
+        ):null,
+        autoValidateMode: registerController.autovalidateMode.value,
+        validator: _validateUserName,
+      );
+    });
+  }
+
+  Widget _buildPasswordInput(){
+    return Obx((){
+      return LoginInput(
+        registerController.userPwdController,
+        hintText: "密码",
+        prefixIcon: Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(registerController.isObscure.value?Icons.visibility_off:Icons.visibility),
+          onPressed: (){
+            registerController.setObscure(!registerController.isObscure.value);
+          },
+        ),
+        obscureText: registerController.isObscure.value,
+        autoValidateMode: registerController.autovalidateMode.value,
+        validator: _validateUserPwd,
+      );
+    });
+  }
+
+  Widget _buildPasswordReview(){
+    return Obx((){
+      return LoginInput(
+        registerController.userRePwdController,
+        hintText: "确认密码",
+        prefixIcon: Icon(Icons.lock),
+        obscureText: registerController.isObscure.value,
+        autoValidateMode: registerController.autovalidateMode.value,
+        validator: _validateUserPwd,
+      );
+    });
+  }
+  Widget _buildLoginButton(){
+    return LoginButton(
+      loginText: KText.registerText,
+      onTap: (){
+        if(!_loginKeyState.currentState.validate()){
+          registerController.setAutovalidateMode(AutovalidateMode.always);
+          return;
+        }
+        //提交登录请求
+        registerController.submitForm();
+      },
+    );
+  }
+
 }

@@ -56,12 +56,7 @@ class RegisterController extends  BaseGetXController{
       //登录成功，记录账号和密码
       user.setUserPassword(userPwdController.text.trim());
       Global.saveUserProfile(user);
-      Get.find<AppState>().loginState.value = LoginState.LOGIN;
-      List<Cookie> cookies = [
-        Cookie('loginUserName', userNameController.text.trim()),
-        Cookie('loginUserPassword', userPwdController.text.trim())
-      ];
-      HttpManager.instance.addCookies(cookies);
+      appState.setIsLogin(LoginState.LOGIN);
       LoadingDialog.dismiss();
       //返回上一级页面，并返回一个结果
       Get.offAllNamed(RoutesConfig.MAIN);

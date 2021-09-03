@@ -45,7 +45,7 @@ class HttpManager {
     return _instance ??= HttpManager._();
   }
 
-  static Future<PersistCookieJar> getCookieJar() async {
+  static Future initCookieJar() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
     _cookieJar = new PersistCookieJar(storage: FileStorage(appDocPath));
@@ -67,7 +67,7 @@ class HttpManager {
       bool noCache = !CACHE_ENABLED,
       String newUrl = ""}) async {
     return request(url,
-        params: params,
+        queryParams: params,
         refresh: refresh,
         list: list,
         cacheDisk: cacheDisk,
@@ -108,6 +108,7 @@ class HttpManager {
 
   request(String url,
       {Map<String, dynamic> params,
+      Map<String, dynamic> queryParams,
       String method = Method.GET,
       bool refresh = false,
       bool list = false,
@@ -126,7 +127,7 @@ class HttpManager {
       method: method
     );
     try{
-      response = await _dio.request(url, data: params,options: options);
+      response = await _dio.request(url, data: params,queryParameters:queryParams,options: options);
       if(response.data['code']!=null&&response.data['code']!=1){
         throw ResultException(
             response.data['code'], response.data['msg']);

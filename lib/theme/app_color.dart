@@ -33,9 +33,3 @@ const LinearGradient kBtnLinearGradient = LinearGradient(
     KColors.kBtnColorEnd,
   ],
 );
-
-const LinearGradient kLeaderboardGradient = LinearGradient(
-  colors: [
-
-  ]
-);

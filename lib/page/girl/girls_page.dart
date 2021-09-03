@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/girl/girl_controller.dart';
 import 'package:wan_android/page/girl/girl_detail_page.dart';
-import 'package:wan_android/route/routes_page.dart';
 
 class GirlPage extends GetView<GirlController> {
   const GirlPage({Key key}) : super(key: key);

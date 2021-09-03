@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
               top: ScreenUtil().statusBarHeight,
               left: 10.w,
               child: IconButton(
-                icon: Icon(Icons.close,size: 20.w,color: Colors.black,),
+                icon: Icon(Icons.arrow_back,size: 25.w,color: Colors.white),
                 onPressed: (){
                   Get.back();
                 },
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
 class LoginBodyWidget extends StatelessWidget {
   final _loginKeyState = GlobalKey<FormState>();
-  var loginController = Get.find<LoginController>();
+  final loginController = Get.find<LoginController>();
   ///验证用户是否为空
   String _validateUserName(value) {
     if (value.isEmpty) {
@@ -85,71 +85,86 @@ class LoginBodyWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 4),
-              Obx((){
-                return LoginInput(
-                  hintText: "用户名",
-                  prefixIcon: Icon(Icons.person),
-                  suffixIcon: loginController.isShowClearIcon.value?IconButton(
-                    icon: Icon(Icons.cancel),
-                    onPressed: (){
-                      loginController.clearText();
-                    },
-                  ):null,
-                  autovalidateMode: loginController.autovalidateMode.value,
-                  validator: _validateUserName,
-                  textEditingController: loginController.userNameController,
-                );
-              }),
-              SizedBox(height: 16),
-              Obx((){
-                return LoginInput(
-                  hintText: "密码",
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(loginController.isObscure.value?Icons.visibility_off:Icons.visibility),
-                    onPressed: (){
-                      loginController.setObscure(!loginController.isObscure.value);
-                    },
-                  ),
-                  textEditingController: loginController.userPwdController,
-                  obscureText: loginController.isObscure.value,
-                  autovalidateMode: loginController.autovalidateMode.value,
-                  validator: _validateUserPwd,
-                );
-              }),
+              SizedBox(height: 4.h),
+              _buildUserNameInput(),
+              SizedBox(height: 16.h),
+              _buildPasswordInput(),
               SizedBox(height: 30.h),
-              LoginButton(
-                loginText: KText.loginText,
-                onTap: (){
-                  if(!_loginKeyState.currentState.validate()){
-                   loginController.setAutovalidateMode(AutovalidateMode.always);
-                    return;
-                  }
-                  //提交登录请求
-                  loginController.submitForm();
-                },
-              ),
-              SizedBox(height: ScreenUtil().setHeight(20)),
-              //注册按钮
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: TextButton(
-                  child: Text(
-                    "没有账号?去注册",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  onPressed: () {
-                    Get.toNamed(RoutesConfig.REGISTER_PAGE);
-                  },
-                ),
-              ),
-              SizedBox(height: ScreenUtil().setHeight(20)),
+              _buildLoginButton(),
+              SizedBox(height: 20.h),
+              _buildRegister(),
+              SizedBox(height:20.h),
               _buildBottomMenu()
             ],
           ),
         )
+    );
+  }
+
+  Widget _buildUserNameInput() {
+    return Obx(() {
+      return LoginInput(
+        loginController.userNameController,
+        hintText: "用户名",
+        prefixIcon: Icon(Icons.person),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () {
+            loginController.clearText();
+          },
+        ),
+        autoValidateMode: loginController.autovalidateMode.value,
+        validator: _validateUserName,
+      );
+    });
+  }
+
+  Widget _buildPasswordInput(){
+    return Obx((){
+      return LoginInput(
+        loginController.userPwdController,
+        hintText: "密码",
+        prefixIcon: Icon(Icons.lock),
+        suffixIcon: IconButton(
+          icon: Icon(loginController.isObscure.value?Icons.visibility_off:Icons.visibility),
+          onPressed: (){
+            loginController.setObscure(!loginController.isObscure.value);
+          },
+        ),
+        obscureText: loginController.isObscure.value,
+        autoValidateMode: loginController.autovalidateMode.value,
+        validator: _validateUserPwd,
+      );
+    });
+  }
+
+  Widget _buildLoginButton(){
+    return LoginButton(
+      loginText: KText.loginText,
+      onTap: (){
+        if(!_loginKeyState.currentState.validate()){
+          loginController.setAutoValidateMode(AutovalidateMode.always);
+          return;
+        }
+        //提交登录请求
+        loginController.submitForm();
+      },
+    );
+  }
+
+  Widget _buildRegister(){
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      child: TextButton(
+        child: Text(
+          "没有账号?去注册",
+          style: TextStyle(color: Colors.grey),
+        ),
+        onPressed: () {
+          Get.toNamed(RoutesConfig.REGISTER_PAGE);
+        },
+      ),
     );
   }
   ///底部第三方登录
