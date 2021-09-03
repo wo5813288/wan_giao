@@ -61,7 +61,7 @@ class _SearchViewState extends State<SearchView> {
           controller: _textEditingController,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: Icon(Icons.search,color: Colors.grey),
               //输入文字后面的小图标
               suffixIcon: _buildSuffixIcon(),
               focusedBorder: OutlineInputBorder(
@@ -89,7 +89,7 @@ class _SearchViewState extends State<SearchView> {
     } else {
       return IconButton(
           padding: EdgeInsets.all(0),
-          icon: Icon(widget.suffixIcon),
+          icon: Icon(widget.suffixIcon,color: Colors.grey,),
           onPressed: widget.onPressed);
     }
   }

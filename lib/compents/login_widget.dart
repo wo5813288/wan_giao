@@ -52,47 +52,64 @@ class LoginClipper extends CustomClipper<Path> {
 }
 
 ///登录输入框控件
-class LoginInput extends StatelessWidget {
-  final TextEditingController textEditingController;
+class LoginInput extends StatefulWidget {
+  TextEditingController textEditingController;
   final FormFieldValidator<String> validator;
-  final AutovalidateMode autovalidateMode;
+  final AutovalidateMode autoValidateMode;
   final String hintText;
   final bool obscureText;
   final Widget suffixIcon;
   final Widget prefixIcon;
-  final ValueChanged<String> onChanged;
 
-  LoginInput(
-      {this.textEditingController,
-      this.validator,
-      this.autovalidateMode,
+  LoginInput(TextEditingController textEditingController,
+      {this.validator,
+      this.autoValidateMode,
       this.hintText,
       this.obscureText = false,
       this.suffixIcon,
-      this.prefixIcon,
-      this.onChanged});
+      this.prefixIcon}) {
+    this.textEditingController =
+        textEditingController ?? TextEditingController();
+  }
 
   @override
+  _LoginInputState createState() => _LoginInputState();
+}
+
+class _LoginInputState extends State<LoginInput> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.textEditingController.addListener(() {
+      setState(() =>{});
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscureText,
-      onChanged: onChanged,
-      style:kTextLoginInputStyle ,
-      decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey
-          ),
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          focusedBorder: kInputBorder,
-          errorBorder: kInputBorder,
-          focusedErrorBorder: kInputBorder,
-          enabledBorder: kInputBorder),
-      controller: textEditingController,
-      autovalidateMode: autovalidateMode,
-      validator: validator,
+    return Container(
+      child: TextFormField(
+        obscureText: widget.obscureText,
+        style: kTextLoginInputStyle,
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
+            hintText: widget.hintText,
+            hintStyle: TextStyle(color: Colors.grey),
+            suffixIcon:_getSuffixIcon() ,
+            prefixIcon: widget.prefixIcon,
+            focusedBorder: kLoginInputBorder,
+            errorBorder: kLoginInputBorder,
+            focusedErrorBorder: kLoginInputBorder,
+            enabledBorder: kLoginInputBorder),
+        controller: widget.textEditingController,
+        autovalidateMode: widget.autoValidateMode,
+        validator: widget.validator,
+      ),
     );
+  }
+
+  Widget _getSuffixIcon(){
+    return widget.textEditingController.text.length>0? widget.suffixIcon:null;
   }
 }
 

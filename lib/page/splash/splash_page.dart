@@ -7,13 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sp_util/sp_util.dart';
-import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/compents/dialog_util.dart';
-import 'package:wan_android/controller/theme_controller.dart';
-import 'package:wan_android/default/global.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/theme/app_theme.dart';
+import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/util/device_util.dart';
 import 'package:wan_android/util/permission_util.dart';
 
@@ -56,7 +51,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
+      value: lightSystemUiStyle,
       child: Scaffold(
           backgroundColor: Colors.white,
           body: Stack(

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bindings/article_collection_bindings.dart';
 import 'package:wan_android/bindings/device_info_bindings.dart';
 import 'package:wan_android/bindings/express_delivery_bindings.dart';
 import 'package:wan_android/bindings/girl_bindings.dart';
 import 'package:wan_android/bindings/girl_detail_bindings.dart';
+import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/bindings/message_list_bindings.dart';
 import 'package:wan_android/bindings/message_list_new_bindings.dart';
 import 'package:wan_android/bindings/news_content_bindings.dart';
@@ -14,20 +16,14 @@ import 'package:wan_android/bindings/person_share_bindings.dart';
 import 'package:wan_android/bindings/person_stars_bindings.dart';
 import 'package:wan_android/bindings/register_bindings.dart';
 import 'package:wan_android/bindings/search_bindings.dart';
-import 'package:wan_android/bindings/theme_bindings.dart';
 import 'package:wan_android/bindings/stars_leader_bindings.dart';
 import 'package:wan_android/bindings/todo_bindings.dart';
 import 'package:wan_android/compents/web_page.dart';
-import 'package:wan_android/controller/person/person_share_controller.dart';
-import 'package:wan_android/controller/person/person_stars_controller.dart';
-import 'package:wan_android/controller/person/starts_leader_controller.dart';
 import 'package:wan_android/default/global.dart';
-import 'package:wan_android/bindings/login_bindings.dart';
 import 'package:wan_android/page/girl/girl_detail_page.dart';
 import 'package:wan_android/page/girl/girls_page.dart';
 import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
-import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
@@ -46,7 +42,6 @@ import 'package:wan_android/page/splash/splash_page.dart';
 import 'package:wan_android/page/system/system_content_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
 import 'package:wan_android/page/todo/todo_page.dart';
-import 'package:wan_android/page/we_chat/we_chat_page.dart';
 
 abstract class RoutesConfig {
   static const SPLASH = "/";
@@ -96,10 +91,11 @@ abstract class RoutesConfig {
         bindings: [
           LoginBindings(),
         ],
-        transition: Transition.downToUp),
+        transition: Transition.rightToLeft),
     GetPage(
         name: REGISTER_PAGE,
         page: () => RegisterPage(),
+        binding:RegisterBindings() ,
         transition: Transition.rightToLeft),
     GetPage(
         name: SETTING_PAGE,
@@ -158,11 +154,13 @@ abstract class RoutesConfig {
     GetPage(
         name: GIRL_PAGE,
         page: () => GirlPage(),
-        binding: GirlBindings()),
+        binding: GirlBindings(),
+        transition:Transition.rightToLeft),
     GetPage(
         name: GIRL_DETAIL_PAGE,
         page: () => GirlDetailPage(),
-        binding: GirlDetailBindings())
+        binding: GirlDetailBindings(),
+        transition: Transition.zoom)
   ];
 }
 
@@ -171,7 +169,7 @@ class RouteAuthMiddleware extends GetMiddleware {
   @override
   RouteSettings redirect(String route) {
     //没有登录过，就需要去登录页面
-    if (!Global.isUserOnLine) {
+    if (loginState!=LoginState.LOGIN) {
       return RouteSettings(name: RoutesConfig.LOGIN_PAGE);
     }
     //登录过，就不要拦截正常跳转到目标页面。

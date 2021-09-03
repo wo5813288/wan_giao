@@ -9,7 +9,6 @@ abstract class ConstantInfo{
   static const String ARTICLE_AUTHOR= "article_author";
   static const String THEME_DARK = "theme_dark";
 
-  static const String KEY_IS_FIRST_OPEN_APP = "is_first_open_app";
   static const String KEY_SEARCH_HISTORY = "search_history";
   static const String KEY_AGREE_PRIVACY = "agree_privacy";
 

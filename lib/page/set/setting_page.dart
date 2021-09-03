@@ -1,13 +1,17 @@
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
+import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_theme.dart';
 
 class SettingPage extends StatelessWidget {
@@ -142,7 +146,7 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _logoutButton(BuildContext context){
-    return Container(
+    return Get.find<AppState>().loginState.value==LoginState.LOGIN? Container(
       margin: EdgeInsets.only(top:10.h),
       width: double.infinity,
       height: 40.h,
@@ -155,13 +159,40 @@ class SettingPage extends StatelessWidget {
               fontSize: 16.sp
           ),
         ),
-        onPressed:()async{
-          await HttpManager.clearCookie();
-          await SpUtil.clear();
-          Get.find<AppState>().loginState.value = LoginState.LOGO_OUT;
-          Get.back();
+        onPressed:(){
+          Get.defaultDialog(
+            title: "退出确认",
+            titleStyle: TextStyle(color: Colors.black),
+            radius: 5,
+            content: Text("退出当前账号，将不能同步收藏，评论，查看积分等",style: TextStyle(color: Colors.black)),
+            actions: [
+              TextButton(
+                child: Text("取消",style: kPrivacyYesTextStyle),
+                onPressed: (){
+                  Get.back(result: false);
+                },
+              ),
+              TextButton(
+                child: Text("确认退出",style: kPrivacyYesTextStyle),
+                onPressed: (){
+                  Get.back(result: true);
+                },
+              )
+            ],
+          ).then((value){
+            if(value){
+              logout();
+              Get.back();
+            }
+          });
         },
       ),
-    );
+    ):Container();
   }
+}
+
+logout() {
+  HttpManager.clearCookie();
+  SpUtil.remove(ConstantInfo.KEY_USER);
+  appState.setIsLogin(LoginState.LOGO_OUT);
 }
