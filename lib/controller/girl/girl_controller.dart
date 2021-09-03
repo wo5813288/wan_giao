@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wan_android/bean/girl_data.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
@@ -10,12 +11,14 @@ class GirlController extends BaseGetXControllerWithRefesh {
   var isList = false.obs;
   List<Girl> get girls => _girls;
   int _pageIndex = 1;
+  ScrollController scrollController = ScrollController();
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     initData(true);
   }
+
   void getGirls(bool isShowLoading, {bool refresh}) {
     handleRequest(
         HttpManager.instance.get("",
