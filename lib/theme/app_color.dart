@@ -23,6 +23,8 @@ class KColors{
   static const Color kIconDarkColor = Colors.greenAccent;
   static const Color kMessageBgLightColor = kInputBorderColor;
   static const Color kMessageBgDarkColor = Colors.grey;
+
+  static const Color kDialogCancelTextColor = Color(0xFFBDBDBD);
 }
 
 

@@ -11,6 +11,7 @@ import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_theme.dart';
 
@@ -146,7 +147,7 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _logoutButton(BuildContext context){
-    return Get.find<AppState>().loginState.value==LoginState.LOGIN? Container(
+    return loginState==LoginState.LOGIN? Container(
       margin: EdgeInsets.only(top:10.h),
       width: double.infinity,
       height: 40.h,
@@ -160,14 +161,26 @@ class SettingPage extends StatelessWidget {
           ),
         ),
         onPressed:(){
-          Get.defaultDialog(
-            title: "退出确认",
-            titleStyle: TextStyle(color: Colors.black),
-            radius: 5,
-            content: Text("退出当前账号，将不能同步收藏，评论，查看积分等",style: TextStyle(color: Colors.black)),
+          _showIsLogoutDialog(context).then((value){
+            if(value){
+              logout();
+              Get.back();
+            }
+          });
+        },
+      ),
+    ):Container();
+  }
+
+  _showIsLogoutDialog(BuildContext context) async{
+    return await showDialog(
+        context: context,
+        builder: (context)=>AlertDialog(
+            title: Text("确认退出",style: TextStyle(color: Colors.black)),
+            content:Text("退出当前账号，将不能同步收藏，评论，查看积分等",style: TextStyle(color: Colors.black)),
             actions: [
               TextButton(
-                child: Text("取消",style: kPrivacyYesTextStyle),
+                child: Text("取消",style: TextStyle(color: KColors.kDialogCancelTextColor)),
                 onPressed: (){
                   Get.back(result: false);
                 },
@@ -178,16 +191,9 @@ class SettingPage extends StatelessWidget {
                   Get.back(result: true);
                 },
               )
-            ],
-          ).then((value){
-            if(value){
-              logout();
-              Get.back();
-            }
-          });
-        },
-      ),
-    ):Container();
+            ]
+        )
+    );
   }
 }
 
@@ -196,3 +202,6 @@ logout() {
   SpUtil.remove(ConstantInfo.KEY_USER);
   appState.setIsLogin(LoginState.LOGO_OUT);
 }
+
+///用户确认是否退出
+
