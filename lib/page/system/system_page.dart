@@ -1,12 +1,17 @@
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/bean/tip_data.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/system/system_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
-import 'package:wan_android/compents/state_page.dart';
+
+
 class SystemPage extends StatefulWidget {
   @override
   _SystemPageState createState() => _SystemPageState();
@@ -37,75 +42,71 @@ class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMi
               _systemController.getSystemData();
             },);
           }
-          return ListView.separated(
-            itemCount: _systemController.tipItems.length,
-            itemBuilder: (context,index){
-              return _buildTipItemUI(_systemController.tipItems[index]);
-            },
-            separatorBuilder: (context,index){
-              return Divider(thickness: 10.0,);
-            },
-          );
+          return _buildBodyContent();
         },
       )
     );
   }
 
-  Widget _buildTipItemUI(TipItem tipItem){
-    return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.grey[100].withOpacity(0.5)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            tipItem.name,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          _buildTipItemChildrenUI(tipItem),
-        ],
-      ),
+  Widget _buildBodyContent(){
+    return ListView.builder(
+      itemBuilder: (context,index){
+        return StickyHeader(
+          header: _buildStickyHeader(index),
+          content: _buildStickyContent(index)
+        );
+      },
+      itemCount: _systemController.tipItems.length,
     );
   }
 
-  Widget _buildTipItemChildrenUI(TipItem tipItem) {
-    List<Widget> _childs = [];
-    for(int i=0;i<tipItem.children.length;i++){
-      TipItemChildren children = tipItem.children[i];
-      var chip =ActionChip(
-        label: Text(children.name),
-        elevation: 5.0,
-        backgroundColor: Colors.transparent,
-        onPressed: (){
-          //点击选项
-          Get.toNamed(
-            RoutesConfig.SYSTEM_CONTENT,
-            arguments: {
-              SystemConstant.SELECT_TITLE_INDEX:i,
-              SystemConstant.SELECT_TITLE:tipItem
-            }
-          );
-        },
-        labelStyle: TextStyle(
-          color: Colors.red,
+  _buildStickyHeader(int index){
+    return PhysicalModel(
+      color: Colors.white,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
+        decoration: BoxDecoration(
+            color: Colors.white,
+          border: Border(
+            bottom: BorderSide(width: 1.h,color: Colors.grey[200].withOpacity(0.5))
+          )
         ),
-      );
-      _childs.add(chip);
-    }
-    return Wrap(
-      spacing: 15.0,
-      runSpacing: 10.0,
-      children: _childs,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          _systemController.tipItems[index].name,
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 
+  _buildStickyContent(int index){
+    return Padding(
+      padding: EdgeInsets.all(5.w),
+      child: Wrap(
+        spacing: 15.0.w,
+        runSpacing: 10.0.h,
+        children: _systemController.tipItems[index].children.map((e) {
+          return ActionChip(
+            label: Text(e.name),
+            elevation: 5.0,
+            backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+            onPressed: () {
+              //点击选项
+              Get.toNamed(RoutesConfig.SYSTEM_CONTENT, arguments: {
+                SystemConstant.SELECT_TITLE_INDEX:_systemController.tipItems[index].children.indexOf(e),
+                SystemConstant.SELECT_TITLE:_systemController.tipItems[index]
+              });
+            },
+            labelStyle: TextStyle(
+              color: Colors.white,
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
   @override
   bool get wantKeepAlive => true;
 }
