@@ -14,6 +14,7 @@ import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_theme.dart';
+import 'package:wan_android/util/app_update.dart';
 
 class SettingPage extends StatelessWidget {
 
@@ -71,20 +72,25 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _appVersionText(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: ListTile(
-        title: Text("检查版本",
-            style: Theme.of(context).textTheme.bodyText1),
-        dense: true,
-        trailing: Obx((){
-          return Text(
-              Get.find<DeviceInfoController>().versionName.value,
-              style: Theme.of(context).textTheme.subtitle1.copyWith(
-                fontSize: 15.sp
-              )
-          );
-        }),
+    return InkWell(
+      onTap: (){
+        AppUpdate.checkUpdate(context);
+      },
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: ListTile(
+          title: Text("检查版本",
+              style: Theme.of(context).textTheme.bodyText1),
+          dense: true,
+          trailing: Obx((){
+            return Text(
+                Get.find<DeviceInfoController>().versionName.value,
+                style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  fontSize: 15.sp
+                )
+            );
+          }),
+        ),
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:wan_android/controller/girl/girl_detail_controller.dart';
+import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_style.dart';
 
 class GirlDetailPage extends GetView<GirlDetailController> {
@@ -61,10 +62,9 @@ class GirlDetailPage extends GetView<GirlDetailController> {
 
   _saveImage() async {
     //保存图片到本地
-    var response = await Dio()
-        .get(imageUrl, options: Options(responseType: ResponseType.bytes));
+    var data = await HttpManager.instance.request(imageUrl, option: Options(responseType: ResponseType.bytes));
     final result = await ImageGallerySaver.saveImage(
-        Uint8List.fromList(response.data),
+        Uint8List.fromList(data),
         quality: 100,
         name: imageUrl.substring(
             imageUrl.lastIndexOf("/"), imageUrl.lastIndexOf(".")));
