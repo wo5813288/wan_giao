@@ -46,12 +46,14 @@ class AppUpdate {
         radius: 8.w,
         themeColor: Color(0xFFFFAC5D),
         progressBackgroundColor: Color(0x5AFFAC5D),
-        isForce: true,
+        isForce: false,
         updateButtonText: "升级",
         ignoreButtonText: '忽略此版本',
-        enableIgnore: true, onIgnore: () {
-      _dialog.dismiss();
-    }, onUpdate: () {
+        enableIgnore: true,
+        onIgnore: () {
+       _dialog.dismiss();
+          },
+        onUpdate: () {
       _downloadApp(versionName, downloadUrl);
     });
   }
@@ -59,13 +61,6 @@ class AppUpdate {
   static _downloadApp(String versionName, String downloadUrl) async {
     var dir = await getExternalStorageDirectory();
     File file = File(dir.path + "/download/$versionName.apk");
-    if (file.existsSync()) {
-      //下载完成
-      _installApk(file.path).then((value) {
-        if (value) print("安装完成");
-      });
-      return;
-    }
     await Dio().download(downloadUrl, file.path,
         onReceiveProgress: (count, total) {
       double progress = (count / total).toDouble();
