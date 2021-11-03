@@ -64,7 +64,6 @@ class AppUpdate {
     await Dio().download(downloadUrl, file.path,
         onReceiveProgress: (count, total) {
       double progress = (count / total).toDouble();
-      //String percent = ((count / total).toDouble() * 100).toStringAsFixed(2);
       if (progress == 1) {
         //下载完成
         _installApk(file.path).then((value) {

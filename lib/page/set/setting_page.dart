@@ -1,5 +1,4 @@
 
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
-import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
@@ -24,20 +22,23 @@ class SettingPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
-          color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
+          color: Get.isDarkMode?Colors.grey:Colors.black
         ),
         title: Text(
             "设置",
           style: TextStyle(
-            color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
+            color: Get.isDarkMode?Colors.grey:Colors.black,
           ),
         ),
         centerTitle: true,
-        backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.white:Colors.black,
+        // backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.white:Colors.black,
+        backgroundColor:Get.isDarkMode?Colors.black:Colors.white,
       ),
-      body:Container(
+      body:AnimatedContainer(
+        duration: Duration(milliseconds: 500),
         padding: EdgeInsets.only(top: 10.h),
-        color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.grey[200].withOpacity(0.7):Colors.black45,
+        // color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.grey[200].withOpacity(0.7):Colors.black45,
+        color: Get.isDarkMode?Colors.black45:Colors.grey[100],
         child: Column(
           children: [
             _switchThemeDark(context),
@@ -58,16 +59,17 @@ class SettingPage extends StatelessWidget {
   Widget _switchThemeDark(BuildContext context){
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: Obx((){
-        return SwitchListTile(
-          dense: true,
-          value: Get.find<ThemeController>().themKey==ThemeKey.DARK,
-          title: Text("夜间模式",style:  Theme.of(context).textTheme.bodyText1,),
-          onChanged: (flag){
-            Get.find<ThemeController>().setThemeData(flag?ThemeKey.DARK:ThemeKey.LIGHT);
-          },
-        );
-      }),
+      child: SwitchListTile(
+        dense: true,
+        value: Get.isDarkMode,
+        activeColor: Colors.white,
+        title: Text("夜间模式",style:  Theme.of(context).textTheme.bodyText1,),
+        onChanged: (flag){
+          String themeKey = Get.isDarkMode?ThemeKey.LIGHT:ThemeKey.DARK;
+          Get.changeTheme(themeList[themeKey]);
+          SpUtil.putString(ThemeKey.KEY_APP_THEME,themeKey);
+        },
+      )
     );
   }
 
