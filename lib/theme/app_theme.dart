@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wan_android/theme/app_color.dart';
 
 ///白天模式
@@ -7,7 +8,9 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     splashColor: Colors.white12,
     scaffoldBackgroundColor: Colors.white,
     backgroundColor: Colors.grey[200].withOpacity(0.7),
-    iconTheme: IconThemeData(color: KColors.kIconLightColor),
+    iconTheme: IconThemeData(
+        color: KColors.kIconLightColor,
+    ),
     textTheme: TextTheme(
         headline1: TextStyle(
           color: Colors.black,
@@ -19,6 +22,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
 ///夜间模式
 ThemeData darkTheme = ThemeData.dark().copyWith(
     iconTheme: IconThemeData(color: KColors.kIconDarkColor));
+
 
 IconThemeData lightIconTheme = IconThemeData(color: Colors.grey);
 IconThemeData darkIconTheme = IconThemeData(color: Colors.grey);
@@ -39,3 +43,4 @@ Map<String, ThemeData> themeList = {
   ThemeKey.DARK: darkTheme,
   ThemeKey.LIGHT: lightTheme
 };
+

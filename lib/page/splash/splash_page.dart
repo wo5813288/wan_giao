@@ -144,7 +144,6 @@ class _SplashPageState extends State<SplashPage>
     String id = await jPush.getRegistrationID();
     jPush.addEventHandler(
       onReceiveNotification: (message) async{
-        print("flutter onReceiveNotification===> $message");
         Get.snackbar(
             message['title'],
             message['alert'],

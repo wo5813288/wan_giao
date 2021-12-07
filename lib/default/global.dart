@@ -7,7 +7,6 @@ import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/contrants_info.dart';
-import 'package:wan_android/controller/theme_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_theme.dart';
 
@@ -16,7 +15,6 @@ class Global {
   ///在项目启动前做一些初始化操作
   static Future init() async {
     var appState = Get.put<AppState>(AppState());
-    var themeController = Get.put<ThemeController>(ThemeController());
     //初始化持久工具
     await SpUtil.getInstance();
     //出丝滑Cookie管理
@@ -30,7 +28,9 @@ class Global {
       appState.setIsLogin(LoginState.LOGIN);
     }
     //初始化默认主题
-    themeController.setThemeData(SpUtil.getString(ThemeKey.KEY_APP_THEME,defValue: ThemeKey.LIGHT));
+    Get.changeTheme(
+      themeList[SpUtil.getString(ThemeKey.KEY_APP_THEME,defValue: ThemeKey.LIGHT)]
+    );
 
   }
 

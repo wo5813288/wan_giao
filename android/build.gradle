@@ -15,6 +15,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://frontjs-static.pgyer.com/dist/sdk/pgyersdk" }
     }
 }
 

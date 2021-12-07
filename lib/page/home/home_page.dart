@@ -9,6 +9,8 @@ import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/home/square_page.dart';
 import 'package:wan_android/route/routes_page.dart';
+import 'package:wan_android/theme/app_style.dart';
+import 'package:wan_android/util/app_update.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -27,6 +29,7 @@ class HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    AppUpdate.checkUpdate(context);
   }
 
   @override
@@ -42,7 +45,7 @@ class HomePageState extends State<HomePage>
         length: 3,
         initialIndex: 1,
         child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
+          value: lightSystemUiStyle,
           child: Scaffold(
               backgroundColor: Colors.white,
               appBar: _buildTopBarUI(context),

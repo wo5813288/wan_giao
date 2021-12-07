@@ -28,10 +28,8 @@ class PermissionUtil {
         break;
       case PermissionStatus.restricted:
         // TODO: Handle this case.
-        debugPrint("===>这是restricted");
         break;
       case PermissionStatus.limited:
-        debugPrint("===>这是limited");
         // TODO: Handle this case.
         break;
     }

@@ -106,8 +106,10 @@ class HttpManager {
     }
   }
 
+
   request(String url,
       {Map<String, dynamic> params,
+      Options option,
       Map<String, dynamic> queryParams,
       String method = Method.GET,
       bool refresh = false,
@@ -116,16 +118,15 @@ class HttpManager {
       bool noCache = !CACHE_ENABLED,
       String newUrl = ""}) async {
     Response response;
-    Options options = Options(
-        extra: {
-          "list":list,
-          "noCache":noCache,
-          "cacheDisk":cacheDisk,
-          "refresh":refresh,
-          "newUrl":newUrl
-        },
-      method: method
-    );
+    Options options =option??Options();
+    options.extra ={
+      "list":list,
+      "noCache":noCache,
+      "cacheDisk":cacheDisk,
+      "refresh":refresh,
+      "newUrl":newUrl
+    };
+    options.method = method;
     try{
       response = await _dio.request(url, data: params,queryParameters:queryParams,options: options);
       if(response.data['code']!=null&&response.data['code']!=1){
