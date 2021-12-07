@@ -9,6 +9,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -20,21 +21,26 @@ class RegisterPage extends StatelessWidget {
           ),
         ),
       backgroundColor: Colors.white,
-      body: Container(
-          color: Colors.white,
-          height: double.infinity,
-          child: Column(
-            children: [
-              Expanded(
-                child: TopTitleWidget(),
-                flex: 1,
-              ),
-              Expanded(
-                child: RegisterBodyWidget(),
-                flex: 3,
-              ),
-            ],
-          ))
+      body: GestureDetector(
+        onTapDown: (details){
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+            color: Colors.white,
+            height: double.infinity,
+            child: Column(
+              children: [
+                Expanded(
+                  child: TopTitleWidget(),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: RegisterBodyWidget(),
+                  flex: 3,
+                ),
+              ],
+            )),
+      )
     );
   }
 }

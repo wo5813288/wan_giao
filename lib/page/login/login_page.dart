@@ -4,14 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/compents/login_widget.dart';
 import 'package:wan_android/controller/login/login_controller.dart';
+import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_text.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //防止键盘弹出布局异常
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
+        systemOverlayStyle: lightSystemUiStyle,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -20,25 +24,31 @@ class LoginPage extends StatelessWidget {
           },
         ),
       ),
-      body: Container(
-          color: Colors.white,
-          height: double.infinity,
-          child: Column(
-            children: [
-              Expanded(
-                child: TopTitleWidget(),
-                flex: 1,
-              ),
-              Expanded(
-                child: LoginBodyWidget(),
-                flex: 3,
-              ),
-              Expanded(
-                child: BottomThirdLoginMenu(),
-                flex: 1,
-              )
-            ],
-          )),
+      body: GestureDetector(
+        onTapDown: (details){
+          //点击空白处键盘消失
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+            color: Colors.white,
+            height: double.infinity,
+            child: Column(
+              children: [
+                Expanded(
+                  child: TopTitleWidget(),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: LoginBodyWidget(),
+                  flex: 3,
+                ),
+                Expanded(
+                  child: BottomThirdLoginMenu(),
+                  flex: 1,
+                )
+              ],
+            )),
+      ),
     );
   }
 }
@@ -95,6 +105,7 @@ class LoginBodyWidget extends StatelessWidget {
             height:15.h
           ),
           LoginPasswordInoutWidget(
+            hintText: "输入密码",
             loginInputController: passwordController,
           ),
           Container(

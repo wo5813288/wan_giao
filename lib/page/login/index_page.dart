@@ -6,6 +6,7 @@ import 'package:wan_android/compents/contrants_info.dart';
 import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/icon_font.dart';
 import 'package:wan_android/page/person/person_page.dart';
+import 'package:wan_android/page/person/person_page2.dart';
 import 'package:wan_android/page/project/project_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_page.dart';
