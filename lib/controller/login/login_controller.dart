@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/app/app_state.dart';
 import 'package:wan_android/bean/user_data.dart';
 import 'package:wan_android/compents/dialog_util.dart';
@@ -12,44 +13,24 @@ import 'package:wan_android/http/http_manager.dart';
 import 'package:wan_android/theme/app_text.dart';
 
 class LoginController extends BaseGetXController{
-  var autovalidateMode = AutovalidateMode.disabled.obs;
-  var isObscure = true.obs;
-  var isShowClearIcon = false.obs;
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController userPwdController = TextEditingController();
-  @override
-  void onInit() {
-    super.onInit();
-    userNameController.addListener(() {
-      isShowClearIcon.value = userNameController.text.isNotEmpty;
-    });
-  }
-
-  void clearText(){
-    userNameController.clear();
-  }
-  ///设置当前密码是否可见，false可见，true不可见
-  void setObscure(bool obscure) {
-    isObscure.value = obscure;
-  }
-
-  ///设置当前自动验证模式
-  void setAutoValidateMode(AutovalidateMode mode){
-    autovalidateMode.value = mode;
-  }
 
   ///提交登录
-  void submitForm() {
+  void submitForm(String userName,String password) {
+    if(userName.isEmpty||password.isEmpty){
+      showToast("用户名或密码不能为空",position: ToastPosition.bottom);
+      return;
+    }
+
     LoadingDialog.show(message: KText.loginingText);
     //提交登录请求
     handleRequest(
-        HttpManager.instance.postFormData(
-            "user/login", {"username": userNameController.text.trim(), "password": userPwdController.text.trim()}),
+        HttpManager.instance.postFormData("user/login", {"username": userName.trim(), "password": password.trim()}),
         true, (value) {
       var user = UserData.fromJson(value).data;
       //登录成功，记录账号和密码
-      user.setUserPassword(userPwdController.text.trim());
+      //user.setUserPassword(userPwdController.text.trim());
       Global.saveUserProfile(user);
+      //通知各个页面用户登录了
       appState.setIsLogin(LoginState.LOGIN);
       LoadingDialog.dismiss();
       //返回上一级页面，并返回一个结果

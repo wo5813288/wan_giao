@@ -26,6 +26,7 @@ import 'package:wan_android/page/home/question_page.dart';
 import 'package:wan_android/page/home/recommend_page.dart';
 import 'package:wan_android/page/login/index_page.dart';
 import 'package:wan_android/page/login/login_page.dart';
+import 'package:wan_android/page/login/login_page.dart';
 import 'package:wan_android/page/login/register_page.dart';
 import 'package:wan_android/page/news/news_content_detail_page.dart';
 import 'package:wan_android/page/news/news_list_page.dart';

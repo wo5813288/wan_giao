@@ -2,116 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
 
-///登录页面剪裁曲线
-class LoginClipper extends CustomClipper<Path> {
-  // 第一个点
-  Point p1 = Point(0.0, 54.0);
-  Point c1 = Point(20.0, 25.0);
-  Point c2 = Point(81.0, -8.0);
-
-  // 第二个点
-  Point p2 = Point(160.0, 20.0);
-  Point c3 = Point(216.0, 38.0);
-  Point c4 = Point(280.0, 73.0);
-
-  // 第三个点
-  Point p3 = Point(280.0, 44.0);
-  Point c5 = Point(280.0, -11.0);
-  Point c6 = Point(330.0, 8.0);
-
-  @override
-  Path getClip(Size size) {
-    // 第四个点
-    Point p4 = Point(size.width, .0);
-
-    Path path = Path();
-    // 移动到第一个点
-    path.moveTo(p1.x, p1.y);
-    //第一阶段 三阶贝塞尔曲线
-    path.cubicTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y);
-    //第二阶段 三阶贝塞尔曲线
-    path.cubicTo(c3.x, c3.y, c4.x, c4.y, p3.x, p3.y);
-    //第三阶段 三阶贝塞尔曲线
-    path.cubicTo(c5.x, c5.y, c6.x, c6.y, p4.x, p4.y);
-    // 连接到右下角
-    path.lineTo(size.width, size.height);
-    // 连接到左下角
-    path.lineTo(0, size.height);
-    //闭合
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return this.hashCode != oldClipper.hashCode;
-  }
-}
-
-///登录输入框控件
-class LoginInput extends StatefulWidget {
-  TextEditingController textEditingController;
-  final FormFieldValidator<String> validator;
-  final AutovalidateMode autoValidateMode;
-  final String hintText;
-  final bool obscureText;
-  final Widget suffixIcon;
-  final Widget prefixIcon;
-
-  LoginInput(TextEditingController textEditingController,
-      {this.validator,
-      this.autoValidateMode,
-      this.hintText,
-      this.obscureText = false,
-      this.suffixIcon,
-      this.prefixIcon}) {
-    this.textEditingController =
-        textEditingController ?? TextEditingController();
-  }
-
-  @override
-  _LoginInputState createState() => _LoginInputState();
-}
-
-class _LoginInputState extends State<LoginInput> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.textEditingController.addListener(() {
-      setState(() =>{});
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: TextFormField(
-        obscureText: widget.obscureText,
-        style: kTextLoginInputStyle,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            hintText: widget.hintText,
-            hintStyle: TextStyle(color: Colors.grey),
-            suffixIcon:_getSuffixIcon() ,
-            prefixIcon: widget.prefixIcon,
-            focusedBorder: kLoginInputBorder,
-            errorBorder: kLoginInputBorder,
-            focusedErrorBorder: kLoginInputBorder,
-            enabledBorder: kLoginInputBorder),
-        controller: widget.textEditingController,
-        autovalidateMode: widget.autoValidateMode,
-        validator: widget.validator,
-      ),
-    );
-  }
-
-  Widget _getSuffixIcon(){
-    return widget.textEditingController.text.length>0? widget.suffixIcon:null;
-  }
-}
 
 ///登录按钮
 class LoginButton extends StatelessWidget {
@@ -166,6 +61,153 @@ class LoginTypeIconWidget extends StatelessWidget {
             width: size ?? defaultSize, height: size ?? defaultSize),
         onTap: onTap,
       )
+    );
+  }
+}
+
+
+
+///用户名输入框
+class LoginUserNameInoutWidget extends StatefulWidget {
+  final TextEditingController loginInputController;
+
+  LoginUserNameInoutWidget({Key key, this.loginInputController})
+      : super(key: key);
+
+  @override
+  _LoginUserNameWidgetState createState() => _LoginUserNameWidgetState();
+}
+
+class _LoginUserNameWidgetState extends State<LoginUserNameInoutWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.loginInputController,
+      style: kTextLoginInputStyle,
+      onChanged: (v) {
+        setState(() {});
+      },
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
+        prefixIcon: Icon(
+          Icons.person,
+          color: Colors.grey,
+        ),
+        suffixIcon: widget.loginInputController.text.isEmpty
+            ? null
+            : IconButton(
+          icon: Icon(
+            Icons.cancel,
+            color: Colors.grey,
+          ),
+          onPressed: () {
+            //清除输入的内容
+            setState(() {
+              widget.loginInputController.clear();
+            });
+          },
+        ),
+        hintText: "输入用户名",
+        focusedBorder: kLoginInputBorder,
+        errorBorder: kLoginInputBorder,
+        focusedErrorBorder: kLoginInputBorder,
+        enabledBorder: kLoginInputBorder,
+      ),
+    );
+  }
+}
+
+///密码输入框
+class LoginPasswordInoutWidget extends StatefulWidget {
+  final TextEditingController loginInputController;
+  final String hintText;
+  LoginPasswordInoutWidget({Key key, this.loginInputController,this.hintText=""})
+      : super(key: key);
+
+  @override
+  _LoginPasswordWidgetState createState() => _LoginPasswordWidgetState();
+}
+
+class _LoginPasswordWidgetState extends State<LoginPasswordInoutWidget> {
+  bool _obscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.loginInputController,
+      style: kTextLoginInputStyle,
+      onChanged: (v) {
+        setState(() {});
+      },
+      obscureText: _obscure,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.zero,
+          prefixIcon: Icon(
+            Icons.lock,
+            color: Colors.grey,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey),
+            onPressed: () {
+              setState(() {
+                _obscure = !_obscure;
+              });
+            },
+          ),
+          hintText: widget.hintText,
+          focusedBorder: kLoginInputBorder,
+          errorBorder: kLoginInputBorder,
+          focusedErrorBorder: kLoginInputBorder,
+          enabledBorder: kLoginInputBorder),
+    );
+  }
+}
+
+class RegisterButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
+      child: TextButton(
+        child: Text(
+          "没有账号?去注册",
+          style: TextStyle(color: Colors.grey),
+        ),
+        onPressed: () {
+          Get.toNamed(RoutesConfig.REGISTER_PAGE);
+        },
+      ),
+    );
+  }
+}
+
+class BottomThirdLoginMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        LoginTypeIconWidget(
+          icon: "assets/icon/ic_qq.png",
+          onTap: () {
+            Get.snackbar("", "QQ登录", snackPosition: SnackPosition.BOTTOM);
+          },
+        ),
+        LoginTypeIconWidget(
+          icon: "assets/icon/ic_weixin.png",
+          onTap: () {
+            Get.snackbar("", "微信登录", snackPosition: SnackPosition.BOTTOM);
+          },
+        ),
+        LoginTypeIconWidget(
+          icon: "assets/icon/ic_weibo.png",
+          onTap: () {
+            Get.snackbar("", "微博登录", snackPosition: SnackPosition.BOTTOM);
+          },
+        ),
+      ],
     );
   }
 }
