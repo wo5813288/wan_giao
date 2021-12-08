@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_item.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/person/person_collection_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -80,9 +80,9 @@ class CollectionListPage extends StatelessWidget {
           child: InkWell(
               onTap: () {
                 Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
-                  ConstantInfo.ARTICLE_TITLE: articleItem.title,
-                  ConstantInfo.ARTICLE_URL: articleItem.link,
-                  ConstantInfo.ARTICLE_AUTHOR: articleItem.author,
+                  Constant.ARTICLE_TITLE: articleItem.title,
+                  Constant.ARTICLE_URL: articleItem.link,
+                  Constant.ARTICLE_AUTHOR: articleItem.author,
                 });
               },
               child: Row(

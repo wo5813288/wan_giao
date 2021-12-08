@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_item.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/project/project_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -124,8 +124,8 @@ class _ProjectContentPageState extends State<ProjectContentPage> with AutomaticK
               Get.toNamed(
                   RoutesConfig.WEB_PAGE,
                   arguments: {
-                    ConstantInfo.ARTICLE_TITLE:articleItem.title,
-                    ConstantInfo.ARTICLE_URL:articleItem.link
+                    Constant.ARTICLE_TITLE:articleItem.title,
+                    Constant.ARTICLE_URL:articleItem.link
                   });
             }));
   }

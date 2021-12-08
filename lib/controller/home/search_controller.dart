@@ -3,7 +3,7 @@ import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/hot_key_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:wan_android/controller/base/base_getx_controller_with_refresh.dart';
@@ -30,17 +30,17 @@ class SearchController extends BaseGetXControllerWithRefesh {
     // TODO: implement onInit
     super.onInit();
     //初始化的时候，开始获取搜索历史数据
-    _searchHistory.value = SpUtil.getStringList(ConstantInfo.KEY_SEARCH_HISTORY, defValue: []);
+    _searchHistory.value = SpUtil.getStringList(Constant.KEY_SEARCH_HISTORY, defValue: []);
   }
   void setQueryKey(String keyWords) {
     //这里记录搜索的历史
     var historyList =
-        SpUtil.getStringList(ConstantInfo.KEY_SEARCH_HISTORY, defValue: []);
+        SpUtil.getStringList(Constant.KEY_SEARCH_HISTORY, defValue: []);
     if (!historyList.contains(keyWords)) {
       historyList.add(keyWords);
     }
     //搜索的历史记录重新保存在本地缓存
-    SpUtil.putStringList(ConstantInfo.KEY_SEARCH_HISTORY, historyList);
+    SpUtil.putStringList(Constant.KEY_SEARCH_HISTORY, historyList);
     _searchHistory.value = historyList;
     _queryKey = keyWords;
   }

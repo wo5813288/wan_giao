@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/tip_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/page/system/system_content_list_page.dart';
 
 class SystemContentPage extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/bean/message_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/base/base_getx_controller.dart';
 import 'package:wan_android/controller/person/message_list_new_controller.dart';
@@ -29,35 +29,31 @@ class MessageListPageState extends State with TickerProviderStateMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?KColors.kMessageBgLightColor:KColors.kMessageBgDarkColor,
+        backgroundColor: Get.isDarkMode?KColors.kMessageBgDarkColor:KColors.kMessageBgLightColor,
         appBar: AppBar(
           elevation: 2,
           iconTheme: IconThemeData(
-              color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
+              color: Get.isDarkMode?Colors.grey:Colors.black
           ),
           title: Text(
             "消息通知",
             style: TextStyle(
-                color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
+                color: Get.isDarkMode?Colors.grey:Colors.black
             ),
           ),
           centerTitle: true,
-          backgroundColor: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.white:Colors.black,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           bottom: TabBar(
             isScrollable: false,
             controller: _tabController,
             tabs: [
               Tab(child:Text(
                 "新消息",
-                style: TextStyle(
-                    color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
-                ),
+                style: Theme.of(context).textTheme.bodyText2
               )),
               Tab(child: Text(
                 "历史消息",
-                style: TextStyle(
-                    color: SpUtil.getString(ThemeKey.KEY_APP_THEME)==ThemeKey.LIGHT?Colors.black:Colors.grey
-                ),
+                  style: Theme.of(context).textTheme.bodyText2
               ),)
             ],
           ),
@@ -134,7 +130,7 @@ class MessageListContentPageState extends State<MessageListContentPage> with Aut
         SizedBox(height: 5.h),
         InkWell(
           onTap: (){
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { ConstantInfo.ARTICLE_URL:messageItem.fullLink});
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { Constant.ARTICLE_URL:messageItem.fullLink});
           },
           child: Ink(
               padding: EdgeInsets.all(5.w),
@@ -166,7 +162,7 @@ class MessageListContentPageState extends State<MessageListContentPage> with Aut
         SizedBox(height: 5.h),
         InkWell(
           onTap: (){
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { ConstantInfo.ARTICLE_URL:messageItem.fullLink});
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { Constant.ARTICLE_URL:messageItem.fullLink});
           },
           child: Ink(
               padding: EdgeInsets.all(5.w),
@@ -259,7 +255,7 @@ class MessageListNewContentPageState extends State<MessageListNewContentPage> wi
         SizedBox(height: 5.h),
         InkWell(
           onTap: (){
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { ConstantInfo.ARTICLE_URL:messageItem.fullLink});
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { Constant.ARTICLE_URL:messageItem.fullLink});
           },
           child: Ink(
               padding: EdgeInsets.all(5.w),
@@ -291,7 +287,7 @@ class MessageListNewContentPageState extends State<MessageListNewContentPage> wi
         SizedBox(height: 5.h),
         InkWell(
           onTap: (){
-            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { ConstantInfo.ARTICLE_URL:messageItem.fullLink});
+            Get.toNamed(RoutesConfig.WEB_PAGE,arguments: { Constant.ARTICLE_URL:messageItem.fullLink});
           },
           child: Ink(
               padding: EdgeInsets.all(5.w),

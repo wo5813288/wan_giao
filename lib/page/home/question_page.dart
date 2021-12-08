@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/question_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/home/question_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -59,8 +59,8 @@ class QuestionPageState extends State<QuestionPage> with AutomaticKeepAliveClien
             onTap: () {
               //Scaffold.of(context).showBodyScrim(true, 10);
               Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
-                ConstantInfo.ARTICLE_TITLE: questionItem.title,
-                ConstantInfo.ARTICLE_URL: questionItem.link
+                Constant.ARTICLE_TITLE: questionItem.title,
+                Constant.ARTICLE_URL: questionItem.link
               });
             },
           ),

@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sp_util/sp_util.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/dialog_util.dart';
 import 'package:wan_android/compents/icon_font.dart';
 import 'package:wan_android/page/person/person_page.dart';
-import 'package:wan_android/page/person/person_page2.dart';
 import 'package:wan_android/page/project/project_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
 import 'package:wan_android/page/we_chat/we_chat_page.dart';
@@ -59,7 +58,7 @@ class IndexPageState extends State<IndexPage> {
   void initState() {
     super.initState();
     _pageController = PageController();
-    if(!SpUtil.getBool(ConstantInfo.KEY_AGREE_PRIVACY,defValue: false)){
+    if(!SpUtil.getBool(Constant.KEY_AGREE_PRIVACY,defValue: false)){
       //如果没有同意过隐私协议
       Future.delayed(Duration(seconds: 1),() async{
         bool agree = await showPrivacyDialog();
@@ -67,7 +66,7 @@ class IndexPageState extends State<IndexPage> {
           DeviceUtil.popApp();
           return;
         }
-        SpUtil.putBool(ConstantInfo.KEY_AGREE_PRIVACY, true);
+        SpUtil.putBool(Constant.KEY_AGREE_PRIVACY, true);
       });
     }
 

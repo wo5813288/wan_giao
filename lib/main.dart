@@ -22,28 +22,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshConfiguration(
         hideFooterWhenNotFull: false,
-        child: ScreenUtilInit(
-          designSize: Size(360,690),
-          builder: ()=>OKToast(child: GetMaterialApp(
-            darkTheme: darkTheme,
-            localizationsDelegates: [
-              // 这行是关键
-              RefreshLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              S.delegate
-            ],
-            debugShowCheckedModeBanner: false,
-            initialRoute: RoutesConfig.SPLASH,
-            getPages: RoutesConfig.getPages,
-            //国际化支持的语言包
-            supportedLocales: [
-              const Locale('zh',"CN"),
-              const Locale('en','US'),
-            ],
-          )),
-        )
+        child:OKToast(child: GetMaterialApp(
+          darkTheme: darkTheme,
+          localizationsDelegates: [
+            // 这行是关键
+            RefreshLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            S.delegate
+          ],
+          debugShowCheckedModeBanner: false,
+          initialRoute: RoutesConfig.SPLASH,
+          getPages: RoutesConfig.getPages,
+          //国际化支持的语言包
+          supportedLocales: [
+            const Locale('zh',"CN"),
+            const Locale('en','US'),
+          ],
+        ))
     );
   }
 }

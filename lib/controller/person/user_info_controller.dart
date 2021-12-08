@@ -10,6 +10,12 @@ class UserInfoController extends BaseGetXController{
   var _messageCount = 0.obs;
   Coin get coin => _coin.value;
   int get messageCount => _messageCount.value;
+  @override
+  void onInit() {
+    super.onInit();
+    getUserCoin();
+    getMessage();
+  }
   ///获取积分列表和排名
   void getUserCoin() {
     handleRequest(

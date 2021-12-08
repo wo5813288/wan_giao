@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/app/app_state.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
+import 'package:wan_android/compents/list_tile_item.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_theme.dart';
@@ -22,7 +24,10 @@ class SettingPage extends StatelessWidget {
             onPressed: () {
               Get.back();
             },
-            icon: Icon(Icons.arrow_back_ios,size: 20.w,),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20.w,
+            ),
           ),
           iconTheme:
               IconThemeData(color: Get.isDarkMode ? Colors.grey : Colors.black),
@@ -38,13 +43,10 @@ class SettingPage extends StatelessWidget {
         body: AnimatedContainer(
           duration: Duration(milliseconds: 500),
           padding: EdgeInsets.only(top: 10.h),
-          color: Get.isDarkMode ? Colors.black45 : Colors.grey[100],
+          color: Get.isDarkMode ? Colors.black : Colors.grey[100],
           child: Column(
             children: [
-              _switchThemeDark(context),
-              SizedBox(height: 10.h),
-              _appVersionText(context),
-              SizedBox(height: 10.h),
+             // _switchThemeDark(context),
               _appAuthorText(context),
               //退出登录
               _logoutButton(context),
@@ -68,31 +70,9 @@ class SettingPage extends StatelessWidget {
           onChanged: (flag) {
             String themeKey = Get.isDarkMode ? ThemeKey.LIGHT : ThemeKey.DARK;
             Get.changeTheme(themeList[themeKey]);
-            SpUtil.putString(ThemeKey.KEY_APP_THEME, themeKey);
+            SpUtil.putString(Constant.KEY_APP_THEME, themeKey);
           },
         ));
-  }
-
-  Widget _appVersionText(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        AppUpdate.checkUpdate(context);
-      },
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: ListTile(
-          title: Text("检查版本", style: Theme.of(context).textTheme.bodyText1),
-          dense: true,
-          trailing: Obx(() {
-            return Text(Get.find<DeviceInfoController>().versionName.value,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(fontSize: 15.sp));
-          }),
-        ),
-      ),
-    );
   }
 
   Widget _appAuthorText(BuildContext context) {
@@ -100,49 +80,42 @@ class SettingPage extends StatelessWidget {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
-            ListTile(
-                title: Text("作者", style: Theme.of(context).textTheme.bodyText1),
-                dense: true,
-                trailing: Text("Lollipop",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: 15.sp))),
-            Divider(thickness: 1.h),
-            ListTile(
-                title: Text("邮箱", style: Theme.of(context).textTheme.bodyText1),
-                dense: true,
-                trailing: Text("ljs581@163.com",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: 15.sp))),
-            Divider(thickness: 1.h),
-            ListTile(
-                title:
-                    Text("Gitee", style: Theme.of(context).textTheme.bodyText1),
-                dense: true,
-                trailing: Text("gitee.com/lambadaace/wan_android",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: 15.sp))),
-            Divider(thickness: 1.h),
-            ListTile(
-                title: Text("GitHub",
-                    style: Theme.of(context).textTheme.bodyText1),
-                dense: true,
-                trailing: Text("github.com/wo5813288/wan_giao",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(fontSize: 15.sp))),
+            ListTileItem(
+              title: "夜间模式",
+              content:_getCurrentTheme(),
+              onTap: (){
+                Get.toNamed(RoutesConfig.THEME_SET_PAGE);
+              },
+            ),
+            Obx(() {
+              return ListTileItem(
+                title: "检查版本",
+                content: Get.find<DeviceInfoController>().versionName.value,
+                onTap: (){
+                  AppUpdate.checkUpdate(context);
+                },
+              );
+            }),
+            ListTileItem(
+              title: "作者",
+              content: "Lollipop",
+            ),
+            ListTileItem(
+              title: "邮箱",
+              content: "ljs581@163.com",
+            ),
+            ListTileItem(
+              title: "项目地址-Gitee",
+            ),
+            ListTileItem(
+              title: "项目地址-GitHub",
+            ),
           ],
         ));
   }
 
   Widget _logoutButton(BuildContext context) {
-    return loginState == LoginState.LOGIN
+    return appState.isLogin
         ? Container(
             margin: EdgeInsets.only(top: 10.h),
             width: double.infinity,
@@ -190,11 +163,27 @@ class SettingPage extends StatelessWidget {
                   )
                 ]));
   }
+  String _getCurrentTheme() {
+    final String key = SpUtil.getString(Constant.KEY_APP_THEME);
+    String themeMode;
+    switch(key) {
+      case ThemeKey.DARK:
+        themeMode = '开启';
+        break;
+      case ThemeKey.LIGHT:
+        themeMode = '关闭';
+        break;
+      default:
+        themeMode = '跟随系统';
+        break;
+    }
+    return themeMode;
+  }
 }
 
 logout() {
   HttpManager.clearCookie();
-  SpUtil.remove(ConstantInfo.KEY_USER);
+  SpUtil.remove(Constant.KEY_USER);
   appState.setIsLogin(LoginState.LOGO_OUT);
 }
 

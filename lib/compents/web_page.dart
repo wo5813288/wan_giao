@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -22,9 +22,9 @@ class _WebPageState extends State<WebPage> {
   @override
   void initState() {
     super.initState();
-    articleTitle = Get.arguments[ConstantInfo.ARTICLE_TITLE];
-    articleUrl = Get.arguments[ConstantInfo.ARTICLE_URL];
-    articleAuthor = Get.arguments[ConstantInfo.ARTICLE_AUTHOR]??"未知";
+    articleTitle = Get.arguments[Constant.ARTICLE_TITLE];
+    articleUrl = Get.arguments[Constant.ARTICLE_URL];
+    articleAuthor = Get.arguments[Constant.ARTICLE_AUTHOR]??"未知";
   }
 
   @override

@@ -1,4 +1,4 @@
-abstract class ConstantInfo{
+abstract class Constant{
 
   static const String KEY_USER_NAME ="key_user_name";
   static const String KEY_USER_PWD ="key_user_pwd";
@@ -8,10 +8,11 @@ abstract class ConstantInfo{
   static const String ARTICLE_URL = "article_url";
   static const String ARTICLE_AUTHOR= "article_author";
   static const String THEME_DARK = "theme_dark";
-
+  //当前主题
+  static const String KEY_APP_THEME = "app_theme";
+  static const String KEY_THEME_MODE = "theme_mode";
   static const String KEY_SEARCH_HISTORY = "search_history";
   static const String KEY_AGREE_PRIVACY = "agree_privacy";
-
 }
 
 abstract class SystemConstant{

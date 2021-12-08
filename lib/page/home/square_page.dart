@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/home/square_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
@@ -51,8 +51,8 @@ class _SquarePageState extends State<SquarePage> with AutomaticKeepAliveClientMi
           articleItem: articleItem,
           onTap: () {
             Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
-              ConstantInfo.ARTICLE_TITLE: articleItem.title,
-              ConstantInfo.ARTICLE_URL: articleItem.link
+              Constant.ARTICLE_TITLE: articleItem.title,
+              Constant.ARTICLE_URL: articleItem.link
             });
           },
         );

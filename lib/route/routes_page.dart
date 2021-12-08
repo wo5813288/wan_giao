@@ -39,6 +39,7 @@ import 'package:wan_android/page/person/starts_leaderboard_page.dart';
 import 'package:wan_android/page/project/project_page.dart';
 import 'package:wan_android/page/search/search_page.dart';
 import 'package:wan_android/page/set/setting_page.dart';
+import 'package:wan_android/page/set/theme_set_page.dart';
 import 'package:wan_android/page/splash/splash_page.dart';
 import 'package:wan_android/page/system/system_content_page.dart';
 import 'package:wan_android/page/system/system_page.dart';
@@ -70,6 +71,7 @@ abstract class RoutesConfig {
   static const NEWS_CONTENT_PAGE = "/news_list_page/content";
   static const GIRL_PAGE = "/girl_page";
   static const GIRL_DETAIL_PAGE = "/detail";
+  static const THEME_SET_PAGE="/theme_set_page";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -161,7 +163,10 @@ abstract class RoutesConfig {
         name: GIRL_DETAIL_PAGE,
         page: () => GirlDetailPage(),
         binding: GirlDetailBindings(),
-        transition: Transition.zoom)
+        transition: Transition.zoom),
+    GetPage(
+        name: THEME_SET_PAGE,
+        page: () => ThemeSetPage())
   ];
 }
 
@@ -170,7 +175,7 @@ class RouteAuthMiddleware extends GetMiddleware {
   @override
   RouteSettings redirect(String route) {
     //没有登录过，就需要去登录页面
-    if (loginState!=LoginState.LOGIN) {
+    if (!appState.isLogin) {
       return RouteSettings(name: RoutesConfig.LOGIN_PAGE);
     }
     //登录过，就不要拦截正常跳转到目标页面。

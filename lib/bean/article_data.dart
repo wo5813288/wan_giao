@@ -3,7 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wan_android/bean/article_item.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/controller/home/artilce_collection_controller.dart';
 import 'package:wan_android/route/routes_page.dart';
 
@@ -232,9 +232,9 @@ class _HomeListItemUIState extends State<HomeListItemUI> {
               Get.toNamed(
                   RoutesConfig.WEB_PAGE,
                   arguments: {
-                    ConstantInfo.ARTICLE_TITLE:widget.articleItem.title,
-                    ConstantInfo.ARTICLE_URL:widget.articleItem.link,
-                    ConstantInfo.ARTICLE_AUTHOR:widget.articleItem.shareUser.isEmpty?widget.articleItem.author:widget.articleItem.shareUser,
+                    Constant.ARTICLE_TITLE:widget.articleItem.title,
+                    Constant.ARTICLE_URL:widget.articleItem.link,
+                    Constant.ARTICLE_AUTHOR:widget.articleItem.shareUser.isEmpty?widget.articleItem.author:widget.articleItem.shareUser,
                   });
             }));
   }

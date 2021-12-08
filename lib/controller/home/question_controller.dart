@@ -15,7 +15,7 @@ class QuestionController extends BaseGetXControllerWithRefesh {
   @override
   void onInit() {
     super.onInit();
-    ever(Get.find<AppState>().loginState, (callBack) {
+    ever(appState.loginState, (callBack) {
       //每次登录状态发生变化，都要重新请求广场数据
       initData(true);
     });

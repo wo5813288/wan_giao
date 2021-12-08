@@ -50,6 +50,13 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+      BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height
+      ),
+      designSize: Size(360, 640)
+    );
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: lightSystemUiStyle,
       child: Scaffold(

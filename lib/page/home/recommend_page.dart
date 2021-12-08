@@ -7,7 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/bean/article_item.dart';
 import 'package:wan_android/bean/banner_data.dart';
-import 'package:wan_android/compents/contrants_info.dart';
+import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/smart_refresh_header_style.dart';
 import 'package:wan_android/compents/state_page.dart';
 import 'package:wan_android/controller/home/recommond_controller.dart';
@@ -95,9 +95,9 @@ class _RecommendPageState extends State<RecommendPage>
         //点击事件
         onTap: (index) {
           Get.toNamed(RoutesConfig.WEB_PAGE, arguments: {
-            ConstantInfo.ARTICLE_TITLE: banners[index].title,
-            ConstantInfo.ARTICLE_URL: banners[index].url,
-            ConstantInfo.ARTICLE_AUTHOR: banners[index].desc,
+            Constant.ARTICLE_TITLE: banners[index].title,
+            Constant.ARTICLE_URL: banners[index].url,
+            Constant.ARTICLE_AUTHOR: banners[index].desc,
           });
         },
       ),
