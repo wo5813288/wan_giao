@@ -56,25 +56,6 @@ class SettingPage extends StatelessWidget {
         ));
   }
 
-  Widget _switchThemeDark(BuildContext context) {
-    return Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: SwitchListTile(
-          dense: true,
-          value: Get.isDarkMode,
-          activeColor: Colors.white,
-          title: Text(
-            "夜间模式",
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          onChanged: (flag) {
-            String themeKey = Get.isDarkMode ? ThemeKey.LIGHT : ThemeKey.DARK;
-            Get.changeTheme(themeList[themeKey]);
-            SpUtil.putString(Constant.KEY_APP_THEME, themeKey);
-          },
-        ));
-  }
-
   Widget _appAuthorText(BuildContext context) {
     return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -82,7 +63,7 @@ class SettingPage extends StatelessWidget {
           children: [
             ListTileItem(
               title: "夜间模式",
-              content:_getCurrentTheme(),
+              content:getCurThemeTitle(),
               onTap: (){
                 Get.toNamed(RoutesConfig.THEME_SET_PAGE);
               },
@@ -162,22 +143,6 @@ class SettingPage extends StatelessWidget {
                     },
                   )
                 ]));
-  }
-  String _getCurrentTheme() {
-    final String key = SpUtil.getString(Constant.KEY_APP_THEME);
-    String themeMode;
-    switch(key) {
-      case ThemeKey.DARK:
-        themeMode = '开启';
-        break;
-      case ThemeKey.LIGHT:
-        themeMode = '关闭';
-        break;
-      default:
-        themeMode = '跟随系统';
-        break;
-    }
-    return themeMode;
   }
 }
 

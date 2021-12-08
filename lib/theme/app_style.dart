@@ -39,8 +39,13 @@ TextStyle kPrivacyNoTextStyle = TextStyle(
 );
 
 ///状态栏和导航栏
-SystemUiOverlayStyle lightSystemUiStyle = SystemUiOverlayStyle.light.copyWith(
-  systemNavigationBarColor: Colors.transparent
+SystemUiOverlayStyle lightSystemUiStyle = SystemUiOverlayStyle(
+  systemNavigationBarColor: Colors.transparent,
+  systemNavigationBarDividerColor: null,
+  statusBarColor: null,
+  systemNavigationBarIconBrightness: Brightness.light,
+  statusBarIconBrightness: Brightness.light,
+  statusBarBrightness: Brightness.dark,
 );
 
 

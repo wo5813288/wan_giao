@@ -29,10 +29,16 @@ class Global {
       appState.setIsLogin(LoginState.LOGIN);
     }
     //初始化默认主题
-    Get.changeTheme(
-      themeList[SpUtil.getString(Constant.KEY_APP_THEME,defValue: ThemeKey.SYSTEM)]
-    );
-
+    String themeKey = SpUtil.getString(Constant.KEY_APP_THEME);
+    // if(themeKey.isEmpty){
+    //   Get.changeTheme(lightTheme);
+    //   //Get.changeThemeMode(ThemeMode.system);
+    //   SpUtil.putString(Constant.KEY_APP_THEME, ThemeKey.SYSTEM);
+    // }else if(themeKey==ThemeKey.LIGHT){
+    //   Get.changeThemeMode(ThemeMode.light);
+    // }else{
+    //   Get.changeThemeMode(ThemeMode.dark);
+    // }
   }
 
   static initStatusBar(){

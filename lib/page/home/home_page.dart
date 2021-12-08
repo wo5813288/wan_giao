@@ -41,6 +41,7 @@ class HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    SystemChrome.setSystemUIOverlayStyle(lightSystemUiStyle);
     return DefaultTabController(
         length: 3,
         initialIndex: 1,

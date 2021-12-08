@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/theme/app_color.dart';
@@ -72,3 +73,41 @@ Map<String, ThemeData> themeList = {
   ThemeKey.DARK: darkTheme,
   ThemeKey.LIGHT: lightTheme
 };
+
+///获取用户保存的主题
+ThemeData getThemeData(){
+  String key = SpUtil.getString(Constant.KEY_APP_THEME);
+  if(key.isEmpty||key==ThemeKey.SYSTEM) return lightTheme;
+  return themeList[key];
+}
+
+///获取用户夜间模式的选项
+ThemeMode getThemeMode(){
+  String key = SpUtil.getString(Constant.KEY_APP_THEME);
+  switch(key){
+    case ThemeKey.LIGHT:
+      return ThemeMode.light;
+    case ThemeKey.DARK:
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
+}
+
+///获取对用主题的选择
+String getCurThemeTitle(){
+  String key = SpUtil.getString(Constant.KEY_APP_THEME);
+  String themeMode;
+  switch(key) {
+    case ThemeKey.DARK:
+      themeMode = '开启';
+      break;
+    case ThemeKey.LIGHT:
+      themeMode = '关闭';
+      break;
+    default:
+      themeMode = '跟随系统';
+      break;
+  }
+  return themeMode;
+}

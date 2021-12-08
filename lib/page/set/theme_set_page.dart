@@ -26,7 +26,7 @@ class _ThemeSetPageState extends State<ThemeSetPage> {
       case ThemeKey.DARK:
         themeMode = _themeTitles[1];
         break;
-      case ThemeKey.SYSTEM:
+      default:
         themeMode = _themeTitles[0];
         break;
     }
@@ -50,18 +50,22 @@ class _ThemeSetPageState extends State<ThemeSetPage> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                 String themeKey;
-                  if(index==0){
-                    themeKey = ThemeKey.SYSTEM;
-                    Get.changeThemeMode(ThemeMode.system);
-                  }else if(index==1){
-                     themeKey = ThemeKey.DARK;
-                    Get.changeThemeMode(ThemeMode.dark);
-                  }else{
-                     themeKey = ThemeKey.LIGHT;
-                    Get.changeThemeMode(ThemeMode.light);
+                  String theme = index==0?ThemeKey.SYSTEM:(index==1?ThemeKey.DARK:ThemeKey.LIGHT);
+                  // setThemeMode(theme);
+                  switch(theme){
+                    case ThemeKey.LIGHT:
+                       Get.changeTheme(lightTheme);
+                      //Get.changeThemeMode(ThemeMode.light);
+                      break;
+                    case ThemeKey.DARK:
+                    Get.changeTheme(darkTheme);
+                      //Get.changeThemeMode(ThemeMode.dark);
+                      break;
+                    default:
+                      print("===>${Get.isDarkMode}");
+                      Get.changeThemeMode(ThemeMode.system);
                   }
-                  SpUtil.putString(Constant.KEY_APP_THEME, themeKey);
+                  SpUtil.putString(Constant.KEY_APP_THEME, theme);
                   setState(() {});
                 },
                 child: Container(

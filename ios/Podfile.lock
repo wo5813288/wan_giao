@@ -3,6 +3,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - image_gallery_saver (1.5.0):
+    - Flutter
   - JCore (2.6.2)
   - JPush (3.6.1):
     - JCore (< 3.0.0, >= 2.0.0)
@@ -30,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -49,6 +52,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  image_gallery_saver:
+    :path: ".symlinks/plugins/image_gallery_saver/ios"
   jpush_flutter:
     :path: ".symlinks/plugins/jpush_flutter/ios"
   package_info:
@@ -71,6 +76,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   JCore: 0cb4fc5892bc97af4f27283875369ead3eaa3067
   JPush: 507d66d7ea307faba1330666d48e4e92af611659
   jpush_flutter: e75658a5342e3bfe22d9f3de5dfacd3ef44230c5
@@ -85,4 +91,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3aaee2e660a2a825e7c3beecb0e4a334b934f851
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

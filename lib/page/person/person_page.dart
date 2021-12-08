@@ -168,10 +168,7 @@ class _PersonPageState extends State<PersonPage>
           child: InkWell(
             child: Text(
               "立即登录",
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87),
+              style: Theme.of(context).textTheme.headline1,
             ),
             onTap: (){
               Get.toNamed(RoutesConfig.LOGIN_PAGE);
