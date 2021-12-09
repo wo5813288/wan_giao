@@ -8,21 +8,14 @@ import 'package:wan_android/controller/login/login_controller.dart';
 import 'package:wan_android/theme/app_style.dart';
 import 'package:wan_android/theme/app_text.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(lightSystemUiStyle);
     return Scaffold(
       //防止键盘弹出布局异常
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         brightness: Brightness.light,
-        systemOverlayStyle: lightSystemUiStyle,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -31,32 +24,31 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
       ),
-
-      // body: GestureDetector(
-      //   onTapDown: (details){
-      //     //点击空白处键盘消失
-      //     FocusScope.of(context).requestFocus(FocusNode());
-      //   },
-      //   child: Container(
-      //       color: Colors.white,
-      //       height: double.infinity,
-      //       child: Column(
-      //         children: [
-      //           Expanded(
-      //             child: TopTitleWidget(),
-      //             flex: 1,
-      //           ),
-      //           Expanded(
-      //             child: LoginBodyWidget(),
-      //             flex: 3,
-      //           ),
-      //           Expanded(
-      //             child: BottomThirdLoginMenu(),
-      //             flex: 1,
-      //           )
-      //         ],
-      //       )),
-      // ),
+      body: GestureDetector(
+        onTapDown: (details){
+          //点击空白处键盘消失
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+            color: Colors.white,
+            height: double.infinity,
+            child: Column(
+              children: [
+                Expanded(
+                  child: TopTitleWidget(),
+                  flex: 1,
+                ),
+                Expanded(
+                  child: LoginBodyWidget(),
+                  flex: 3,
+                ),
+                Expanded(
+                  child: BottomThirdLoginMenu(),
+                  flex: 1,
+                )
+              ],
+            )),
+      ),
     );
   }
 }
@@ -65,7 +57,7 @@ class TopTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+      margin: EdgeInsets.only(top: 20.h),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -126,8 +118,9 @@ class LoginBodyWidget extends StatelessWidget {
               loginText: KText.loginText,
               onTap: () {
                 //请求登录
-                _loginController.submitForm(userNameController.text, passwordController.text);
+                  _loginController.submitForm(userNameController.text, passwordController.text);
               },
+
             ),
           ),
           Padding(

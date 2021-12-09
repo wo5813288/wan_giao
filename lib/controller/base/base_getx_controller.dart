@@ -36,13 +36,12 @@ abstract class BaseGetXController extends GetxController {
       }
       if (error.code == HttpDioError.LOGIN_CODE) {
         logout();
-        //提示用户去登录
-        showNeedLogin();
         //用户需要登录才能进行操作
-       // Get.toNamed(RoutesConfig.LOGIN_PAGE);
-      }
-      if (failure != null) {
-        failure(error.message);
+        Get.toNamed(RoutesConfig.LOGIN_PAGE);
+      }else{
+        if (failure != null) {
+          failure(error.message);
+        }
       }
       errorMessage.value = error.message;
     });

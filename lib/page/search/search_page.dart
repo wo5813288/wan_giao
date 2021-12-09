@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wan_android/bean/article_data.dart';
 import 'package:wan_android/compents/search_view.dart';
 import 'package:wan_android/controller/home/search_controller.dart';
 import 'package:wan_android/compents/state_page.dart';
+import 'package:wan_android/theme/app_style.dart';
 
 class SearchPage extends GetView<SearchController>{
   TextEditingController _textEditingController = TextEditingController();
@@ -16,23 +18,26 @@ class SearchPage extends GetView<SearchController>{
         controller.getSearchHotKey();
       },
       builder: (_){
-        return Scaffold(
-            appBar:  _buildSearchUI(),
-            body:  Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10.h),
-                      _buildHotSearchUIList(),
-                      _buildSearchHistoryUIList()
-                    ],
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: darkSystemUiStyle,
+          child: Scaffold(
+              appBar:  _buildSearchUI(),
+              body:  Stack(
+                children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10.h),
+                        _buildHotSearchUIList(),
+                        _buildSearchHistoryUIList()
+                      ],
+                    ),
                   ),
-                ),
-                controller.isSearching?SearchResultPage(searchController: controller,):Container()
-              ],
-            )
+                  controller.isSearching?SearchResultPage(searchController: controller,):Container()
+                ],
+              )
+          ),
         );
       },
     );

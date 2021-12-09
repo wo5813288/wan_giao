@@ -22,7 +22,7 @@ class ListTileItem extends StatelessWidget {
           flex: 1,
           child: Text(
             content,
-            style:Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 15.sp),
+            style:Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 14.sp),
             textAlign: TextAlign.right,
           ),
         ),

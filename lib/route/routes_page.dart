@@ -94,7 +94,7 @@ abstract class RoutesConfig {
         bindings: [
           LoginBindings(),
         ],
-        transition: Transition.downToUp),
+        transition: Transition.fadeIn),
     GetPage(
         name: REGISTER_PAGE,
         page: () => RegisterPage(),

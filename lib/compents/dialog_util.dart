@@ -26,10 +26,10 @@ class LoadingDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Opacity(
-          opacity: 0.7,
+          opacity: 1,
           child: Container(
-            width: 150,
-            height: 100,
+            width: 150.w,
+            height: 100.h,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10),
             ),
@@ -39,7 +39,7 @@ class LoadingDialog extends StatelessWidget {
               children: [
                 SizedBox(
                   child: CircularProgressIndicator(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.grey,
                   ),
                   width: 40,
                   height: 40,
@@ -91,13 +91,4 @@ Future showPrivacyDialog() async {
         return false;
       });
   return agree;
-}
-
-///提示用户登录弹窗
-showNeedLogin(){
-  Get.defaultDialog(
-    title: "提示",
-    content: Text("使用此功能需要登录"),
-    textConfirm: "去登录"
-  );
 }

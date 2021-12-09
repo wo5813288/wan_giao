@@ -51,18 +51,14 @@ class _ThemeSetPageState extends State<ThemeSetPage> {
               return InkWell(
                 onTap: () {
                   String theme = index==0?ThemeKey.SYSTEM:(index==1?ThemeKey.DARK:ThemeKey.LIGHT);
-                  // setThemeMode(theme);
                   switch(theme){
                     case ThemeKey.LIGHT:
-                       Get.changeTheme(lightTheme);
-                      //Get.changeThemeMode(ThemeMode.light);
+                      Get.changeThemeMode(ThemeMode.light);
                       break;
                     case ThemeKey.DARK:
-                    Get.changeTheme(darkTheme);
-                      //Get.changeThemeMode(ThemeMode.dark);
+                      Get.changeThemeMode(ThemeMode.dark);
                       break;
                     default:
-                      print("===>${Get.isDarkMode}");
                       Get.changeThemeMode(ThemeMode.system);
                   }
                   SpUtil.putString(Constant.KEY_APP_THEME, theme);

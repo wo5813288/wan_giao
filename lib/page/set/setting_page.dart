@@ -8,6 +8,7 @@ import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/compents/list_tile_item.dart';
 import 'package:wan_android/controller/device_info_controller.dart';
 import 'package:wan_android/http/http_manager.dart';
+import 'package:wan_android/http/request_api.dart';
 import 'package:wan_android/route/routes_page.dart';
 import 'package:wan_android/theme/app_color.dart';
 import 'package:wan_android/theme/app_style.dart';
@@ -147,9 +148,9 @@ class SettingPage extends StatelessWidget {
 }
 
 logout() {
+  HttpManager.instance.get(RequestApi.LOGO_OUT_API);
   HttpManager.clearCookie();
   SpUtil.remove(Constant.KEY_USER);
   appState.setIsLogin(LoginState.LOGO_OUT);
 }
 
-///用户确认是否退出

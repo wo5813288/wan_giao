@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:wan_android/compents/constant.dart';
 import 'package:wan_android/theme/app_color.dart';
+import 'package:wan_android/theme/app_style.dart';
 
 ///白天模式
 ThemeData lightTheme = ThemeData.light().copyWith(
@@ -14,6 +14,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.blue,
     elevation: 0.0,
+    systemOverlayStyle: lightSystemUiStyle
   ),
   textTheme: TextTheme(
     headline1: TextStyle(

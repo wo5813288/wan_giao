@@ -21,9 +21,11 @@ class _PersonPageState extends State<PersonPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           iconTheme: IconThemeData(
-              color:Get.isDarkMode ? Colors.grey : Colors.black.withOpacity(0.7)),
+              color:
+                  Get.isDarkMode ? Colors.grey : Colors.black.withOpacity(0.7)),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           actions: [
             _buildNoticeButton(),
@@ -43,7 +45,10 @@ class _PersonPageState extends State<PersonPage>
               Line(),
               _buildTopUIPage(),
               Line(),
-              _commonUIPage()
+              Expanded(
+                flex: 1,
+                child: _commonUIPage(),
+              )
             ],
           ),
         ));
@@ -52,7 +57,7 @@ class _PersonPageState extends State<PersonPage>
   ///创建个人头像信息
   Widget _buildPersonTop() {
     return Container(
-      padding: EdgeInsets.only(left:10.w,right: 10.w, bottom: 5.h, top: 10.h),
+      padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 5.h, top: 10.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,16 +70,18 @@ class _PersonPageState extends State<PersonPage>
               height: 50.w,
               //加一个头像的边框
               child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage:AssetImage("assets/icon/ic_default_avatar.jpg"),)),
+                backgroundColor: Colors.white,
+                backgroundImage:
+                    AssetImage("assets/icon/ic_default_avatar.jpg"),
+              )),
         ],
       ),
     );
   }
 
-  Widget _buildNoticeButton(){
-    return Obx((){
-      if(appState.isLogin){
+  Widget _buildNoticeButton() {
+    return Obx(() {
+      if (appState.isLogin) {
         return Expanded(
           child: Stack(
             alignment: AlignmentDirectional.centerEnd,
@@ -92,14 +99,15 @@ class _PersonPageState extends State<PersonPage>
                 child: Container(
                     width: 15.w,
                     alignment: Alignment.center,
-                    child:Get.find<UserInfoController>().messageCount>0?CircleAvatar(
-                      backgroundColor: Colors.red,
-                      child: Text(
-                          Get.find<UserInfoController>().messageCount.toString()
-                      ),
-                    ):null
-                ),
-                top:-5.0,
+                    child: Get.find<UserInfoController>().messageCount > 0
+                        ? CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Text(Get.find<UserInfoController>()
+                                .messageCount
+                                .toString()),
+                          )
+                        : null),
+                top: -5.0,
                 right: 5,
               )
             ],
@@ -119,10 +127,8 @@ class _PersonPageState extends State<PersonPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //用户名
-            Text(
-              Global.userProfile.username,
-              style:Theme.of(context).textTheme.headline1
-            ),
+            Text(Global.userProfile.username,
+                style: Theme.of(context).textTheme.headline1),
             SizedBox(
               height: 10.h,
             ),
@@ -166,17 +172,16 @@ class _PersonPageState extends State<PersonPage>
       }
       return Expanded(
           child: InkWell(
-            child: Text(
-              "立即登录",
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            onTap: (){
-              Get.toNamed(RoutesConfig.LOGIN_PAGE);
-            },
+        child: Text(
+          "立即登录",
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        onTap: () {
+           Get.toNamed(RoutesConfig.LOGIN_PAGE);
+        },
       ));
     });
   }
-
 
   Widget _buildTopUIPage() {
     Color iconTextWidgetColor = Theme.of(context).textTheme.headline3.color;
@@ -240,10 +245,7 @@ class _PersonPageState extends State<PersonPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //标题
-          Text(
-            "常用工具",
-            style: Theme.of(context).textTheme.headline2
-          ),
+          Text("常用工具", style: Theme.of(context).textTheme.headline2),
           Expanded(
             child: GridView.count(
               padding: EdgeInsets.zero,

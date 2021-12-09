@@ -1,4 +1,3 @@
-
 // 输入框边框
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,42 +11,24 @@ InputBorder kLoginInputBorder = OutlineInputBorder(
   ),
 );
 
-TextStyle kTextLoadingStyle = TextStyle(
-  fontSize: 15.sp,
-  color: Colors.black
-);
+TextStyle kTextLoadingStyle = TextStyle(fontSize: 15.sp, color: Colors.black);
 
-TextStyle kTextLoginInputStyle = TextStyle(
-    fontSize: 15.sp,
-    color: Colors.black
-);
+TextStyle kTextLoginInputStyle =
+    TextStyle(fontSize: 15.sp, color: Colors.black);
 
-TextStyle kSearchHintTextStyle = TextStyle(
-  fontSize: 15.sp,
-  color: Colors.grey
-);
+TextStyle kSearchHintTextStyle = TextStyle(fontSize: 15.sp, color: Colors.grey);
 
 //隐私协议按钮
-TextStyle kPrivacyYesTextStyle = TextStyle(
-    fontSize: 16.sp,
-    color: Colors.blue
-);
+TextStyle kPrivacyYesTextStyle = TextStyle(fontSize: 16.sp, color: Colors.blue);
 
-TextStyle kPrivacyNoTextStyle = TextStyle(
-    fontSize: 16.sp,
-    color: Colors.grey
-);
+TextStyle kPrivacyNoTextStyle = TextStyle(fontSize: 16.sp, color: Colors.grey);
 
-///状态栏和导航栏
-SystemUiOverlayStyle lightSystemUiStyle = SystemUiOverlayStyle(
+///导航栏透明并且状态栏字体颜色为白色
+SystemUiOverlayStyle lightSystemUiStyle = SystemUiOverlayStyle.light.copyWith(
   systemNavigationBarColor: Colors.transparent,
-  systemNavigationBarDividerColor: null,
-  statusBarColor: null,
-  systemNavigationBarIconBrightness: Brightness.light,
-  statusBarIconBrightness: Brightness.light,
-  statusBarBrightness: Brightness.dark,
 );
 
-
-
-
+///导航栏透明并且状态栏字体颜色为黑色
+SystemUiOverlayStyle darkSystemUiStyle = SystemUiOverlayStyle.dark.copyWith(
+  systemNavigationBarColor: Colors.transparent,
+);
